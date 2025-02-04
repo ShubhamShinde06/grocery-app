@@ -9,7 +9,7 @@ import {
   sendWelcomeEmail,
 } from "../mailtrap/emails.js";
 
-//register
+
 export const signup = async (req, res) => {
   const { name, phoneNumber, email, password, shopName } = req.body;
 
@@ -110,7 +110,6 @@ export const verifyEmail = async (req, res) => {
   }
 };
 
-//login
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -196,7 +195,6 @@ export const forgotPassword = async (req, res) => {
   }
 };
 
-//reset password
 export const resetPassword = async (req, res) => {
   try {
     const { token } = req.params;
@@ -239,7 +237,6 @@ export const resetPassword = async (req, res) => {
   }
 };
 
-//logout
 export const logout = async (req, res) => {
   res.clearCookie("token");
   res.status(200).json({

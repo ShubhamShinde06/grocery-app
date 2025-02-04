@@ -7,7 +7,10 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = [process.env.FRONTEND_SHOPKEEPER_URL, process.env.FRONTEND_URL];
+const allowedOrigins = [
+  process.env.FRONTEND_SHOPKEEPER_URL,
+  process.env.FRONTEND_URL,
+];
 const corsOptions = {
   origin: function (origin, callback) {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
@@ -30,10 +33,16 @@ app.use(function (req, res, next) {
   next();
 });
 
-import productRouter from "./routes/product.routes.js";
-app.use("/api/product", productRouter);
-
 import shopkeeperRouter from "./routes/shopkeeper.routes.js";
 app.use("/api/auth/shopkeeper", shopkeeperRouter);
+
+import categoryRouter from "./routes/category.routes.js";
+app.use("/api/category", categoryRouter);
+
+import subCategoryRouter from "./routes/subCategory.routes.js";
+app.use("/api/subcategory", subCategoryRouter);
+
+import productRouter from "./routes/product.routes.js";
+app.use("/api/product", productRouter);
 
 export default app;

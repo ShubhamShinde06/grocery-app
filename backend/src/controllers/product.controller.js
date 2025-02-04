@@ -1,26 +1,42 @@
-import { v2 as cloudinary } from "cloudinary";
-import { productModel } from "../models/product.model.js";
+import { ProductModel } from "../models/product.model.js";
 import { shopkeeperModel } from "../models/shopkeeper.model.js";
+import { v2 as cloudinary } from "cloudinary";
 import mongoose from "mongoose";
 
-// product add only shopkeeper
-export const addProduct = async (req, res) => {
+export const productAdd = async (req, res) => {
   try {
     const {
       name,
-      description,
-      old_price,
-      new_price,
       category,
+      subCategory,
+      unit,
       stock,
-      bestseller,
-      wigths,
-      shopkeeperId,
+      price,
+      description,
+      shopkeeper,
+      more_details,
+      publish,
     } = req.body;
 
-    const shop = await shopkeeperModel.findOne(shopkeeperId);
+    const shop = await shopkeeperModel.findById(shopkeeper);
     if (!shop) {
       return res.status(404).json("Shopkeeper not found!");
+    }
+
+    if (
+      !name ||
+      !stock ||
+      !category[0] ||
+      !subCategory[0] ||
+      !unit ||
+      !price ||
+      !description
+    ) {
+      return response.status(400).json({
+        message: "Enter required fields",
+        error: true,
+        success: false,
+      });
     }
 
     const image1 = req.files.image1 && req.files.image1[0];
@@ -41,156 +57,190 @@ export const addProduct = async (req, res) => {
       })
     );
 
-    const productData = {
-      shopkeeper: shop._id,
+    const productData = new ProductModel({
       name,
-      description,
-      old_price,
-      new_price,
       category,
-      stock: stock === "true" ? true : false,
-      bestseller: bestseller === "true" ? true : false,
-      wigths: JSON.parse(wigths),
+      subCategory,
+      shopkeeper,
+      unit,
+      stock,
+      price,
+      description,
+      more_details,
+      publish,
       image: imagesUrl,
-      date: Date.now(),
-    };
+    });
 
-    const product = new productModel(productData);
+    const product = new ProductModel(productData);
     await product.save();
 
-    res.json({
+    return res.json({
+      message: "Product Created Successfully",
+      data: product,
+      error: false,
       success: true,
-      message: "Product Added",
     });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
+      message: "Server down, productAdd",
       success: false,
-      message: "Error in addProduct",
     });
   }
 };
 
-//all product
-export const listProducts = async (req, res) => {
+export const productGet = async (req, res) => {
   try {
-    const products = await productModel.find({}).populate("shopkeeper", "name");
-    res.json({
-      success: true,
-      products,
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      success: false,
-      message: "Error in listProducts",
-    });
-  }
-};
+    const product = await ProductModel.find()
+      .sort({ createdAt: -1 })
+      .populate("category subCategory shopkeeper");
 
-
-
-export const ownShopkeeperProducts = async (req, res) => {
-  try {
-    const { id } = req.params; // shopkeeper ID passed in body
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!product) {
       return res.status(400).json({
         success: false,
-        message: "Invalid shopkeeper ID",
+        message: "category not found!",
       });
     }
 
-    const products = await productModel
-      .find({ shopkeeper: id }) // Fetch all products for this shopkeeper
-      .populate("shopkeeper", "name");
-
-    if (!products.length) {
-      return res.status(404).json({
-        success: false,
-        message: "No products found for this shopkeeper",
-      });
-    }
-
-    res.json({
+    res.status(200).json({
       success: true,
-      products,
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      success: false,
-      message: "Error in ownShopkeeperProducts",
-    });
-  }
-};
-
-
-//delete product
-export const removeProduct = async (req, res) => {
-  try {
-    const product_Id = req.params.id;
-
-    await productModel.findOneAndDelete(product_Id);
-    res.json({
-      success: true,
-      message: "Product deleted",
+      data: product,
     });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
+      message: "Server down, productGet",
       success: false,
-      message: "Error in removeProducts",
     });
   }
 };
 
-//single product
-export const singleProduct = async (req, res) => {
+export const productPut = async (req, res) => {
   try {
-    const product_Id = req.params.id;
+    const { id } = req.params;
 
-    const product = await productModel.findById(product_Id);
-    res.json({
-      success: true,
-      product,
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      success: false,
-      message: "Error in singleproduct",
-    });
-  }
-};
-
-//update product
-export const updateProduct = async (req, res) => {
-  try {
-    const product_Id = req.params.id;
-
-    if (!mongoose.Types.ObjectId.isValid(product_Id)) {
-      return res.status(400).json({ error: "Invalid product ID" });
+    // Validate product ID
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res
+        .status(400)
+        .json({ success: false, error: "Invalid product ID" });
     }
 
-    const updatedProduct = await productModel.findByIdAndUpdate(
-      product_Id,
-      req.body,
-      { new: true }
-    );
-    if (!updatedProduct) {
-      return res.status(404).json({ error: "Product not found" });
+    // Fetch existing product
+    const product = await ProductModel.findById(id);
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Product not found" });
     }
+
+    // Extract new data from request body
+    const updatedData = { ...req.body };
+
+    // Extract uploaded images
+    const images = ["image1", "image2", "image3", "image4"]
+      .map((key) => req.files?.[key]?.[0])
+      .filter(Boolean);
+
+    if (images.length > 0) {
+      // Delete previous images from Cloudinary
+      if (Array.isArray(product.image)) {
+        await Promise.all(
+          product.image.map(async (imgUrl) => {
+            const publicId = imgUrl.split("/").pop().split(".")[0];
+            await cloudinary.uploader.destroy(publicId);
+          })
+        );
+      }
+
+      // Upload new images to Cloudinary
+      updatedData.image = await Promise.all(
+        images.map(async (item) => {
+          const result = await cloudinary.uploader.upload(item.path, {
+            resource_type: "image",
+          });
+          return result.secure_url;
+        })
+      );
+    }
+
+    // Update product with new data
+    const updatedProduct = await ProductModel.findByIdAndUpdate(
+      id,
+      updatedData,
+      {
+        new: true,
+        runValidators: true, // Ensures validation rules apply
+      }
+    ).populate("category subCategory shopkeeper");
+
     return res.status(200).json({
       success: true,
-      message: "updated",
-      updatedProduct,
+      message: "Product updated successfully",
+      data: updatedProduct,
+    });
+  } catch (error) {
+    console.error("Error updating product:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Internal Server Error",
+    });
+  }
+};
+
+export const productSingleGet = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const product = await ProductModel.findById(id).populate(
+      "category subCategory shopkeeper"
+    );
+
+    if (!product) {
+      return res.status(400).json({
+        success: false,
+        message: "product not found!",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: product,
     });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
+      message: "Server down, productSingleGet",
       success: false,
-      message: "server error",
+    });
+  }
+};
+
+export const productDelete = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    if (!id) {
+      return res.status(400).json({
+        message: "Product not found! ",
+        error: true,
+        success: false,
+      });
+    }
+
+    const deleteProduct = await ProductModel.deleteOne({ _id: id });
+
+    return res.json({
+      message: "Delete successfully",
+      error: false,
+      success: true,
+      data: deleteProduct,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Server down, productSingleGet",
+      success: false,
     });
   }
 };

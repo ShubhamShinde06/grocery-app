@@ -1,68 +1,70 @@
 import mongoose from "mongoose";
-import { Schema } from "mongoose";
 
-const productSchema = new mongoose.Schema(
-  {
-    shopkeeper: {
-      type: Schema.Types.ObjectId,
-      ref: "shopkeeper",
-      required: true,
+const productSchema = new mongoose.Schema({
+    name : {
+        type : String,
     },
-    name: {
-      type: String,
-      required: true,
+    image : {
+        type : Array,
+        default : []
     },
-    description: {
-      type: String,
-      required: true,
+    category : [
+        {
+            type : mongoose.Schema.ObjectId,
+            ref : 'category'
+        }
+    ],
+    subCategory : [
+        {
+            type : mongoose.Schema.ObjectId,
+            ref : 'subCategory'
+        }
+    ],
+    shopkeeper : {
+        type : mongoose.Schema.ObjectId,
+        ref : 'shopkeeper'
     },
-    old_price: {
-      type: Number,
-      required: true,
+    unit : {
+        type : String,
+        default : ""
     },
-    new_price: {
-      type: Number,
-      required: true,
+    stock : {
+        type : Number,
+        default : null
     },
-    category: {
-      type: String,
-      required: true,
+    price : {
+        type : Number,
+        defualt : null
     },
-    stock: {
-      type: Boolean,
+    discount : {
+        type : Number,
+        default : null
     },
-    bestseller: {
-      type: Boolean,
+    description : {
+        type : String,
+        default : ""
     },
-    wigths: {
-      type: Array,
-      required: true,
+    more_details : {
+        type : Object,
+        default : {}
     },
-    image: {
-      type: Array,
-      required: true,
-    },
-    date: {
-      type: Number,
-      required: true,
-    },
-    ratings: [
-      {
-        userId: {
-          type: Schema.Types.ObjectId,
-          ref: "users",
-          //required: true,
-        },
-        rating: { type: Number },
-        comment: { type: String },
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ]
-  },
-  { timestamps: true }
-);
+    publish : {
+        type : Boolean,
+        default : true
+    }
+},{
+    timestamps : true
+})
 
-export const productModel = mongoose.models.product || mongoose.model('product', productSchema)
+//create a text index
+productSchema.index({
+    name  : "text",
+    description : 'text'
+},{
+    name : 10,
+    description : 5
+})
+
+
+export const ProductModel = mongoose.models.product || mongoose.model('product',productSchema)
+

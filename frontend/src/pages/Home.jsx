@@ -3,8 +3,11 @@ import Header from '../components/Header'
 
 const Home = () => {
   return (
-    <div>
-      <Header/>
+    <div className='flex flex-col gap-5'>
+      <div>
+        <Header/>
+      </div>
+      
     </div>
   )
 }
