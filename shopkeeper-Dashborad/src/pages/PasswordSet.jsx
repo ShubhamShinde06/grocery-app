@@ -1,24 +1,27 @@
-import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-
+import React, { useState } from 'react'
+import { useAuthStore } from '../Store/authStore'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 const PasswordSet = () => {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  //const {resetPassword, error, isLoading, message} = useAuthStore()
 
-  const { token } = useParams();
-  const navigate = useNavigate();
+  const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const {resetPassword, error, isLoading, message} = useAuthStore()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const {token} = useParams()
+    const navigate = useNavigate()
 
-    // if(password !== confirmPassword){
-    //     alert("Password Do Not Match")
-    // }
-    // await resetPassword(token, password)
-    // navigate('/')
-    // toast.success('Password reset successfully')
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if(password !== confirmPassword){
+            alert("Password Do Not Match")
+        }
+        await resetPassword(token, password)
+        navigate('/home')
+        toast.success('Password reset successfully')
+
+    }
 
   return (
     <div className="w-full h-[100vh] flex flex-col justify-center items-center lg:flex-row lg:justify-between lg:px-20 lg:py-10">
@@ -34,12 +37,12 @@ const PasswordSet = () => {
               <h1 className="text-3xl font-bold leading-tight tracking-tight text-black pb-6 lg:pb-3">
                 Reset Password
               </h1>
-              {/* {error && (
+              {error && (
                 <p className=" text-red-500 font-semibold mt-2">{error}</p>
               )}
               {message && (
                 <p className=" text-green-500 font-semibold mt-2">{message}</p>
-              )} */}
+              )}
               <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                 <div>
                   <label
@@ -79,9 +82,9 @@ const PasswordSet = () => {
                 </div>
                 <button
                   type="submit"
-                  className="bg-[#FF8035] w-full cursor-pointer rounded-2xl  text-xl text-white py-4 hover:scale-105 duration-300"
+                  className="bg-[#FF8035] w-full cursor-pointer rounded-2xl  text-xl text-white py-4 hover:scale-105 duration-300 flex items-center justify-center"
                 >
-                  {"Set New Password"}
+                  {isLoading ? "Resetting.." : "Set New Password"}
                 </button>
               </form>
             </div>

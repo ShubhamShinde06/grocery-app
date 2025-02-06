@@ -8,6 +8,7 @@ import { FaRegUser } from "react-icons/fa6";
 import { TiShoppingCart } from "react-icons/ti";
 import { CiMenuFries } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
+import { useAuthStore } from "../Store/authStore";
 // import { TypeAnimation } from "react-type-animation";
 
 const Header = () => {
@@ -34,13 +35,19 @@ const Header = () => {
     navigate(url);
   };
 
+  const { user, logout } = useAuthStore();
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <header className="w-full h-auto lg:h-20 shadow-2xl flex flex-col py-3 lg:py-0 lg:flex-row lg:items-center lg:justify-between px-2 lg:px-10">
         
       <div
         className={`w-full lg:w-auto h-12 flex items-center lg:justify-normal justify-between`}
       >
-        <img src={"/logo.png"} alt="logo" className="w-30 " />
+        <img src={"/logo-b.png"} alt="logo" className="w-50 h-50" />
         <Link to={"/"}>
           <div className=" lg:hidden cursor-pointer text-3xl mr-2">
             <FaUserCircle />
@@ -111,7 +118,7 @@ const Header = () => {
             <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
               <p className=" cursor-pointer hover:text-black">My Profile</p>
               <p className=" cursor-pointer hover:text-black">Orders</p>
-              <p className=" cursor-pointer hover:text-black">Logout </p>
+              <p className=" cursor-pointer hover:text-black" onClick={handleLogout}>Logout </p>
             </div>
           </div>
         </div>

@@ -133,7 +133,7 @@ export const categoryPut = async (req, res) => {
     return res.status(200).json({
       message: "Category updated successfully",
       success: true,
-      category: updatedCategory,
+      data: updatedCategory,
     });
   } catch (error) {
     console.error(error);

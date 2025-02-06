@@ -1,9 +1,28 @@
 import React, { useState } from "react";
 import Register from "./Register";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../Store/authStore";
+import Loading from "../components/Loading";
+import { toast } from "react-toastify";
 
 const Auth = () => {
   const [auth, setAuth] = useState(true);
+  const navigation = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { login, error, isLoading } = useAuthStore();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await login(email, password);
+      toast.success("Welcome back");
+      navigation('/home')
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -15,25 +34,31 @@ const Auth = () => {
               <img src="./login-img.png" alt="" className="w-full h-full" />
             </div>
             {/* form  */}
-            <form className=" lg:w-1/2 lg:px-20 px-2 ">
-              <h2 class="font-bold text-4xl text-[#000000]">Login</h2>
-              <p class="text-xl mt-4 text-[#9A9C9E]">
+            <form onSubmit={handleSubmit} className=" lg:w-1/2 lg:px-20 px-2 ">
+              <h2 className="font-bold text-4xl text-[#000000]">Login</h2>
+              <p className="text-xl mt-4 text-[#9A9C9E]">
                 If you are already a member, easily log in
               </p>
 
-              <form class="flex flex-col gap-4">
+              <div className="flex flex-col gap-4">
                 <input
-                  class="px-2 mt-8 py-5 rounded-2xl  bg-[#F5F7F9]"
+                  className="px-2 mt-8 py-5 rounded-2xl  bg-[#F5F7F9]"
                   type="email"
                   name="email"
                   placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
-                <div class="relative">
+                <div className="relative">
                   <input
-                    class="px-2 py-5 rounded-2xl bg-[#F5F7F9] w-full"
+                    className="px-2 py-5 rounded-2xl bg-[#F5F7F9] w-full"
                     type="password"
                     name="password"
                     placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
                   />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -47,17 +72,23 @@ const Auth = () => {
                     <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
                   </svg>
                 </div>
-                <button class="bg-[#FF8035] cursor-pointer rounded-2xl  text-xl text-white py-4 hover:scale-105 duration-300">
-                  Login
+                {error && (
+                  <p className=" text-red-500 font-semibold mt-2">{error}</p>
+                )}
+                <button className="bg-[#FF8035] cursor-pointer rounded-2xl  text-xl text-white py-4 hover:scale-105 duration-300 flex items-center justify-center">
+                  {isLoading ? <Loading /> : "Login"}
                 </button>
-              </form>
-              <div class="mt-5 text-xl border-b border-[#002D74] py-4 text-[#9A9C9E]">
+              </div>
+              <div className="mt-5 text-xl border-b border-[#002D74] py-4 text-[#9A9C9E]">
                 <Link to="/forgot-password">Forgot your password?</Link>
               </div>
 
-              <div class="mt-3 text-xl flex justify-between items-center text-[#9A9C9E]">
+              <div className="mt-3 text-xl flex justify-between items-center text-[#9A9C9E]">
                 <p>Don't have an account?</p>
-                <button onClick={()=>setAuth(false)} class="py-2 px-5 cursor-pointer bg-white border rounded-xl hover:scale-110 duration-300">
+                <button
+                  onClick={() => setAuth(false)}
+                  className="py-2 px-5 cursor-pointer bg-white border rounded-xl hover:scale-110 duration-300"
+                >
                   Register
                 </button>
               </div>

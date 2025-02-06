@@ -1,11 +1,15 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
+import { useAuthStore } from "../Store/authStore";
+import {toast} from 'react-toastify'
 
 const EmailVerification = () => {
   const [code, setCode] = useState(["", "", "", ""]);
   const inputRefs = useRef([]);
   const navigate = useNavigate();
+
+  const { verifyEmail, isAuthenticted, error, isLoading } = useAuthStore();
 
   const handleChange = (index, value) => {
     const newCode = [...code];
@@ -41,6 +45,14 @@ const EmailVerification = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const verificationcode = code.join("");
+    try {
+      await verifyEmail(verificationcode);
+      navigate("/home");
+      toast.success("Email verified successfully");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -86,14 +98,14 @@ const EmailVerification = () => {
                         />
                       ))}
                     </div>
-                    {/* {error && (
+                    {error && (
               <p className=" text-red-500 font-semibold mt-2">{error}</p>
-            )} */}
+            )}
                     <button
                       type="submit"
-                      className="bg-[#FF8035] w-full cursor-pointer rounded-2xl  text-xl text-white py-4 hover:scale-105 duration-300"
+                      className="bg-[#FF8035] w-full cursor-pointer rounded-2xl  text-xl text-white py-4 hover:scale-105 duration-300 flex items-center justify-center"
                     >
-                      {"Verify Email"}
+                      {isLoading ? "Verifying..." : "Verify Email"}
                     </button>
                   </form>
                 </div>

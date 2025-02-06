@@ -10,7 +10,7 @@ export const productAdd = async (req, res) => {
       category,
       subCategory,
       unit,
-      stock,
+      stock,  
       price,
       description,
       shopkeeper,
@@ -21,7 +21,7 @@ export const productAdd = async (req, res) => {
     const shop = await shopkeeperModel.findById(shopkeeper);
     if (!shop) {
       return res.status(404).json("Shopkeeper not found!");
-    }
+    } 
 
     if (
       !name ||

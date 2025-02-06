@@ -15,6 +15,7 @@ const Home = () => {
         </div>
         <div className=' w-full h-full overflow-scroll scroll-display px-5 py-12 '>
           <Breadcrums name={'Dashboard'}/>
+          
         </div>
       </div>
     </div>

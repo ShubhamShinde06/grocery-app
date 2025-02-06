@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowBack, IoMdArrowBack } from "react-icons/io";
+import Loading from "../components/Loading";
+import {useAuthStore} from '../Store/authStore'
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  //const { isLoading, forgotPassword } = useAuthStore();
+  const { isLoading, forgotPassword } = useAuthStore();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //await forgotPassword(email);
-    //setIsSubmitted(true);
+		await forgotPassword(email);
+		setIsSubmitted(true);
   };
 
   return (
@@ -52,9 +54,9 @@ const ForgotPassword = () => {
               </div>
               <button
                 type="submit"
-                className="bg-[#FF8035] w-full cursor-pointer rounded-2xl  text-xl text-white py-4 hover:scale-105 duration-300"
+                className="bg-[#FF8035] w-full cursor-pointer rounded-2xl  text-xl text-white py-4 hover:scale-105 duration-300 flex items-center justify-center"
               >
-                {"Send Reset Link"}
+                 {isLoading ? <Loading/> : "Send Reset Link"}
               </button>
               <p className=" font-light text-black flex items-center justify-center text-xl">
                 <Link
@@ -67,16 +69,16 @@ const ForgotPassword = () => {
             </form>
           ) : (
             <div className="text-center">
-              <p className="text-gray-300 mb-6">
-                If an account exists for {email}, you will receive a password
+              <p className="text-gray-600 mb-6">
+                If an account exists for <span className=" font-bold">{email}</span>, you will receive a password
                 reset link shortly.
               </p>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400 flex items-center justify-center">
                 <Link
-                  to="/signin"
+                  to="/"
                   className=" flex items-center gap-1 text-white font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
-                  <IoArrowBack className="text-xl" /> Back to Login
+                  <IoMdArrowBack className="text-xl" /> Back to Login
                 </Link>
               </p>
             </div>
