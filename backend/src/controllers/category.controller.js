@@ -82,7 +82,7 @@ export const categoryGet = async (req, res) => {
 export const categoryPut = async (req, res) => {
   try {
     const { file } = req; // Image file (optional)
-    const { categoryId } = req.params; // Extract category ID
+    const { id } = req.params; // Extract category ID
     const { name } = req.body; // Extract category name
 
     // Validate required fields
@@ -94,7 +94,7 @@ export const categoryPut = async (req, res) => {
     }
 
     // Find existing category
-    const category = await categoryModel.findById(categoryId);
+    const category = await categoryModel.findById(id);
     if (!category) {
       return res.status(404).json({
         message: "Category not found",
@@ -125,7 +125,7 @@ export const categoryPut = async (req, res) => {
 
     // Update category with new name and (optional) image
     const updatedCategory = await categoryModel.findByIdAndUpdate(
-      categoryId,
+      id,
       updatedData,
       { new: true }
     );
@@ -173,17 +173,17 @@ export const categorySingleGet = async (req, res) => {
 export const categoryDelete = async (req, res) => {
   try {
     
-    const {_id} = req.body
+    const {id} = req.params
 
     const checkSubCategory = await SubCategoryModel.find({
       category:{
-        "$in":[_id]
+        "$in":[id]
       }
     })
 
     const checkProduct = await ProductModel.find({
       category:{
-        "$in":[_id]
+        "$in":[id]
       }
     })
 
@@ -195,7 +195,7 @@ export const categoryDelete = async (req, res) => {
       })
     }
 
-    const deleteCategory = await categoryModel.deleteOne({_id: _id})
+    const deleteCategory = await categoryModel.deleteOne({_id: id})
 
     return res.json({
       message: "Category deleted",

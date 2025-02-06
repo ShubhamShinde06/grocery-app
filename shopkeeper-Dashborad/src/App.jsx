@@ -11,6 +11,7 @@ import Product from "./pages/Product";
 import { ToastContainer } from "react-toastify";
 import { useAuthStore } from "./Store/authStore";
 import { useEffect } from "react";
+import CategoryUpdate from "./pages/CategoryUpdate";
 
 // redirect authenticated users to the home page
 const RedirectAuthenticatedUser = ({ children }) => {
@@ -39,14 +40,12 @@ const ProtectedRoute = ({ children }) => {
 };
 
 function App() {
-  const { user ,checkAuth } = useAuthStore();
+  const { user, checkAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
- 
   }, [checkAuth]);
 
-  console.log(user)
 
   return (
     <>
@@ -78,8 +77,6 @@ function App() {
           }
         />
 
-        <Route path="/verify-email" element={<EmailVerification />} />
-
         <Route
           path="/forgot-password"
           element={
@@ -88,6 +85,7 @@ function App() {
             </RedirectAuthenticatedUser>
           }
         />
+
         <Route
           path="/reset-password/:token"
           element={
@@ -105,6 +103,16 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/category-update/:id"
+          element={
+            <ProtectedRoute>
+              <CategoryUpdate />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path="/sub-category"
           element={
@@ -122,6 +130,8 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route path="/verify-email" element={<EmailVerification />} />
       </Routes>
       <ToastContainer />
     </>

@@ -8,8 +8,8 @@ const route = Router()
 route.post('/add-category', verifyToken, upload.single('image'), categoryAdd);
 route.get('/get-category', categoryGet);
 route.get('/get-single-category/:categoryId', categorySingleGet);
-route.put('/put-category/:categoryId',verifyToken, upload.single('image') ,categoryPut)
-route.delete('/delete-category', verifyToken, categoryDelete)
+route.put('/put-category/:id',verifyToken, upload.single('image') ,categoryPut)
+route.delete('/delete-category/:id', verifyToken, categoryDelete)
 
 
 export default route 
