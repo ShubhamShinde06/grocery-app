@@ -3,8 +3,8 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Breadcrums from "../components/Breadcrums";
 import Serach from "../components/Serach";
-import ProductAdd from "../components/ProductAdd";
-import TabelProduct from "../components/TabelProduct";
+import ProductAdd from "../components/Product/ProductAdd";
+import TabelProduct from "../components/Product/TabelProduct";
 
 const Product = () => {
   const [open, setOpen] = useState(true);
@@ -31,7 +31,7 @@ const Product = () => {
             </>
           ) : (
             <>
-              <ProductAdd />
+              <ProductAdd setOpen={setOpen} />
             </>
           )}
         </div>

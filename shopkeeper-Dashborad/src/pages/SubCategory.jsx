@@ -3,8 +3,8 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Breadcrums from "../components/Breadcrums";
 import Serach from "../components/Serach";
-import SubCategoryAdd from "../components/SubCategoryAdd";
-import TableSubCategory from "../components/TableSubCategory";
+import SubCategoryAdd from "../components/Sub-category/SubCategoryAdd";
+import TableSubCategory from "../components/Sub-category/TableSubCategory";
 
 const SubCategory = () => {
 
@@ -32,7 +32,7 @@ const SubCategory = () => {
             </>
           ) : (
             <>
-              <SubCategoryAdd/>
+              <SubCategoryAdd setOpen={setOpen}/>
             </>
           )}
         </div>

@@ -218,7 +218,7 @@ export const productSingleGet = async (req, res) => {
 
 export const productDelete = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
 
     if (!id) {
       return res.status(400).json({
@@ -228,7 +228,7 @@ export const productDelete = async (req, res) => {
       });
     }
 
-    const deleteProduct = await ProductModel.deleteOne({ _id: id });
+    const deleteProduct = await ProductModel.findByIdAndDelete(id);
 
     return res.json({
       message: "Delete successfully",

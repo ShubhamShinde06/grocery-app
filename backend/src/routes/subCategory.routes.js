@@ -8,7 +8,7 @@ const route = Router()
 route.post('/add-subcategory',verifyToken, upload.single('image'),subCategoryAdd)
 route.get('/get-subcategory', subCategoryGet)
 route.get('/get-single-subcategory/:id', subCategorySingleGet)
-route.put('/put-subcategory', verifyToken, upload.single('image'),subCategoryPut)
-route.delete('/delete-subcategory', verifyToken, subCategoryDelete)
+route.put('/put-subcategory/:id', verifyToken, upload.single('image'),subCategoryPut)
+route.delete('/delete-subcategory/:id', verifyToken, subCategoryDelete)
 
 export default route

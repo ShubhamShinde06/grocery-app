@@ -71,13 +71,14 @@ export const subCategoryGet = async (req, res) => {
 export const subCategoryPut = async (req, res) => {
   try {
     const { file } = req; // Image file (optional)
-    const { name, _id, category } = req.body;
+    const { name, category } = req.body;
+    const {id} = req.params
 
-    const checkSubCategory = await SubCategoryModel.findById(_id);
+    const checkSubCategory = await SubCategoryModel.findById(id);
 
     if (!checkSubCategory) {
       return res.status(400).json({
-        message: "Check your _id",
+        message: "Check your id",
         error: true,
         success: false,
       });
@@ -107,7 +108,7 @@ export const subCategoryPut = async (req, res) => {
 
     // Update category with new name and (optional) image
     const updatedCategory = await SubCategoryModel.findByIdAndUpdate(
-      _id,
+      id,
       { category, ...updatedData }, // Spread updatedData correctly
       { new: true }
     );
@@ -130,7 +131,7 @@ export const subCategorySingleGet = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const subCategory = await SubCategoryModel.findById(id);
+    const subCategory = await SubCategoryModel.findById(id).populate('category')
 
     if (!subCategory) {
       return res.status(400).json({
@@ -155,9 +156,9 @@ export const subCategorySingleGet = async (req, res) => {
 export const subCategoryDelete = async (req, res) => {
   try {
 
-    const {_id} = req.body
+    const {id} = req.params
 
-    const deleteSubCategory = await SubCategoryModel.findByIdAndDelete(_id)
+    const deleteSubCategory = await SubCategoryModel.findByIdAndDelete(id)
 
     return res.json({
       message: "Delete Successfully",

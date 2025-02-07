@@ -1,9 +1,9 @@
 import React, { useEffect} from "react";
-import { useCategoryStore } from "../Store/categoryStore";
+import { useCategoryStore } from "../../Store/categoryStore";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const TabelCategory = ({setOpen}) => {
+const TabelCategory = () => {
 
   const navigatTo = useNavigate()
 
@@ -12,10 +12,8 @@ const TabelCategory = ({setOpen}) => {
   const removeCategory = async (id) => {
     try {
       await categoryDelete(id);
+      await categoryGet()
       toast.success("Category Deleted");
-      setTimeout(() => {
-        setOpen(true)
-      }, 2000);
     } catch (error) {
       console.log(error);
     }
