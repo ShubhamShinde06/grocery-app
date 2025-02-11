@@ -22,7 +22,8 @@ const productSchema = new mongoose.Schema({
     ],
     shopkeeper : {
         type : mongoose.Schema.ObjectId,
-        ref : 'shopkeeper'
+        ref : 'shopkeeper',
+        required: true
     },
     unit : {
         type : String,

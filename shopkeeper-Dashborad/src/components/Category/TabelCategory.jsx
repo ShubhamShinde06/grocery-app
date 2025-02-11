@@ -1,27 +1,27 @@
-import React, { useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import { useCategoryStore } from "../../Store/categoryStore";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../Store/authStore";
 
 const TabelCategory = () => {
-
-  const navigatTo = useNavigate()
+  const navigatTo = useNavigate();
 
   const { categoryDelete, categoryGet, Data } = useCategoryStore();
 
-  const removeCategory = async (id) => {
+  useEffect(() => {
+    categoryGet();
+  }, []);
+
+  const removeCategory = async (productID) => {
     try {
-      await categoryDelete(id);
-      await categoryGet()
+      await categoryDelete(productID);
+      await categoryGet();
       toast.success("Category Deleted");
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(()=>{
-    categoryGet()
-  },[categoryDelete])
 
   return (
     <div className="p-3 relative">
@@ -58,7 +58,12 @@ const TabelCategory = () => {
                   {category.name}
                 </td>
                 <td className="py-4 px-6 flex space-x-3">
-                  <button onClick={()=>navigatTo(`/category-update/${category._id}`)} className="bg-green-500 text-white px-5 py-2 rounded-full shadow-md hover:bg-green-600 transition">
+                  <button
+                    onClick={() =>
+                      navigatTo(`/category-update/${category._id}`)
+                    }
+                    className="bg-green-500 text-white px-5 py-2 rounded-full shadow-md hover:bg-green-600 transition"
+                  >
                     Update
                   </button>
                   <button

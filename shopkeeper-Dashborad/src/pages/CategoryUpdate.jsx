@@ -6,6 +6,7 @@ import { useCategoryStore } from "../Store/categoryStore";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
+import { useAuthStore } from "../Store/authStore";
 
 const CategoryUpdate = () => {
   const { id } = useParams();
@@ -14,7 +15,17 @@ const CategoryUpdate = () => {
   const [image, setImage] = useState(false);
   const [name, setName] = useState("");
 
-  const { categoryPut, error, isLoading, categorySingleGet, Data, categoryGet } = useCategoryStore();
+  const {
+    categoryPut,
+    error,
+    isLoading,
+    categorySingleGet,
+    Data,
+    categoryGet,
+  } = useCategoryStore();
+
+  const { user } = useAuthStore();
+
 
   useEffect(() => {
     categorySingleGet(id);
@@ -32,11 +43,12 @@ const CategoryUpdate = () => {
     e.preventDefault();
     try {
       const formData = new FormData();
+      formData.append("shopkeeper", ids);
       formData.append("name", name); // This appends the name field
       if (image) formData.append("image", image); // Appends image only if available
-  
+
       await categoryPut(formData, id); // Pass the formData and id
-      await categoryGet()
+      await categoryGet(ids);
       toast.success("Category Updated");
       setTimeout(() => {
         navigateTo("/category");
@@ -45,7 +57,6 @@ const CategoryUpdate = () => {
       console.log(error);
     }
   };
-  
 
   const imageURL =
     image && image instanceof File ? URL.createObjectURL(image) : image;
@@ -60,6 +71,14 @@ const CategoryUpdate = () => {
 
           <div className="w-full h-full flex flex-col gap-6 justify-center items-center mt-2 rounded-xl shadow overflow-scroll scroll-display lg:px-5 py-2 px-2">
             <div className="lg:w-1/2 w-full flex flex-col gap-6">
+              <div className=" flex justify-start ">
+                <button
+                  onClick={() => navigateTo("/category")}
+                  class="hover:bg-[#F5F7F9]  cursor-pointer rounded-md  text-xl hover:text-black underline  text-black hover:scale-105 duration-300"
+                >
+                  Back
+                </button>
+              </div>
               <h1 className="lg:text-4xl text-2xl font-semibold">
                 Category Update
               </h1>
@@ -104,13 +123,6 @@ const CategoryUpdate = () => {
                 )}
 
                 <div className="flex items-center justify-between gap-8">
-                  <button
-                    onClick={() => navigateTo("/")}
-                    className="hover:bg-[#F5F7F9] w-1/4 cursor-pointer rounded-md text-xl hover:text-black underline text-black py-4 hover:scale-105 duration-300 "
-                  >
-                    Back
-                  </button>
-
                   <button className="bg-[#FF8035] w-1/3 cursor-pointer lg:rounded-full rounded-md text-xl text-white py-2 lg:py-4 hover:scale-105 duration-300 flex items-center justify-center">
                     {isLoading ? <Loading /> : "Update"}
                   </button>

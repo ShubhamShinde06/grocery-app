@@ -2,10 +2,11 @@ import { categoryModel } from "../models/category.model.js";
 import cloudinary from "cloudinary";
 import {SubCategoryModel} from '../models/subCategory.models.js' 
 import {ProductModel} from '../models/product.model.js'
+import mongoose from "mongoose";
 
 export const categoryAdd = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, shopkeeper } = req.body;
     const { file } = req;
 
     if (!name) {
@@ -20,6 +21,12 @@ export const categoryAdd = async (req, res) => {
         success: false,
       });
     }
+    if (!shopkeeper) {
+      return res.status(400).json({
+        message: "Enter required shopkeeperId",
+        success: false,
+      });
+    }
 
     // Upload image to Cloudinary
     const result = await cloudinary.uploader.upload(file.path, {
@@ -29,6 +36,7 @@ export const categoryAdd = async (req, res) => {
     // Create and save category
     const newCategory = new categoryModel({
       name,
+      shopkeeper,
       image: result.secure_url, // Store the URL of the uploaded image
     });
 
@@ -83,12 +91,19 @@ export const categoryPut = async (req, res) => {
   try {
     const { file } = req; // Image file (optional)
     const { id } = req.params; // Extract category ID
-    const { name } = req.body; // Extract category name
+    const { name, shopkeeper } = req.body; // Extract category name
 
     // Validate required fields
     if (!name) {
       return res.status(400).json({
         message: "Category name is required",
+        success: false,
+      });
+    }
+
+    if (!shopkeeper) {
+      return res.status(400).json({
+        message: "Enter required shopkeeperId",
         success: false,
       });
     }
@@ -102,7 +117,7 @@ export const categoryPut = async (req, res) => {
       });
     }
 
-    let updatedData = { name }; // Default update data
+    let updatedData = { name, shopkeeper }; // Default update data
 
     // If a new image is uploaded, delete the old one & upload a new one
     if (file) {
@@ -211,3 +226,39 @@ export const categoryDelete = async (req, res) => {
     });
   }
 }
+
+export const ownShopkeeperCategore = async (req, res) => {
+  try {
+    const { id } = req.params; // Extract shopkeeper ID
+
+    // Validate if _id is provided and is a valid MongoDB ObjectId
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid or missing shopkeeper ID",
+      });
+    }
+
+    // Fetch products where shopkeeper ID matches
+    const categores = await categoryModel.find({ shopkeeper: id })
+
+    if (!categores || categores.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No products found for this shopkeeper",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: categores,
+    });
+  } catch (error) {
+    console.error("Error fetching ownShopkeeperCategore:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+

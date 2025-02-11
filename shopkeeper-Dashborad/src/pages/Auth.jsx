@@ -17,8 +17,10 @@ const Auth = () => {
     e.preventDefault();
     try {
       await login(email, password);
+      setTimeout(()=>{
+        navigation('/home')
+      },2000)
       toast.success("Welcome back");
-      navigation('/home')
     } catch (error) {
       console.log(error);
     }

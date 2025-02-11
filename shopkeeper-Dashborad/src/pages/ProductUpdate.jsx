@@ -2,30 +2,36 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Breadcrums from "../components/Breadcrums";
-import Serach from "../components/Serach";
 import { useProductStore } from "../Store/productStore";
 import { toast } from "react-toastify";
 import Loading from "../components/Loading";
 import { subcategoryStore } from "../Store/subcategoryStore";
 import { useCategoryStore } from "../Store/categoryStore";
 import { useAuthStore } from "../Store/authStore";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ProductUpdate = () => {
-  const navigateTo = useNavigate();
+  const { id } = useParams();
 
-  const { productAdd, error, isLoading, productGet } = useProductStore();
+  const navigateTo = useNavigate();
+  const [ids, setID] = useState("");
+
+  const { error, isLoading, productGet, productPut, productSingleGet, Data } =
+    useProductStore();
   const { categoryGet, Data: categoryData } = useCategoryStore();
   const { subcategoryGet, Data: subcategoryData } = subcategoryStore();
-  const { user, checkAuth } = useAuthStore();
+  const { user } = useAuthStore();
 
   useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
+    if (user && user._id) {
+      console.log("User ID found:", user._id); // Debugging log
+      setID(user._id);
+    }
+  }, [user]);
 
   useEffect(() => {
-    categoryGet(), subcategoryGet();
-  }, []);
+    categoryGet(), subcategoryGet(), productSingleGet(id);
+  }, [id]);
 
   const [image1, setImage1] = useState(false);
   const [image2, setImage2] = useState(false);
@@ -44,6 +50,14 @@ const ProductUpdate = () => {
   const [subcategory, setSubCategory] = useState();
   const [subcategories, setSubCategories] = useState([]);
 
+  useEffect(() => {
+    // Make sure Data has been fetched
+    if (Data && Data.length > 0) {
+      setName(Data[0].name || ""); // Set the name from the first category
+      setImage1(Data[0].image || false); // Set the image if available
+    }
+  }, [Data]); // Only run when `Data` changes
+
   // Set fetched subcategory details into state
   useEffect(() => {
     if (subcategoryData) {
@@ -55,12 +69,13 @@ const ProductUpdate = () => {
       }
     }
   }, [subcategoryData]);
+
   useEffect(() => {
     if (Array.isArray(subcategoryData)) {
       setSubCategories(subcategoryData);
     }
   }, [subcategoryData]);
-  console.log("subData", subcategoryData);
+  //console.log("subData", subcategoryData);
 
   // Set fetched category details into state
   useEffect(() => {
@@ -78,14 +93,14 @@ const ProductUpdate = () => {
       setCategories(categoryData);
     }
   }, [categoryData]);
-  console.log("catData", categories);
+  //console.log("catData", categories);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
 
-      formData.append("shopkeeper", user._id);
+      formData.append("shopkeeper", ids);
       formData.append("category", category);
       formData.append("subCategory", subcategory);
       formData.append("name", name);
@@ -99,8 +114,8 @@ const ProductUpdate = () => {
       image3 & formData.append("image3", image3);
       image4 & formData.append("image4", image4);
 
-      await productAdd(formData);
-      await productGet();
+      await productPut(formData);
+      await productGet(ids);
       toast.success("Product Added");
     } catch (error) {
       console.log(error);
@@ -123,15 +138,15 @@ const ProductUpdate = () => {
             {/* update */}
             <div className=" w-full h-full flex flex-col gap-6 items-center mt-2 rounded-xl shadow overflow-scroll scroll-display lg:px-5 py-2 px-2">
               <div className=" lg:w-1/2 w-full flex flex-col gap-6">
-              <div className=" w-full flex items-start">
-                <button
-                  onClick={() => navigateTo("/product")}
-                  class=" cursor-pointer rounded-md  text-xl hover:text-black underline  text-black py-4 hover:scale-105 duration-300"
-                >
-                  Back
-                </button>
-              </div>
-                
+                <div className=" w-full flex items-start">
+                  <button
+                    onClick={() => navigateTo("/product")}
+                    class=" cursor-pointer rounded-md  text-xl hover:text-black underline  text-black py-4 hover:scale-105 duration-300"
+                  >
+                    Back
+                  </button>
+                </div>
+
                 <div className=" w-full flex justify-start">
                   <h1 className="lg:text-4xl text-2xl font-semibold">
                     Product information... Update
@@ -148,9 +163,9 @@ const ProductUpdate = () => {
                         <img
                           className="w-20 cursor-pointer"
                           src={
-                            !image1
-                              ? "/upload_area.png"
-                              : URL.createObjectURL(image1)
+                            image1 instanceof File
+                              ? URL.createObjectURL(image1)
+                              : "/upload_area.png"
                           }
                           alt="upload"
                         />
@@ -162,15 +177,14 @@ const ProductUpdate = () => {
                         />
                       </label>
                       <label htmlFor="image2">
-                        <img
-                          className="w-20 cursor-pointer"
-                          src={
-                            !image2
-                              ? "/upload_area.png"
-                              : URL.createObjectURL(image2)
-                          }
-                          alt="upload"
-                        />
+                      <img
+  className="w-20 cursor-pointer"
+  src={
+    image2 instanceof File ? URL.createObjectURL(image2) : "/upload_area.png"
+  }
+  alt="upload"
+/>
+
                         <input
                           type="file"
                           id="image2"
@@ -179,15 +193,14 @@ const ProductUpdate = () => {
                         />
                       </label>
                       <label htmlFor="image3">
-                        <img
-                          className="w-20 cursor-pointer"
-                          src={
-                            !image3
-                              ? "/upload_area.png"
-                              : URL.createObjectURL(image3)
-                          }
-                          alt="upload"
-                        />
+                      <img
+  className="w-20 cursor-pointer"
+  src={
+    image3 instanceof File ? URL.createObjectURL(image3) : "/upload_area.png"
+  }
+  alt="upload"
+/>
+
                         <input
                           type="file"
                           id="image3"
@@ -196,15 +209,14 @@ const ProductUpdate = () => {
                         />
                       </label>
                       <label htmlFor="image4">
-                        <img
-                          className="w-20 cursor-pointer"
-                          src={
-                            !image4
-                              ? "/upload_area.png"
-                              : URL.createObjectURL(image4)
-                          }
-                          alt="upload"
-                        />
+                      <img
+  className="w-20 cursor-pointer"
+  src={
+    image4 instanceof File ? URL.createObjectURL(image4) : "/upload_area.png"
+  }
+  alt="upload"
+/>
+
                         <input
                           type="file"
                           id="image4"

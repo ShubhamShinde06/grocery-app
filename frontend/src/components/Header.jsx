@@ -35,8 +35,7 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full h-auto lg:h-20 shadow-2xl flex flex-col py-3 lg:py-0 lg:flex-row lg:items-center lg:justify-between px-2 lg:px-10">
-        
+    <header className="w-full h-auto lg:h-20 shadow-2xl flex flex-col py-3 lg:py-0 lg:flex-row lg:items-center lg:justify-between px-2 lg:px-10 fixed top-0 bg-white">
       <div
         className={`w-full lg:w-auto h-12 flex items-center lg:justify-normal justify-between`}
       >
@@ -63,7 +62,7 @@ const Header = () => {
               <TypeAnimation
                 sequence={[
                   'Search "milk"',
-                  1000, 
+                  1000,
                   'Search "bread"',
                   1000,
                   'Search "sugar"',

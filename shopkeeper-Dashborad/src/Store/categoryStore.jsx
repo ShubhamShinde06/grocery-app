@@ -31,7 +31,7 @@ export const useCategoryStore = create((set) => ({
   categoryGet: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get("/api/category/get-category", {
+      const response = await axios.get(`/api/category/get-category`, {
         headers: { "Content-Type": "multipart/form-data" }, // Set proper headers for file upload
       });
       set({ Data: response.data.data, isLoading: false });

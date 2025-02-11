@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import { subcategoryStore } from "../Store/subcategoryStore";
 import { useCategoryStore } from "../Store/categoryStore"; // Fetch all categories
+import { useAuthStore } from "../Store/authStore";
 
 const SubcategoryUpdate = () => {
   const { id } = useParams();
@@ -63,12 +64,13 @@ const SubcategoryUpdate = () => {
 
       formData.append("category", category);
       formData.append("name", name);
+      formData.append("shopkeeper", ids);
       if (image instanceof File) {
         formData.append("image", image);
       }
 
       await subcategoryPut(formData, id);
-      await subcategoryGet();
+      await subcategoryGet(ids);
       toast.success("Sub-Category Updated");
       setTimeout(() => {
         navigateTo("/sub-category");
@@ -91,6 +93,14 @@ const SubcategoryUpdate = () => {
 
           <div className="w-full h-full flex flex-col gap-6 justify-center items-center mt-2 rounded-xl shadow overflow-scroll scroll-display lg:px-5 py-2 px-2">
             <div className="lg:w-1/2 w-full flex flex-col gap-6">
+              <div className=" flex justify-start ">
+                <button
+                  onClick={() => navigateTo("/sub-category")}
+                  class="hover:bg-[#F5F7F9]  cursor-pointer rounded-md  text-xl hover:text-black underline  text-black hover:scale-105 duration-300"
+                >
+                  Back
+                </button>
+              </div>
               <h1 className="lg:text-4xl text-2xl font-semibold">
                 Sub Category Update
               </h1>
@@ -159,14 +169,6 @@ const SubcategoryUpdate = () => {
                 )}
 
                 <div className="flex items-center justify-between gap-8">
-                  <button
-                    type="button"
-                    onClick={() => navigateTo("/sub-category")}
-                    className="hover:bg-[#F5F7F9] w-1/4 cursor-pointer rounded-md text-xl hover:text-black underline text-black py-4 hover:scale-105 duration-300 "
-                  >
-                    Back
-                  </button>
-
                   <button
                     type="submit"
                     className="bg-[#FF8035] w-1/3 cursor-pointer lg:rounded-full rounded-md text-xl text-white py-2 lg:py-4 hover:scale-105 duration-300 flex items-center justify-center"

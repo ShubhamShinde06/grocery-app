@@ -244,3 +244,39 @@ export const productDelete = async (req, res) => {
     });
   }
 };
+
+export const ownShopkeeperProducts = async (req, res) => {
+  try {
+    const { id } = req.params; // Extract shopkeeper ID
+
+    // Validate if _id is provided and is a valid MongoDB ObjectId
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid or missing shopkeeper ID",
+      });
+    }
+
+    // Fetch products where shopkeeper ID matches
+    const products = await ProductModel.find({ shopkeeper: id }).populate('category subCategory')
+
+    if (!products || products.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No products found for this shopkeeper",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: products,
+    });
+  } catch (error) {
+    console.error("Error fetching shopkeeper products:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+

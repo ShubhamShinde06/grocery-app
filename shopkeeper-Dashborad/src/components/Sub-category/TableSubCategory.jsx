@@ -1,16 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { subcategoryStore } from "../../Store/subcategoryStore";
 
 const TableSubCategory = () => {
   const navigateTo = useNavigate();
+
   const { subcategoryGet, Data, subcategoryDelete } = subcategoryStore();
 
+  useEffect(() => {
+    subcategoryGet();
+  }, []);
+
   // Ensures data refreshes after deletion
-  const removeCategory = async (id) => {
+  const removeCategory = async (productID) => {
     try {
-      await subcategoryDelete(id);
+      await subcategoryDelete(productID);
       await subcategoryGet();
       toast.success("SubCategory Deleted");
     } catch (error) {
@@ -18,25 +23,19 @@ const TableSubCategory = () => {
     }
   };
 
-  // Fetch data on component mount
-  useEffect(() => {
-    subcategoryGet();
-  }, []);
-
-  // Debugging
- // console.log("Data in TableSubCategory:", Data);
-
   return (
     <div className="p-3 relative">
-      <h2 className="text-2xl font-bold my-4 text-gray-800">Sub Category Table</h2>
+      <h2 className="text-2xl font-bold my-4 text-gray-800">
+        Sub Category Table
+      </h2>
       <div className="overflow-x-auto rounded-xl shadow-2xl">
         <table className="w-full border border-gray-300 rounded-xl">
           <thead>
             <tr className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
               <th className="py-4 px-6 text-left">ID</th>
               <th className="py-4 px-6 text-left">Image</th>
-              <th className="py-4 px-6 text-left">Category Name</th>
               <th className="py-4 px-6 text-left">SubCategory Name</th>
+              <th className="py-4 px-6 text-left">Category Name</th>
               <th className="py-4 px-6 text-left">Actions</th>
             </tr>
           </thead>

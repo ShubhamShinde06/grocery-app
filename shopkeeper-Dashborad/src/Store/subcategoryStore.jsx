@@ -28,7 +28,7 @@ export const subcategoryStore = create((set) => ({
     set({isLoading: true, error: null})
     try {
       const response = await axios.get(
-        "/api/subcategory/get-subcategory",
+        `/api/subcategory/get-subcategory`,
       );
       set({ Data: response.data.data, isLoading: false });
     } catch (error) {

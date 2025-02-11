@@ -1,14 +1,23 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
-const categorySchema = new mongoose.Schema({
+const categorySchema = new mongoose.Schema(
+  {
+    shopkeeper: {
+      type: mongoose.Schema.ObjectId,
+      ref: "shopkeeper",
+      required: true,
+    },
     name: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     image: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
-},{timestamps: true})
+  },
+  { timestamps: true }
+);
 
-export const categoryModel = mongoose.models.category || mongoose.model('category', categorySchema)
+export const categoryModel =
+  mongoose.models.category || mongoose.model("category", categorySchema);
