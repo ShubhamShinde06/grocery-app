@@ -50,7 +50,7 @@ const IteamDeteils = () => {
               </h1>
               <div className="prices flex my-[30px] gap-[30px] text-[24px] font-[700]">
                 <div className="text-[#818181] line-through">₹{"180"}</div>
-                <div className="text-[#3ed80f]">₹{"69"}</div>
+                <div className="text-[#f87e2ddd]">₹{"69"}</div>
               </div>
               <div className="font-normal text-xl">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus
@@ -79,7 +79,7 @@ const IteamDeteils = () => {
                   </div>
                 </div>
               </div>
-              <button className="py-[20px] px-[40px] text-[16px] font-[600] border border-[#318616] text-[#318616] bg-[#DBFEE4] mb-[40px] cursor-pointer rounded-md">
+              <button className="py-[20px] px-[40px] text-[16px] font-[600] border text-[#FFFFFF] bg-[#f87e2ddd] mb-[40px] cursor-pointer rounded-md">
                 ADD TO CART
               </button>
               <p className="right-cat mt-[10px] ">

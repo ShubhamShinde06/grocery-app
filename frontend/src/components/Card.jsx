@@ -19,7 +19,7 @@ const Card = (props) => {
           {/* price & Add_to_cart */}
           <div className="w-full flex items-center justify-between py-2">
             <h1>₹28</h1>
-            <button className=" px-4 py-1 rounded-md cursor-pointer text-sm border border-[#318616] text-[#3B8C21] font-semibold bg-[#dbfee4]">
+            <button className=" px-4 py-1 rounded-md cursor-pointer text-sm border text-[#FFFFFF] font-semibold bg-[#f87e2ddd] hover:shadow">
               ADD
             </button>
           </div>

@@ -40,7 +40,7 @@ const Header = () => {
         className={`w-full lg:w-auto h-12 flex items-center lg:justify-normal justify-between`}
       >
         <Link to={'/home'}>
-          <img src={"/logo.png"} alt="logo" className="w-30 " />
+          <img src={"/logo.png"} alt="logo" className="w-40 h-[180px]" />
         </Link>
         <Link to={"/"}>
           <div className=" lg:hidden cursor-pointer text-3xl mr-2">
@@ -120,7 +120,7 @@ const Header = () => {
           <div className="w-8 min-w-5 text-3xl">
             <TiShoppingCart />
           </div>
-          <p className="absolute top-0 right-0 w-4 text-center leading-4 bg-[#32E80F] aspect-square rounded-full text-[8px]">
+          <p className="absolute top-0 right-0 w-4 text-center leading-4 bg-[#F87E2D] aspect-square rounded-full text-[8px] text-white">
             1
           </p>
         </Link>

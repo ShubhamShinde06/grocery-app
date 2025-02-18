@@ -69,7 +69,7 @@ const Auth = () => {
               </p>
             )}
           </div>
-          <button className="bg-[#baf8ca] text-[#71f349] font-semibold px-8 py-2 mt-4">
+          <button className="bg-[#f87e2ddd] text-[#FFFFFF] font-semibold px-8 py-2 mt-4">
             {currentState === "Login" ? "Sign in" : "Sign up"}
           </button>
         </form>
