@@ -16,6 +16,7 @@ export const productAdd = async (req, res) => {
       shopkeeper,
       more_details,
       publish,
+      quantity
     } = req.body;
 
     const shop = await shopkeeperModel.findById(shopkeeper);
@@ -63,11 +64,12 @@ export const productAdd = async (req, res) => {
       subCategory,
       shopkeeper,
       unit,
-      stock,
+      stock: stock === 'true' ? 'true' : 'false',
       price,
       description,
       more_details,
       publish,
+      quantity: JSON.parse(quantity),
       image: imagesUrl,
     });
 

@@ -2,11 +2,6 @@ import mongoose from "mongoose";
 
 const subCategorySchema = new mongoose.Schema(
   {
-    shopkeeper: {
-      type: mongoose.Schema.ObjectId,
-      ref: "shopkeeper",
-      required: true,
-    },
     name: {
       type: String,
       default: "",

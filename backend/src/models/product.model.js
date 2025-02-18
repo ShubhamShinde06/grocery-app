@@ -29,9 +29,13 @@ const productSchema = new mongoose.Schema({
         type : String,
         default : ""
     },
+    quantity:{
+        type: Array,
+        required: true
+    },
     stock : {
-        type : Number,
-        default : null
+        type:Boolean,
+        default : true
     },
     price : {
         type : Number,

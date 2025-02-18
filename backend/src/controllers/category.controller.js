@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 
 export const categoryAdd = async (req, res) => {
   try {
-    const { name, shopkeeper } = req.body;
+    const { name } = req.body;
     const { file } = req;
 
     if (!name) {
@@ -21,12 +21,6 @@ export const categoryAdd = async (req, res) => {
         success: false,
       });
     }
-    if (!shopkeeper) {
-      return res.status(400).json({
-        message: "Enter required shopkeeperId",
-        success: false,
-      });
-    }
 
     // Upload image to Cloudinary
     const result = await cloudinary.uploader.upload(file.path, {
@@ -36,7 +30,6 @@ export const categoryAdd = async (req, res) => {
     // Create and save category
     const newCategory = new categoryModel({
       name,
-      shopkeeper,
       image: result.secure_url, // Store the URL of the uploaded image
     });
 
@@ -91,19 +84,12 @@ export const categoryPut = async (req, res) => {
   try {
     const { file } = req; // Image file (optional)
     const { id } = req.params; // Extract category ID
-    const { name, shopkeeper } = req.body; // Extract category name
+    const { name } = req.body; // Extract category name
 
     // Validate required fields
     if (!name) {
       return res.status(400).json({
         message: "Category name is required",
-        success: false,
-      });
-    }
-
-    if (!shopkeeper) {
-      return res.status(400).json({
-        message: "Enter required shopkeeperId",
         success: false,
       });
     }
@@ -117,7 +103,7 @@ export const categoryPut = async (req, res) => {
       });
     }
 
-    let updatedData = { name, shopkeeper }; // Default update data
+    let updatedData = { name  }; // Default update data
 
     // If a new image is uploaded, delete the old one & upload a new one
     if (file) {

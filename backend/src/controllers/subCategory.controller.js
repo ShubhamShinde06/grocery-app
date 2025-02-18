@@ -4,7 +4,7 @@ import cloudinary from "cloudinary";
 
 export const subCategoryAdd = async (req, res) => {
   try {
-    const { name, category, shopkeeper } = req.body;
+    const { name, category } = req.body;
     const { file } = req;
 
     if (!name && !category[0]) {
@@ -19,12 +19,7 @@ export const subCategoryAdd = async (req, res) => {
         success: false,
       });
     }
-    if (!shopkeeper) {
-      return res.status(400).json({
-        message: "Enter required shopkeeperId",
-        success: false,
-      });
-    }
+  
 
     // Upload image to Cloudinary
     const result = await cloudinary.uploader.upload(file.path, {
@@ -43,7 +38,6 @@ export const subCategoryAdd = async (req, res) => {
 
     const newSubCategory = new SubCategoryModel({
       name,
-      shopkeeper,
       category,
       image: result.secure_url, // Store the URL of the uploaded image
     });
@@ -88,7 +82,7 @@ export const subCategoryGet = async (req, res) => {
 export const subCategoryPut = async (req, res) => {
   try {
     const { file } = req; // Image file (optional)
-    const { name, category, shopkeeper } = req.body;
+    const { name, category } = req.body;
     const { id } = req.params;
 
     const checkSubCategory = await SubCategoryModel.findById(id);
@@ -101,7 +95,7 @@ export const subCategoryPut = async (req, res) => {
       });
     }
 
-    let updatedData = { name, shopkeeper }; // Default update data
+    let updatedData = { name }; // Default update data
 
     // If a new image is uploaded, delete the old one & upload a new one
     if (file) {

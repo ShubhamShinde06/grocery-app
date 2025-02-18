@@ -33,14 +33,19 @@ const ProductAdd = ({ setOpen }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [unit, setUnit] = useState("");
-  const [stock, setStock] = useState("");
+  const [stock, setStock] = useState(true);
   const [price, setPrice] = useState("");
   const [discount, steDiscount] = useState("");
+  const [quantity, setQuantity] = useState([]);
 
   const [category, setCategory] = useState();
   const [categories, setCategories] = useState([]);
   const [subcategory, setSubCategory] = useState();
   const [subcategories, setSubCategories] = useState([]);
+
+  if (price < 0) {
+    setPrice("");
+  }
 
   // Set fetched subcategory details into state
   useEffect(() => {
@@ -58,7 +63,6 @@ const ProductAdd = ({ setOpen }) => {
       setSubCategories(subcategoryData);
     }
   }, [subcategoryData]);
-  console.log("subData", subcategoryData);
 
   // Set fetched category details into state
   useEffect(() => {
@@ -76,7 +80,6 @@ const ProductAdd = ({ setOpen }) => {
       setCategories(categoryData);
     }
   }, [categoryData]);
-  console.log("catData", categories);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -92,6 +95,7 @@ const ProductAdd = ({ setOpen }) => {
       formData.append("stock", stock);
       formData.append("price", price);
       formData.append("discount", discount);
+      formData.append("quantity", JSON.stringify(quantity));
       image1 & formData.append("image1", image1);
       image2 & formData.append("image2", image2);
       image3 & formData.append("image3", image3);
@@ -100,9 +104,8 @@ const ProductAdd = ({ setOpen }) => {
       await productAdd(formData);
       await productGet(id);
       toast.success("Product Added");
-      setTimeout(() => {
-        setOpen(true);
-      }, 2000);
+
+      setOpen(true);
     } catch (error) {
       console.log(error);
     }
@@ -191,44 +194,43 @@ const ProductAdd = ({ setOpen }) => {
             </div>
           </div>
 
-          {/* Category Selection Dropdown */}
-          <div className="w-full py-4 flex gap-[40px]">
-            <label>Select Category:</label>
-            <select
-              name="category"
-              className="w-full py-2 bg-transparent border-b-2 outline-none"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option className="bg-white" value="">
-                Select Category
-              </option>
-              {categories.map((cat) => (
-                <option key={cat._id} className="bg-white" value={cat._id}>
-                  {cat.name}
+          <div className=" w-full flex lg:flex-row flex-col items-center justify-between gap-5">
+            {/* Category Selection Dropdown */}
+            <div className="w-full py-4 flex gap-[40px]">
+              <select
+                name="category"
+                className="w-full py-2 bg-transparent border-b-2 outline-none"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option className="bg-white" value="">
+                  Select Category
                 </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Category Selection Dropdown */}
-          <div className="w-full py-4 flex gap-[40px]">
-            <label>Select Category:</label>
-            <select
-              name="category"
-              className="w-full py-2 bg-transparent border-b-2 outline-none"
-              value={subcategory}
-              onChange={(e) => setSubCategory(e.target.value)}
-            >
-              <option className="bg-white" value="">
-                Select Category
-              </option>
-              {subcategories.map((cat) => (
-                <option key={cat._id} className="bg-white" value={cat._id}>
-                  {cat.name}
+                {categories.map((cat) => (
+                  <option key={cat._id} className="bg-white" value={cat._id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {/* SubCategory Selection Dropdown */}
+            <div className="w-full py-4 flex gap-[40px]">
+              <select
+                name="category"
+                className="w-full py-2 bg-transparent border-b-2 outline-none"
+                value={subcategory}
+                onChange={(e) => setSubCategory(e.target.value)}
+              >
+                <option className="bg-white" value="">
+                  Select SubCategory
                 </option>
-              ))}
-            </select>
+                {subcategories.map((cat) => (
+                  <option key={cat._id} className="bg-white" value={cat._id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div className="w-full flex flex-col gap-3">
@@ -254,28 +256,77 @@ const ProductAdd = ({ setOpen }) => {
             ></textarea>
           </div>
 
-          <div className="w-full flex flex-col gap-3">
-            <label htmlFor="">Unit</label>
-            <input
-              class="px-2 py-3 rounded-md  bg-[#F5F7F9]"
-              type="text"
-              name="unit"
-              placeholder="Unit"
-              value={unit}
-              onChange={(e) => setUnit(e.target.value)}
-            />
-          </div>
+          <div className=" w-full flex lg:flex-row flex-col items-center justify-center gap-5">
+            <div>
+              <p className="mb-2">Product Quantity</p>
+              <div className=" flex gap-3">
+                <div
+                  onClick={() =>
+                    setQuantity((prev) =>
+                      prev.includes("1")
+                        ? prev.filter((item) => item !== "1")
+                        : [...prev, "1"]
+                    )
+                  }
+                >
+                  <p
+                    className={`${
+                      quantity.includes("1") ? "bg-orange-300" : "bg-slate-200"
+                    } px-3 py-1 cursor-pointer`}
+                  >
+                    1
+                  </p>
+                </div>
 
-          <div className="w-full flex flex-col gap-3">
-            <label htmlFor="">Stock</label>
-            <input
-              class="px-2 py-3 rounded-md  bg-[#F5F7F9]"
-              type="number"
-              name="stock"
-              placeholder="stock"
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
-            />
+                <div
+                  onClick={() =>
+                    setQuantity((prev) =>
+                      prev.includes("5")
+                        ? prev.filter((item) => item !== "5")
+                        : [...prev, "5"]
+                    )
+                  }
+                >
+                  <p
+                    className={`${
+                      quantity.includes("5") ? "bg-orange-300" : "bg-slate-200"
+                    } px-3 py-1 cursor-pointer`}
+                  >
+                    5
+                  </p>
+                </div>
+
+                <div
+                  onClick={() =>
+                    setQuantity((prev) =>
+                      prev.includes("10")
+                        ? prev.filter((item) => item !== "10")
+                        : [...prev, "10"]
+                    )
+                  }
+                >
+                  <p
+                    className={`${
+                      quantity.includes("10") ? "bg-orange-300" : "bg-slate-200"
+                    } px-3 py-1 cursor-pointer`}
+                  >
+                    10
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full flex flex-col gap-3">
+              <label htmlFor="">Unit</label>
+              <select
+                onChange={(e) => setUnit(e.target.value)}
+                className="w-full px-3 py-2"
+              >
+                <option value="Kg">Kg</option>
+                <option value="ml">ml</option>
+                <option value="Iter">Iter</option>
+              </select>
+            </div>
           </div>
 
           <div className="w-full flex flex-col gap-3">
@@ -301,6 +352,21 @@ const ProductAdd = ({ setOpen }) => {
               onChange={(e) => steDiscount(e.target.value)}
             />
           </div>
+
+          <div className="w-full flex flex-col gap-3 lg:mt-6">
+            <div className=" flex gap-2 mt-0">
+              <input
+                type="checkbox"
+                id="bestseller"
+                onChange={() => setStock((prev) => !prev)}
+                checked={stock}
+              />
+              <label className=" cursor-pointer" htmlFor="bestseller">
+                In Stock
+              </label>
+            </div>
+          </div>
+
           {error && <p className=" text-red-500 font-semibold mt-2">{error}</p>}
           <div className="flex items-center justify-between gap-8">
             <button class="bg-[#FF8035] w-1/3 cursor-pointer lg:rounded-full rounded-md  text-xl text-white py-2 lg:py-4 hover:scale-105 duration-300 flex items-center justify-center">

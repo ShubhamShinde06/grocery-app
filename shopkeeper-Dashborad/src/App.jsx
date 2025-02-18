@@ -46,7 +46,7 @@ function App() {
 
   useEffect(() => {
     checkAuth();
-  }, [checkAuth]);
+  }, [user && checkAuth]);
 
   return (
     <>

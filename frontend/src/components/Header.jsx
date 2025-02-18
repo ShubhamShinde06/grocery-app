@@ -35,11 +35,13 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full h-auto lg:h-20 shadow-2xl flex flex-col py-3 lg:py-0 lg:flex-row lg:items-center lg:justify-between px-2 lg:px-10 fixed top-0 bg-white">
+    <header className="w-full h-auto lg:h-20 shadow-2xl flex flex-col py-3 lg:py-0 lg:flex-row lg:items-center lg:justify-between px-2 lg:px-10 fixed top-0 bg-white z-10">
       <div
         className={`w-full lg:w-auto h-12 flex items-center lg:justify-normal justify-between`}
       >
-        <img src={"/logo.png"} alt="logo" className="w-30 " />
+        <Link to={'/home'}>
+          <img src={"/logo.png"} alt="logo" className="w-30 " />
+        </Link>
         <Link to={"/"}>
           <div className=" lg:hidden cursor-pointer text-3xl mr-2">
             <FaUserCircle />
@@ -114,7 +116,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-        <Link to="/" className=" relative hidden lg:block">
+        <Link to="/cart" className=" relative hidden lg:block">
           <div className="w-8 min-w-5 text-3xl">
             <TiShoppingCart />
           </div>

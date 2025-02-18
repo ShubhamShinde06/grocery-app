@@ -19,11 +19,9 @@ const CategoryAdd = ({ open, setOpen }) => {
       image & formData.append("image", image);
 
       await categoryAdd(formData);
-      await categoryGet(id);
-      toast.success("Category Added");
-      setTimeout(() => {
-        setOpen(true);
-      }, 2000);
+      await categoryGet();
+      toast.success("Category Added")
+      setOpen(true);
     } catch (error) {
       console.log(error);
     }

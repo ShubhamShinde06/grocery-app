@@ -13,17 +13,17 @@ const TabelProduct = () => {
 
   useEffect(() => {
     if (user && user._id) {
-      console.log("User ID found:", user._id); // Debugging log
       setID(user._id);
     }
   }, [user]);
   
   useEffect(() => {
     if (id) {
-      console.log("Calling productGet with ID:", id); // Debugging log
       productGet(id);
     }
   }, [id]);
+
+  console.log(productData)
   
 
   // Ensures data refreshes after deletion
@@ -96,15 +96,15 @@ const TabelProduct = () => {
                     {category.unit}
                   </td>
                   <td className="py-4 px-6 font-semibold text-gray-900">
-                    {category.stock}
+                    {category.stock ? "In Stock" : "Out Of Stock"}
                   </td>
                   <td className="py-4 px-6 flex space-x-3">
-                    <button
+                    {/* <button
                       onClick={() => navigateTo(`/product-update/${category._id}`)}
                       className="bg-green-500 text-white px-5 py-2 rounded-full shadow-md hover:bg-green-600 transition"
                     >
                       Update
-                    </button>
+                    </button> */}
                     <button
                       onClick={() => removeCategory(category._id)}
                       className="bg-red-500 text-white px-5 py-2 rounded-full shadow-md hover:bg-red-600 transition"

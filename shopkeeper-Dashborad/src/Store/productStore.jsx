@@ -24,7 +24,6 @@ export const useProductStore = create((set) => ({
   },
 
   productGet: async (id) => {
-    console.log("Fetching products for ID:", id); // Debugging log
     if (!id) {
         set({ error: "Shopkeeper ID is missing", isLoading: false });
         return;
