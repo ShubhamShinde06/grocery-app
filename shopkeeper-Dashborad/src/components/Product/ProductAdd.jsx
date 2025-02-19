@@ -323,8 +323,8 @@ const ProductAdd = ({ setOpen }) => {
                 className="w-full px-3 py-2"
               >
                 <option value="Kg">Kg</option>
-                <option value="ml">ml</option>
-                <option value="Iter">Iter</option>
+                <option value="PCS">Pcs</option>
+                <option value="Liter">Liter</option>
               </select>
             </div>
           </div>

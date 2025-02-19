@@ -4,6 +4,9 @@ import Home from "./pages/Home";
 import Search from "./pages/search";
 import Iteam from "./pages/Iteam";
 import Cart from "./pages/Cart";
+import {ToastContainer} from 'react-toastify'
+
+export const server = "http://localhost:8000"
 
 function App() {
   return (
@@ -17,6 +20,7 @@ function App() {
         </Route>
         <Route path="/cart" element={<Cart />} />
       </Routes>
+      <ToastContainer/>
     </>
   );
 }
