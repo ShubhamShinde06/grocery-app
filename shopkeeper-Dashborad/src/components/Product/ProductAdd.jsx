@@ -22,7 +22,8 @@ const ProductAdd = ({ setOpen }) => {
   }, [user]);
 
   useEffect(() => {
-    categoryGet(), subcategoryGet();
+    categoryGet(), 
+    subcategoryGet();
   }, []);
 
   const [image1, setImage1] = useState(false);
@@ -117,7 +118,7 @@ const ProductAdd = ({ setOpen }) => {
         <div className=" flex justify-start ">
           <button
             onClick={() => setOpen(true)}
-            class="hover:bg-[#F5F7F9]  cursor-pointer rounded-md  text-xl hover:text-black underline  text-black hover:scale-105 duration-300"
+            className="hover:bg-[#F5F7F9]  cursor-pointer rounded-md  text-xl hover:text-black underline  text-black hover:scale-105 duration-300"
           >
             Back
           </button>
@@ -236,7 +237,7 @@ const ProductAdd = ({ setOpen }) => {
           <div className="w-full flex flex-col gap-3">
             <label htmlFor="">Name</label>
             <input
-              class="px-2 py-3 rounded-md  bg-[#F5F7F9]"
+              className="px-2 py-3 rounded-md  bg-[#F5F7F9]"
               type="text"
               name="name"
               placeholder="Name"
@@ -332,7 +333,7 @@ const ProductAdd = ({ setOpen }) => {
           <div className="w-full flex flex-col gap-3">
             <label htmlFor="">Price</label>
             <input
-              class="px-2 py-3 rounded-md  bg-[#F5F7F9]"
+              className="px-2 py-3 rounded-md  bg-[#F5F7F9]"
               type="number"
               name="price"
               placeholder="Price"
@@ -344,7 +345,7 @@ const ProductAdd = ({ setOpen }) => {
           <div className="w-full flex flex-col gap-3">
             <label htmlFor="">Discount</label>
             <input
-              class="px-2 py-3 rounded-md  bg-[#F5F7F9]"
+              className="px-2 py-3 rounded-md  bg-[#F5F7F9]"
               type="number"
               name="discount"
               placeholder="Discount"
@@ -369,7 +370,7 @@ const ProductAdd = ({ setOpen }) => {
 
           {error && <p className=" text-red-500 font-semibold mt-2">{error}</p>}
           <div className="flex items-center justify-between gap-8">
-            <button class="bg-[#FF8035] w-1/3 cursor-pointer lg:rounded-full rounded-md  text-xl text-white py-2 lg:py-4 hover:scale-105 duration-300 flex items-center justify-center">
+            <button className="bg-[#FF8035] w-1/3 cursor-pointer lg:rounded-full rounded-md  text-xl text-white py-2 lg:py-4 hover:scale-105 duration-300 flex items-center justify-center">
               {isLoading ? <Loading /> : "Add"}
             </button>
           </div>

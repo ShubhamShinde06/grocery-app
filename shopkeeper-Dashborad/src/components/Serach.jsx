@@ -14,7 +14,7 @@ const Serach = ({open, setOpen}) => {
         />
       </div>
 
-      <button onClick={()=>setOpen(false)} class="bg-[#FF8035] w-1/6 cursor-pointer rounded-md lg:rounded-xl flex justify-center  text-xl text-white py-2 hover:scale-105 duration-300">
+      <button onClick={()=>setOpen(false)} className="bg-[#FF8035] w-1/6 cursor-pointer rounded-md lg:rounded-xl flex justify-center  text-xl text-white py-2 hover:scale-105 duration-300">
         <h1 className=" block lg:hidden">
           <IoAddOutline />
         </h1>

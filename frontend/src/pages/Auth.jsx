@@ -1,124 +1,86 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { userAuthStore } from "../store/authStore";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Register from "./Register";
 
 const Auth = () => {
   const navigate = useNavigate();
+  const { isLoading, error, login, message } = userAuthStore();
+  
+  const [isLogin, setIsLogin] = useState(true);
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
-  const [currentState, setCurrentState] = useState("Login");
-  const { signup, message, isLoading, error, login } = userAuthStore();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // Handle input change
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    if (error) toast.dismiss(); // Clear error messages
+  };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (currentState === "Login") {
-      try {
-        await login(email, password);
-        //navigate("/home");
-        toast.success(error);
-      } catch (error) {
-        console.log(error);
-        toast.error(error.message);
-      }
-    } else {
-      try {
-        await signup(name, email, password);
-        toast.success(error);
-        //navigate("/verify-email");
-      } catch (error) {
-        console.log(error);
-        toast.error(error.message);
-      }
+    try {
+      await login(formData.email, formData.password)
+      toast.success(message)     
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Login failed");
     }
   };
 
   return (
-    <>
-      <div className="w-full h-full flex flex-col lg:gap-0 gap-20 py-10">
-        {/* header */}
-        <div>
-          <Header />
-        </div>
-        {/* login & sign_up */}
+    <div className="w-full h-full flex flex-col gap-10 py-10">
+      <Header />
+      {isLogin ? (
         <form
           onSubmit={handleSubmit}
-          className=" lg:h-[43vh] h-[20vh] flex flex-col items-center lg:justify-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800"
+          className="flex flex-col items-center justify-center w-[90%] sm:max-w-96 mx-auto mt-14 gap-4 text-gray-800"
         >
-          <div className="inline-flex items-center gap-2 mb-2 mt-10">
-            <p className=" prata-regular text-3xl">{currentState}</p>
-            <hr className=" border-none h-[1.5px] w-8 bg-gray-800" />
+          <div className="inline-flex items-center gap-2 mb-2">
+            <p className="prata-regular text-3xl">Login</p>
+            <hr className="border-none h-[1.5px] w-8 bg-gray-800" />
           </div>
-          {currentState === "Login" ? (
-            ""
-          ) : (
-            <input
-              type="text"
-              className="w-full px-3 py-2 border border-gray-800"
-              placeholder="Name"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          )}
-
           <input
             type="email"
+            name="email"
             className="w-full px-3 py-2 border border-gray-800"
             placeholder="Email"
             required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formData.email}
+            onChange={handleInputChange}
           />
           <input
             type="password"
+            name="password"
             className="w-full px-3 py-2 border border-gray-800"
             placeholder="Password"
             required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}
+            onChange={handleInputChange}
           />
-          <div className="w-full flex justify-between text-sm mt-[-8px]">
-            <p className=" cursor-pointer">
-              {currentState === "Login" ? "Forgot your password? " : ""}
+          <div className="w-full flex justify-between text-sm">
+            <p className="cursor-pointer">Forgot your password?</p>
+            <p onClick={() => setIsLogin(false)} className="cursor-pointer">
+              Create account
             </p>
-            {currentState === "Login" ? (
-              <p
-                onClick={() => setCurrentState("Sign Up")}
-                className=" cursor-pointer"
-              >
-                Create account
-              </p>
-            ) : (
-              <p
-                onClick={() => setCurrentState("Login")}
-                className=" cursor-pointer"
-              >
-                Login here
-              </p>
-            )}
           </div>
-          {error && <p className=" text-red-500 font-semibold mt-2 border">{error}</p>}
-          {currentState === "Login" ? (
-            <button className="bg-[#f87e2ddd] text-[#FFFFFF] font-semibold px-8 py-2 mt-4 cursor-pointer">
-              {isLoading ? "Loading..." : "Login"}
-            </button>
-          ) : (
-            <button className="bg-[#f87e2ddd] text-[#FFFFFF] font-semibold px-8 py-2 mt-4 cursor-pointer">
-              {isLoading ? "Loading..." : "Sign up"}
-            </button>
-          )}
+          {error && <p className="text-red-500 font-semibold mt-2">{error}</p>}
+          <button
+            type="submit"
+            className="bg-[#f87e2ddd] text-white font-semibold px-8 py-2 mt-4 cursor-pointer"
+            disabled={isLoading}
+          >
+            {isLoading ? "Loading..." : "Login"}
+          </button>
         </form>
-        <div>
-          <Footer />
-        </div>
-      </div>
-    </>
+      ) : (
+        <Register setCurrentState={setIsLogin} />
+      )}
+      <Footer />
+    </div>
   );
 };
 

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../components/Header";
 import Category from "../components/Category";
 import Cards from "../components/Cards";
 import Footer from "../components/Footer";
+import { CatAndSubStore } from "../store/CatAndSubStore";
 
 const Home = () => {
+
   const items = [
     { id: 1, name: "Item 1" },
     { id: 2, name: "Item 2" },

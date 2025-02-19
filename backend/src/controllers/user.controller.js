@@ -12,7 +12,7 @@ export const register = async (req, res) => {
     if (exists) {
       return res.json({
         success: false,
-        message: "User already exists",
+        error: "User already exists",
       });
     }
 
@@ -20,14 +20,14 @@ export const register = async (req, res) => {
     if (!validator.isEmail(email)) {
       return res.json({
         success: false,
-        message: "Please enter a valid email",
+        error: "Please enter a valid email",
       });
     }
 
     if (password.length < 8) {
       return res.json({
         success: false,
-        message: "Please enter a strong password",
+        error: "Please enter a strong password",
       });
     }
 
@@ -73,7 +73,7 @@ export const login = async (req, res) => {
     if (!user) {
       return res.json({
         success: false,
-        message: "User doesn't exists",
+        error: "User doesn't exists",
       });
     }
 
@@ -83,7 +83,7 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.json({
         success: false,
-        message: "Password is wrong",
+        error: "Password is wrong",
       });
     }
 

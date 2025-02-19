@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+
+
 .react-multiple-carousel__arrow {
   opacity: 0 !important;
 }
