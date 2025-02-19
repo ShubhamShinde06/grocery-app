@@ -33,7 +33,7 @@ const ProductAdd = ({ setOpen }) => {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [unit, setUnit] = useState("");
+  const [unit, setUnit] = useState("kg");
   const [stock, setStock] = useState(true);
   const [price, setPrice] = useState("");
   const [discount, steDiscount] = useState("");

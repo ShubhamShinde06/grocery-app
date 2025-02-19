@@ -25,10 +25,12 @@ const Cards = (props) => {
         arrows={true}
         itemClass="!w-[180px] !flex-none !mr-8"
       >
-        {props.Data.map((item) => (
+        {props.Data.map((item, index) => (
           <Card 
-            item={item} 
-            id={item.id}
+            index={index + 1}
+            id={item._id}
+            name={item.name}
+            price={item.price}
           />
         ))}
       </Carousel>

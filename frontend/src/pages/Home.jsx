@@ -4,21 +4,12 @@ import Category from "../components/Category";
 import Cards from "../components/Cards";
 import Footer from "../components/Footer";
 import { CatAndSubStore } from "../store/CatAndSubStore";
+import { useContext } from "react";
+import { ShopContext } from "../Context/ShopContext";
 
 const Home = () => {
 
-  const items = [
-    { id: 1, name: "Item 1" },
-    { id: 2, name: "Item 2" },
-    { id: 3, name: "Item 3" },
-    { id: 4, name: "Item 4" },
-    { id: 5, name: "Item 1" },
-    { id: 6, name: "Item 2" },
-    { id: 7, name: "Item 3" },
-    { id: 7, name: "Item 3" },
-    { id: 7, name: "Item 3" },
-    { id: 7, name: "Item 3" },
-  ];
+  const {products} = useContext(ShopContext)
 
   return (
     <div className="w-full h-full flex flex-col lg:gap-0 gap-20 py-10">
@@ -46,33 +37,9 @@ const Home = () => {
         </div>
         {/* cards */}
         <div className="lg:px-6 scroll-hover">
-          <Cards Data={items} title={"Atta, Rice & Dal"} />
+          <Cards Data={products} title={"Atta, Rice & Dal"} />
         </div>
-         {/* cards */}
-         <div className="lg:px-6 scroll-hover">
-          <Cards Data={items} title={"Home & office"} />
-        </div>
-         {/* cards */}
-         <div className="lg:px-6 scroll-hover">
-          <Cards Data={items} title={"Baby Care"} />
-        </div>
-         {/* cards */}
-         <div className="lg:px-6 scroll-hover">
-          <Cards Data={items} title={"Bakery & Bisuits"} />
-        </div>
-         {/* cards */}
-         <div className="lg:px-6 scroll-hover">
-          <Cards Data={items} title={"Breakfast & instant food"} />
-        </div>
-         {/* cards */}
-         <div className="lg:px-6 scroll-hover">
-          <Cards Data={items} title={"Pet Care"} />
-        </div>
-         {/* cards */}
-         <div className="lg:px-6 scroll-hover">
-          <Cards Data={items} title={"Sweet Tooth"} />
-        </div>
-
+        
         {/* footer */}
         <div>
           <Footer />

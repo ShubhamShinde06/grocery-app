@@ -12,6 +12,7 @@ export const productAdd = async (req, res) => {
       unit,
       stock,
       price,
+      discount,
       description,
       shopkeeper,
       more_details,
@@ -25,12 +26,13 @@ export const productAdd = async (req, res) => {
     }
 
     if (
-      !name ||
-      !stock ||
-      !category[0] ||
-      !subCategory[0] ||
-      !unit ||
-      !price ||
+      !name ,
+      !stock ,
+      !category[0] ,
+      !subCategory[0] ,
+      !unit ,
+      !price ,
+      !discount,
       !description,
       !quantity
     ) {
@@ -67,6 +69,7 @@ export const productAdd = async (req, res) => {
       unit,
       stock: stock === "true" ? "true" : "false",
       price,
+      discount,
       description,
       more_details,
       publish,

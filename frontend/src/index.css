@@ -9,3 +9,11 @@
 .scroll-hover:hover .react-multiple-carousel__arrow {
   opacity: 1 !important;
 }
+
+.doted-text{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow-y: hidden;
+
+}

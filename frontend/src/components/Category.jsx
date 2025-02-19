@@ -9,7 +9,6 @@ const Category = () => {
     CategoryGet();
   }, []);
 
-  console.log(Data);
 
   return (
     <div className=" w-full flex flex-wrap gap-5 justify-center ">
