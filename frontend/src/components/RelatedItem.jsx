@@ -1,17 +1,27 @@
 import React from "react";
 import Card from "./Card";
 import Cards from "./Cards";
+import { useContext } from "react";
+import { ShopContext } from "../Context/ShopContext";
+import { useEffect } from "react";
+import { useState } from "react";
 
-const RelatedItem = () => {
-  const items = [
-    { id: 1, name: "Item 1" },
-    { id: 2, name: "Item 2" },
-    { id: 3, name: "Item 3" },
-    { id: 4, name: "Item 4" },
-    { id: 4, name: "Item 4" },
-    { id: 4, name: "Item 4" },
-    { id: 4, name: "Item 4" },
-  ];
+const RelatedItem = ({ category, subCategory }) => {
+
+  const { products } = useContext(ShopContext);
+  const [related, setRelated] = useState([]);
+
+  useEffect(() => {
+    if (!category || products.length === 0) return; // Ensure category exists before filtering
+  
+    const filteredProducts = products.filter((item) => 
+      item.category?.some((c) => c?.name?.includes(category)) &&
+      item.subCategory?.some((sc) => sc?.name?.includes(subCategory))
+    );
+  
+    setRelated(filteredProducts);
+  }, [products, category, subCategory]); // Added category & subCategory to dependencies
+  
 
   return (
     <div className="flex flex-col item-center gap-[10px] h-auto lg:px-10 px-5 py-10 w-[100%] ">
@@ -22,7 +32,7 @@ const RelatedItem = () => {
         <hr className="w-[200px] h-[6px] rounded-[10px] bg-[#252525]" />
       </div>
       <div className="lg:mt-[50px] mt-[30px] lg:px-6 scroll-hover">
-        <Cards Data={items} />
+        <Cards Data={related} />
       </div>
     </div>
   );

@@ -12,8 +12,6 @@ const Cards = (props) => {
     mobile: { breakpoint: { max: 464, min: 0 }, items: 1.5 },
   };
 
-  
-
   return (
     <div className="w-full">
       <div className="w-full flex justify-between">
@@ -26,11 +24,15 @@ const Cards = (props) => {
         itemClass="!w-[180px] !flex-none !mr-8"
       >
         {props.Data.map((item, index) => (
-          <Card 
+          <Card
+            key={item._id} // Add key for optimization
             index={index + 1}
             id={item._id}
             name={item.name}
-            price={item.price}
+            price={item.discount}
+            unit={item.unit}
+            image={item.image}
+            quantity={item.quantity} // Remove unnecessary array wrapping
           />
         ))}
       </Carousel>

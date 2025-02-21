@@ -43,7 +43,7 @@ const CategoryUpdate = () => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append("shopkeeper", ids);
+      //formData.append("shopkeeper", user._id);
       formData.append("name", name); // This appends the name field
       if (image) formData.append("image", image); // Appends image only if available
 

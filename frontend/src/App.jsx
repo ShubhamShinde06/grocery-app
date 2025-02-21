@@ -7,6 +7,7 @@ import Cart from "./pages/Cart";
 import { ToastContainer } from "react-toastify";
 import { userAuthStore } from "./store/authStore";
 import { useEffect } from "react";
+import ShopOwnerProducts from "./pages/ShopOwnerProducts";
 
 export const server = "http://localhost:8000";
 
@@ -58,7 +59,10 @@ function App() {
 
         <Route path="/search" element={<Search />} />
         <Route path="/product" element={<Iteam />}>
-          <Route path=":productId" element={<Iteam />} />
+          <Route path=":id" element={<Iteam />} />
+        </Route>
+        <Route path="/shop" element={<ShopOwnerProducts />}>
+          <Route path=":shopkeeperId" element={<ShopOwnerProducts />} />
         </Route>
 
         <Route

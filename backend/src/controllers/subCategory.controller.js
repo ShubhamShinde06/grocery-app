@@ -222,3 +222,36 @@ export const ownShopkeeperSubCategory = async (req, res) => {
     });
   }
 };
+
+export const CategoryBySubCategoryGet = async (req, res) => {
+  try {
+    const { id } = req.params; // Extract category ID
+
+    // Validate if _id is provided and is a valid MongoDB ObjectId
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid or missing category ID",
+      });
+    }
+
+    const product = await SubCategoryModel.find({
+      category: { $in: id },
+    });
+
+    return res.json({
+      message: "sub-category product list",
+      data: product,
+      error: false,
+      success: true,
+    });
+    
+
+  } catch (error) {
+    console.error("Error fetching CategoryBySubCategoryGet:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+}

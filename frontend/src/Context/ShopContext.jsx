@@ -26,7 +26,6 @@ const ShopContextProvider = (props) => {
     getProductsData();
   }, []);
 
-  console.log(products)
 
   const value = {
     products,

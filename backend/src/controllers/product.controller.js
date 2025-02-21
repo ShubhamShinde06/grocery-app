@@ -302,7 +302,7 @@ export const ProductByCategoryGet = async (req, res) => {
 
     const product = await ProductModel.find({
       category: { $in: id },
-    }).limit(15);
+    });
 
     return res.json({
       message: "category product list",
@@ -324,7 +324,7 @@ export const ProductByCategoryAndSubCategoryGet = async (req, res) => {
     const { categoryId, subCategoryId } = req.body;
 
     if (!categoryId || !subCategoryId) {
-      return response.status(400).json({
+      return res.status(400).json({
         message: "Provide categoryId and subCategoryId",
         error: true,
         success: false,
@@ -356,3 +356,44 @@ export const ProductByCategoryAndSubCategoryGet = async (req, res) => {
     });
   }
 };
+
+export const ShopkeeperByPrductsGet = async (req, res) => {
+  try {
+    
+    const {shopkeeperId} = req.params
+
+    if(!shopkeeperId){
+      return res.status(400).json({
+        message: "Provide ShopkeeperId",
+        error: true,
+        success: false,
+      })
+    }
+
+    const query = {
+      shopkeeper: {$in: shopkeeperId}
+    }
+
+    const [data, dataCount] = await Promise.all([
+      ProductModel.find(query).sort({createdAt: -1}) .populate("category subCategory shopkeeper"),
+      ProductModel.countDocuments(query)
+    ])
+
+    return res.json({
+      message: "Product list",
+      data: data,
+      totalCount: dataCount,
+      success: true,
+      error: false,
+    });
+
+
+
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}

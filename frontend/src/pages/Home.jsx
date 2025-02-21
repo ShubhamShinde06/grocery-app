@@ -3,13 +3,32 @@ import Header from "../components/Header";
 import Category from "../components/Category";
 import Cards from "../components/Cards";
 import Footer from "../components/Footer";
-import { CatAndSubStore } from "../store/CatAndSubStore";
 import { useContext } from "react";
 import { ShopContext } from "../Context/ShopContext";
+import { useState } from "react";
 
 const Home = () => {
 
   const {products} = useContext(ShopContext)
+
+  const [Baby, setBaby] = useState([])
+  const [Atta, setAtta] = useState([])
+
+  const BabyItems = products.filter((item) => 
+    item.category.some((c) => c.name && c.name.includes("Baby Care"))
+  );
+  const AttaiIems = products.filter((item) => 
+    item.category.some((c) => c.name && c.name.includes("Atta, Rice & Dal"))
+  );
+
+  useEffect(()=>{
+    setBaby(BabyItems.slice(0,10))
+    setAtta(AttaiIems.slice(0,10))
+  },[products])
+ 
+
+
+  
 
   return (
     <div className="w-full h-full flex flex-col lg:gap-0 gap-20 py-10">
@@ -35,9 +54,14 @@ const Home = () => {
         <div>
           <Category />
         </div>
-        {/* cards */}
+        {/* cards 1 */}
         <div className="lg:px-6 scroll-hover">
-          <Cards Data={products} title={"Atta, Rice & Dal"} />
+          <Cards Data={Atta} title={"Atta, Rice & Dal"} />
+        </div>
+
+        {/* cards 2 */}
+        <div className="lg:px-6 scroll-hover">
+          <Cards Data={Baby} title={"Baby Care"} />
         </div>
         
         {/* footer */}

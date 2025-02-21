@@ -1,30 +1,56 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { userAuthStore } from "../store/authStore";
+import {useNavigate} from 'react-router-dom'
+import { useState } from "react";
 
 const Card = (props) => {
+  const { user } = userAuthStore();
+  const navigate = useNavigate()
+  const [size, setSize] = useState("");
+
   return (
     <>
-      <Link to={`/product/${props.id}`}>
+      <div>
         <div
           key={props.index}
-          onClick={window.scrollTo(0,0)}
-          className="w-[200px] h-70 mt-5 mr-3 shadow-xl border-[1.5px] border-[#E8E8E8] rounded-xl px-4 flex flex-col gap-3"
+          className="w-[200px] h-70 mt-5 mr-3 shadow-xl border-[1.5px] border-[#E8E8E8] rounded-xl px-4 flex flex-col justify-around gap-2"
         >
           {/* product_img */}
-          <div className="w-full h-1/2 flex items-center justify-center" ></div>
+          <Link to={`/product/${props.id}`}  onClick={()=>window.scrollTo(0, 0)} className="w-full h-1/2 flex items-center justify-center">
+            <img
+              src={props.image?.[0]}
+              alt={props.name}
+              className="w-full h-full object-cover"
+            />
+          </Link>
           {/* product_title */}
           <main className="doted-text">{props.name}</main>
           {/* product_Q */}
-          <h1 className=" text-[#959595] font-normal">500ml</h1>
+          <h1 className=" text-[#959595] font-normal">
+            {props.quantity?.map((item, index) => (
+              <button key={index} onClick={() => setSize(item)} className={`mr-1 py-0 px-2 bg-gray-50 ${
+                        item === size ? " border-orange-500 border" : ""
+                      }`}>
+                {item} {props.unit}
+              </button>
+            ))}
+          </h1>
           {/* price & Add_to_cart */}
           <div className="w-full flex items-center justify-between py-2">
             <h1>₹ {props.price}</h1>
-            <button className=" px-4 py-1 rounded-md cursor-pointer text-sm border text-[#FFFFFF] font-semibold bg-[#f87e2ddd] hover:shadow">
-              ADD
-            </button>
+            {!user ? (
+              <button onClick={()=>navigate('/auth')} className=" px-4 py-1 rounded-md cursor-pointer text-sm border text-[#FFFFFF] font-semibold bg-[#f87e2ddd] hover:shadow">
+                {"ADD"}
+              </button>
+            ) : (
+              <button className=" px-4 py-1 rounded-md cursor-pointer text-sm border text-[#FFFFFF] font-semibold bg-[#f87e2ddd] hover:shadow">
+                {"ADD"}
+              </button>
+            )}
           </div>
         </div>
-      </Link>
+      </div>
     </>
   );
 };

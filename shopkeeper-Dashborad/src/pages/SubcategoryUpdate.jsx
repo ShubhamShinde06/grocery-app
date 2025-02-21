@@ -64,7 +64,7 @@ const SubcategoryUpdate = () => {
 
       formData.append("category", category);
       formData.append("name", name);
-      formData.append("shopkeeper", ids);
+      //formData.append("shopkeeper", ids);
       if (image instanceof File) {
         formData.append("image", image);
       }
