@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-
+.show-scroll::-webkit-scrollbar {
+  display: none;
+}
 
 .react-multiple-carousel__arrow {
   opacity: 0 !important;

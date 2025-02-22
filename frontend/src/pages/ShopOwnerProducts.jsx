@@ -15,8 +15,7 @@ const ShopOwnerProducts = () => {
   const { user } = userAuthStore();
   const navigate = useNavigate();
   const [size, setSize] = useState("");
-  const [btn, setBtn] = useState("Atta, Rice & Dal"
-);
+  const [btn, setBtn] = useState("Atta, Rice & Dal");
 
   const { ShopProductsGet, Data: products } = useProductStore();
   const [Atta, setAtta] = useState([]);
@@ -41,16 +40,18 @@ const ShopOwnerProducts = () => {
   console.log(Atta);
 
   return (
-    <div className="w-full h-full flex flex-col lg:gap-0 gap-20 py-10">
+    <div className="w-full h-full flex flex-col lg:gap-0 gap-10 py-10">
       {/* header */}
       <div>
         <Header />
       </div>
-      <div className=" w-full flex lg:flex-row flex-col justify-between">
+      <div className=" w-full flex lg:flex-row flex-col justify-between lg:px-10 lg:mt-20 mt-20 px-5 lg:mb-5 gap-5">
         <Breadcrums title={"category"} name={btn} />
-        <h1 className="lg:mt-[70px] mb-5 mt-10 flex gap-2 px-5 uppercase text-[16px] font-[600] text-[#818181]">Shop Name :- <p className="text-black">{shopname}</p></h1>
+        <h1 className="flex gap-2  uppercase text-[16px] font-[600] text-[#818181]">
+          Shop Name :- <p className="text-black">{shopname}</p>
+        </h1>
       </div>
-      
+
       <main className="w-full px-5 flex flex-col gap-5">
         {/* OwnerHeader */}
         <div>
@@ -58,7 +59,7 @@ const ShopOwnerProducts = () => {
         </div>
         {/* cards 1 */}
         <h1 className="text-[#171717] lg:text-[40px] text-[35px] font-[600] text-center">
-         Products
+          Products
         </h1>
         <div className="lg:px-6 grid xl:grid-cols-7 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4">
           {Atta.length > 0 ? (

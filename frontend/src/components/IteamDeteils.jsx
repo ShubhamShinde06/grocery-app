@@ -30,7 +30,6 @@ const IteamDeteils = () => {
     fetchProductData();
   }, [id, products]);
 
-
   return (
     <>
       <div className="w-full  flex flex-col lg:gap-0 gap-20 py-10">
@@ -38,8 +37,11 @@ const IteamDeteils = () => {
           <Header />
         </div>
         <div>
-          <Breadcrums title={'Product'} name={productData.name} />
-          <div className="w-full lg:px-12 px-5 lg:mt-0 flex gap-10 lg:flex-row flex-col">
+          <div className=" lg:mt-20 mt-10 lg:px-10 px-3">
+            <Breadcrums title={"Product"} name={productData.name} />
+          </div>
+
+          <div className="w-full lg:px-12 px-5 lg:mt-10 mt-5 flex gap-10 lg:flex-row flex-col">
             <div className="flex gap-[10px] lg:flex-row flex-col-reverse">
               <div className="flex lg:flex-col flex-row gap-[10px] overflow-x-scroll lg:overflow-x-hidden">
                 {productData.image?.map((item, index) => (
@@ -65,7 +67,13 @@ const IteamDeteils = () => {
                 {productData.name}
               </h1>
               <h1 className="text-[#3d3d3d3] lg:text-[20px] text-[20px] font-[700] flex gap-2">
-                Shop name :-<Link to={`/shop/${productData?.shopkeeper?._id}`} className=" cursor-pointer text-[#818181]">{productData?.shopkeeper?.shopName}</Link>
+                Shop name :-
+                <Link
+                  to={`/shop/${productData?.shopkeeper?._id}`}
+                  className=" cursor-pointer text-[#818181]"
+                >
+                  {productData?.shopkeeper?.shopName}
+                </Link>
               </h1>
               <div className="prices flex my-[30px] gap-[30px] text-[24px] font-[700]">
                 <div className="text-[#818181] line-through">

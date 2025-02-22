@@ -1,60 +1,43 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
+import Breadcrums from "../components/Breadcrums";
 import Footer from "../components/Footer";
-import { ShopContext } from "../Context/ShopContext";
-import { Link } from "react-router-dom";
+import { useProductStore } from "../store/productStore";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { userAuthStore } from "../store/authStore";
 
-const Search = () => {
-  const { products } = useContext(ShopContext);
+const Seemore = () => {
+  const { id } = useParams();
+
+  const { CategoryGetByProduct, Data } = useProductStore();
   const { user } = userAuthStore();
-
-  const [inputValue, setInputValue] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
-
+  const navigate = useNavigate();
   const [selectedSizes, setSelectedSizes] = useState({});
-  
-    const handleSizeClick = (productId, size) => {
-      setSelectedSizes((prev) => ({
-        ...prev,
-        [productId]: size,
-      }));
-    };
 
-  const applyFilter = () => {
-    if (!products || !Array.isArray(products)) return;
-
-    let filtered = products.filter(
-      (item) =>
-        (item.name &&
-          typeof item.name === "string" &&
-          item.name.toLowerCase().includes(inputValue.toLowerCase())) ||
-        ""
-      // (item.category &&
-      //   Array.isArray(item.category) &&
-      //   item.category.some(
-      //     (cat) =>
-      //       typeof cat.name === "string" &&
-      //       cat.name.toLowerCase().includes(inputValue.toLowerCase())
-      //   ))
-    );
-
-    setFilteredData(filtered);
+  const handleSizeClick = (productId, size) => {
+    setSelectedSizes((prev) => ({
+      ...prev,
+      [productId]: size,
+    }));
   };
 
   useEffect(() => {
-    applyFilter();
-  }, [inputValue, products]);
+    CategoryGetByProduct(id);
+  }, [id]);
+
+  console.log(Data);
 
   return (
-    <div className=" w-full h-full">
-      <div>
-        <Header search={inputValue} setSearch={setInputValue} />
+    <div className="w-full h-full">
+      <Header />
+      <div className="lg:mt-30 mt-40 lg:px-10 px-3">
+        <Breadcrums title="category" name="products" />
       </div>
-      <div className="w-full h-[calc(100vh-20vh)]lg:mt-25 mt-40 lg:px-10 pl-2">
-        <div className="grid xl:grid-cols-7 gap-1 lg:grid-cols-4 md:grid-cols-3 grid-cols-2">
-          {filteredData.length > 0 ? (
-            filteredData.map((item) => (
+
+      <div className="w-full h-full lg:h-auto lg:mt-5 my-10 lg:px-10 px-2">
+        <div className="lg:px-6 grid xl:grid-cols-7 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4">
+          {Data?.length > 0 ? (
+            Data?.map((item) => (
               <div
                 key={item._id}
                 className="w-[200px] h-70 mt-5 shadow-xl border-[1.5px] border-[#E8E8E8] rounded-xl px-4 flex flex-col justify-around gap-2"
@@ -92,14 +75,7 @@ const Search = () => {
                 </div>
                 {/* price & Add_to_cart */}
                 <div className="w-full flex items-center justify-between py-2">
-                  <div className="prices flex items-center my-[0px] gap-[10px] text-[16px] font-[700]">
-                    <div className="text-[#818181] line-through text-[14px]">
-                      ₹{item.price}
-                    </div>
-                    <div className="text-[#f87e2ddd]">
-                      ₹{item.discount}
-                    </div>
-                  </div>
+                  <h1>₹ {item.discount}</h1>
                   {!user ? (
                     <button
                       onClick={() => navigate("/auth")}
@@ -116,17 +92,18 @@ const Search = () => {
               </div>
             ))
           ) : (
-            <div className="col-span-full text-center text-gray-600 text-lg font-semibold mt-5 h-[70vh]">
-              This Product is not available!
+            <div className="col-span-full text-center text-gray-600 text-lg font-semibold mt-5">
+              This category is not available!
             </div>
           )}
+
+          <div></div>
         </div>
       </div>
-      <div>
-        <Footer />
-      </div>
+
+      <Footer />
     </div>
   );
 };
 
-export default Search;
+export default Seemore;

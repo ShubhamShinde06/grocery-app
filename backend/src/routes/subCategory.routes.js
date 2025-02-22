@@ -12,6 +12,6 @@ route.get('/get-owner-subcategory/:id', verifyToken, ownShopkeeperSubCategory)
 route.put('/put-subcategory/:id', verifyToken, upload.single('image'),subCategoryPut)
 route.delete('/delete-subcategory/:id', verifyToken, subCategoryDelete)
 
-route.get('/category-by-subcategory-get/:id', CategoryBySubCategoryGet)
+route.get('/category-by-subcategory-get/:categoryId', CategoryBySubCategoryGet)
 
 export default route

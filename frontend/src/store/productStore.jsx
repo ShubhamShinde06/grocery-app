@@ -36,4 +36,32 @@ export const useProductStore = create((set) => ({
     }
   },
 
+  ProductsGetByCateAndSubcat: async (categoryId, subCategoryId) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${server}/api/product/get-pruduct-by-category-and-subcategory`,{categoryId, subCategoryId});
+      set({ Data: response.data.data, isLoading: false });
+    } catch (error) {
+      set({
+        error: error.response?.data?.message || "Error categoryAdd",
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
+
+  CategoryGetByProduct: async (id) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${server}/api/product/get-product-by-category`, {id});
+      set({ Data: response.data.data, isLoading: false });
+    } catch (error) {
+      set({
+        error: error.response?.data?.message || "Error categoryGet",
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
+
 }));

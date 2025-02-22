@@ -32,7 +32,7 @@ const Register = ({ setCurrentState }) => {
         {/* login & sign_up */}
         <form
           onSubmit={handleSubmit}
-          className=" lg:h-[43vh] h-[20vh] flex flex-col items-center lg:justify-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800"
+          className=" lg:h-[55vh] h-[60vh] flex flex-col items-center lg:justify-center w-[90%]  sm:max-w-96 m-auto mt-14 gap-4 text-gray-800"
         >
           <div className="inline-flex items-center gap-2 mb-2 mt-10">
             <p className=" prata-regular text-3xl">{"Sign Up"}</p>
@@ -80,9 +80,9 @@ const Register = ({ setCurrentState }) => {
             {isLoading ? "Loading..." : "Sign up"}
           </button>
         </form>
-        <div>
+        {/* <div>
           <Footer />
-        </div>
+        </div> */}
       </div>
     </>
   );

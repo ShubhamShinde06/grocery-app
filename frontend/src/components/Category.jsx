@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { CatAndSubStore } from "../store/CatAndSubStore";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Category = () => {
   const { CategoryGet, Data, isLoading } = CatAndSubStore();
@@ -27,7 +28,8 @@ const Category = () => {
       ) : (
         <>
           {Data?.map((item, index) => (
-            <div
+            <Link
+              to={`/filtered/${item._id}`}
               key={index + 1}
               className="md:w-32 md:h-40 w-15 h-30 overflow-hidden"
             >
@@ -35,8 +37,9 @@ const Category = () => {
                 src={item.image}
                 alt=""
                 className="w-full h-full object-cover"
+                onClick={() => window.scrollTo(0, 0)}
               />
-            </div>
+            </Link>
           ))}
         </>
       )}

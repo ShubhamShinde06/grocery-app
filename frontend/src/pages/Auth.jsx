@@ -37,7 +37,7 @@ const Auth = () => {
       {isLogin ? (
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col items-center justify-center w-[90%] sm:max-w-96 mx-auto mt-14 gap-4 text-gray-800"
+          className="flex flex-col items-center justify-center w-[90%] lg:h-[55vh] h-[70vh]  sm:max-w-96 mx-auto mt-14 gap-4 text-gray-800"
         >
           <div className="inline-flex items-center gap-2 mb-2">
             <p className="prata-regular text-3xl">Login</p>
@@ -62,7 +62,7 @@ const Auth = () => {
             onChange={handleInputChange}
           />
           <div className="w-full flex justify-between text-sm">
-            <p className="cursor-pointer">Forgot your password?</p>
+            <p className="cursor-pointer"></p>
             <p onClick={() => setIsLogin(false)} className="cursor-pointer">
               Create account
             </p>

@@ -11,14 +11,11 @@ import { CiSearch } from "react-icons/ci";
 import { userAuthStore } from "../store/authStore";
 import { toast } from "react-toastify";
 
-const Header = () => {
-  const [inputValue, setInputValue] = useState("");
+const Header = (props) => {
+  
   const navigate = useNavigate();
   const location = useLocation();
   const [isSearchPage, setIsSearchPage] = useState(false);
-  // const [ isMobile ] = useMobile()
-  const params = useLocation();
-  const searchText = params.search.slice(3);
   const { logout } = userAuthStore();
   const [open, setOpne] = useState(false);
 
@@ -31,11 +28,6 @@ const Header = () => {
     navigate("/search");
   };
 
-  const handleOnChange = (e) => {
-    const value = e.target.value;
-    const url = `/search?q=${value}`;
-    navigate(url);
-  };
 
   const handleLogout = async () => {
     await logout();
@@ -118,9 +110,9 @@ const Header = () => {
                 type="text"
                 placeholder="Search for atta dal and more."
                 autoFocus
-                defaultValue={searchText}
                 className="bg-transparent w-full h-full outline-none"
-                onChange={handleOnChange}
+                value={props.search}
+                onChange={(e) => props.setSearch(e.target.value)}
               />
             </div>
           )}

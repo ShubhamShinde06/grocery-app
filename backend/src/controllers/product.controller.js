@@ -375,7 +375,7 @@ export const ShopkeeperByPrductsGet = async (req, res) => {
     }
 
     const [data, dataCount] = await Promise.all([
-      ProductModel.find(query).sort({createdAt: -1}) .populate("category subCategory shopkeeper"),
+      ProductModel.find(query).sort({createdAt: -1}).populate("category subCategory shopkeeper"),
       ProductModel.countDocuments(query)
     ])
 

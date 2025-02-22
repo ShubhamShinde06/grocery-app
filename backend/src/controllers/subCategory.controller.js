@@ -225,10 +225,10 @@ export const ownShopkeeperSubCategory = async (req, res) => {
 
 export const CategoryBySubCategoryGet = async (req, res) => {
   try {
-    const { id } = req.params; // Extract category ID
+    const { categoryId } = req.params; // Extract category ID
 
     // Validate if _id is provided and is a valid MongoDB ObjectId
-    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+    if (!categoryId || !mongoose.Types.ObjectId.isValid(categoryId)) {
       return res.status(400).json({
         success: false,
         message: "Invalid or missing category ID",
@@ -236,7 +236,7 @@ export const CategoryBySubCategoryGet = async (req, res) => {
     }
 
     const product = await SubCategoryModel.find({
-      category: { $in: id },
+      category: { $in: categoryId },
     });
 
     return res.json({

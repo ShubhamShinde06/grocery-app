@@ -1,11 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
     <div>
-      <div className="flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 mt-40 text-sm px-5">
+      <div className="flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-5  text-sm px-5">
         <div>
-          <img src={"/logo.png"} className="mb-0 w-32" alt="logo" />
+          <Link to={"/home"}>
+            <img src={"/logo.png"} alt="logo" className="w-40 h-[180px] lg:-mt-14" />
+          </Link>
           <p className="w-full md:w-2/3 text-gray-600">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum
             quisquam maiores et odit accusamus a ut possimus consequatur quis

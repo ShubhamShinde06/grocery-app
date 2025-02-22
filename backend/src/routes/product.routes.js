@@ -7,7 +7,7 @@ const route = Router()
 
 route.post('/add-product',verifyToken, upload.fields([{name: 'image1', maxCount:1}, {name: 'image2', maxCount:1}, {name: 'image3', maxCount:1}, {name: 'image4', maxCount:1}]), productAdd)
 route.get('/get-product', productGet)
-route.get('/get-product-by-category', ProductByCategoryGet) //new
+route.post('/get-product-by-category', ProductByCategoryGet) //new
 route.post('/get-pruduct-by-category-and-subcategory',ProductByCategoryAndSubCategoryGet) //new
 route.get('/get-shopkeeper-prducts/:shopkeeperId', ShopkeeperByPrductsGet) // new
 route.get('/get-single-product/:id', productSingleGet)
