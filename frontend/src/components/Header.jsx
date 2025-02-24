@@ -18,7 +18,7 @@ const Header = (props) => {
   const [isSearchPage, setIsSearchPage] = useState(false);
   const { logout } = userAuthStore();
   const [open, setOpne] = useState(false);
-  const {cartCount} = useContext(ShopContext)
+  const { cartCount, getCartAmount } = useContext(ShopContext);
 
   useEffect(() => {
     const isSearch = location.pathname === "/search";
@@ -53,7 +53,12 @@ const Header = (props) => {
             <div className=" group-hover:block hidden absolute dropdown-menu right-0 py-4">
               <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
                 <p className=" cursor-pointer hover:text-black">My Profile</p>
-                <p onClick={()=>navigate('/order')} className=" cursor-pointer hover:text-black">Orders</p>
+                <p
+                  onClick={() => navigate("/order")}
+                  className=" cursor-pointer hover:text-black"
+                >
+                  Orders
+                </p>
                 <p
                   className=" cursor-pointer hover:text-black"
                   onClick={handleLogout}
@@ -134,7 +139,12 @@ const Header = (props) => {
               <div className=" group-hover:block hidden absolute dropdown-menu right-0 py-4">
                 <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
                   <p className=" cursor-pointer hover:text-black">My Profile</p>
-                  <p onClick={()=>navigate('/order')} className=" cursor-pointer hover:text-black">Orders</p>
+                  <p
+                    onClick={() => navigate("/order")}
+                    className=" cursor-pointer hover:text-black"
+                  >
+                    Orders
+                  </p>
                   <p
                     className=" cursor-pointer hover:text-black"
                     onClick={handleLogout}
@@ -149,11 +159,18 @@ const Header = (props) => {
           )}
         </div>
         <Link to="/cart" className=" relative hidden lg:block">
-          <button className="py-3 px-2 cursor-pointer border rounded-md text-white bg-[#0C831F] flex gap-1 items-center font-bold">
-            <span className="text-2xl">
+          <button className="py-2 px-3 cursor-pointer border rounded-md text-white bg-[#F87E2E] flex gap-2 items-center font-bold">
+            <div className="text-3xl">
+              <TiShoppingCart />
+            </div>
+            <div className=" flex flex-col justify-center  h-full">
+              <span className=" text-xs pl-0.5">{cartCount} items</span>
+              <span className=" font-bold text-xs">₹ {getCartAmount() || 0}</span>
+            </div>
+            {/* <span className="text-2xl">
               <TiShoppingCart />
             </span>
-            <span>My Cart :- {cartCount}</span>
+            <span>My Cart :- {cartCount}</span> */}
           </button>
         </Link>
       </div>
