@@ -43,7 +43,7 @@ const IteamDeteils = () => {
 
       <div className="w-full lg:px-12 px-5 lg:mt-10 mt-0 flex gap-10 lg:flex-row flex-col">
         <div className="flex gap-10 lg:flex-row flex-col-reverse">
-          <div className="flex lg:flex-col flex-row gap-2 overflow-x-auto">
+          <div className="flex lg:flex-col flex-row gap-2 lg:overflow-x-hidden overflow-x-auto">
             {productData.image.map((img, index) => (
               <img
                 key={index}
