@@ -35,13 +35,13 @@ const IteamDeteils = () => {
   if (!productData) return <div>Loading...</div>;
 
   return (
-    <div className="w-full flex flex-col lg:gap-0 gap-20 py-10">
+    <div className="w-full flex flex-col lg:gap-0 gap-5 py-10">
       <Header />
-      <div className="lg:mt-20 mt-10 lg:px-10 px-3">
+      <div className="lg:mt-20 mt-30 lg:px-10 px-3">
         <Breadcrums title={"Product"} name={productData.name} />
       </div>
 
-      <div className="w-full lg:px-12 px-5 lg:mt-10 mt-5 flex gap-10 lg:flex-row flex-col">
+      <div className="w-full lg:px-12 px-5 lg:mt-10 mt-0 flex gap-10 lg:flex-row flex-col">
         <div className="flex gap-10 lg:flex-row flex-col-reverse">
           <div className="flex lg:flex-col flex-row gap-2 overflow-x-auto">
             {productData.image.map((img, index) => (
