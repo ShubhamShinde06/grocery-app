@@ -23,6 +23,7 @@ const Cards = (props) => {
         <button onClick={()=>{navigate(`/category/${props.link}`),window.scrollTo(0, 0)}}  className="text-gray-500 cursor-pointer hover:text-orange-500">{props.text}</button>
       </div>
       <Carousel
+        key={props.link + 1}
         responsive={responsive}
         arrows={true}
         itemClass="!w-[180px] !flex-none !mr-8"
@@ -39,6 +40,7 @@ const Cards = (props) => {
               unit={item.unit}
               image={item.image}
               quantity={item.quantity} 
+              shopId={item.shopkeeper._id}
             />
           </>
         ))}

@@ -1,85 +1,165 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { ShopContext } from "../Context/ShopContext";
+import { userAuthStore } from "../store/authStore";
+import { Link, useNavigate } from "react-router-dom";
+import { FaRegTrashCan } from "react-icons/fa6";
 import CartTotal from "../components/CartTotal";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const Cart = () => {
+  const { products, cartItems, updateCartQuantity, removeFromCart } =
+    useContext(ShopContext);
+  const { user } = userAuthStore();
+  const userId = user?._id;
+  const navigate = useNavigate();
+
+  // ✅ Prevent crash if cartItems or userId is undefined
+  if (!cartItems || !userId) {
+    return <p className="text-center text-gray-500 mt-5">Loading cart...</p>;
+  }
+
   return (
     <>
-      <div className="w-full h-full flex flex-col lg:gap-0 gap-20 py-10">
-        {/* header */}
-        <div>
-          <Header />
-        </div>
-        <div className=" border-t pt-14 lg:px-10 px-5 ">
-          <div className=" text-2xl mb-3">
-            {/* Title */}
-            <div className=" inline-flex gap-2 items-center mb-3">
+      <div className="w-full h-full flex flex-col py-10">
+        <Header />
+        <div className="border-t pt-14 lg:px-10 px-5">
+          {/* Cart Heading */}
+          <div className="text-2xl mb-6 flex flex-col sm:flex-row sm:items-center justify-between">
+            <div className="inline-flex gap-2 items-center">
               <p className="text-gray-500">
-                {"YOUR"}{" "}
-                <span className="text-gray-700 font-medium">{"CART"}</span>
+                YOUR <span className="text-gray-700 font-medium">CART</span>
               </p>
-              <p className="w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
+              <span className="w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></span>
             </div>
           </div>
 
-          {/* <div>
-        {
-          cartData.map((item, index) => {
-            const productData = products.find((product) => product._id === item._id)
+          {/* Cart Items */}
+          <div>
+            {cartItems.map((item, index) => {
+              const productData = products.find(
+                (product) => product._id === item.itemId
+              );
 
-            return(
-              <div key={index} className=' py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_o.5fr] sm:grid-cols-[4fr_2fr_0.5fr] item-center gap-4'>
-                <div className='flex items-start gap-6'>
-                  <img 
-                    src={productData.image[0]} 
-                    className='w-16 sm:w-20'
-                    alt="prodcuimg" 
-                  />
-                  <div>
-                    <p className='text-xs sm:text-lg font-medium'>{productData.name}</p>
-                    <div className='flex items-center gap-5 mt-2'>
-                      <p>{currency}{productData.price}</p>
-                      <p className='px-2 sm:px-3 sm:py-1 border bg-slate-50'>{item.size}</p>
+              return (
+                <div
+                  key={index}
+                  className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_1fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
+                >
+                  <div className="flex items-center gap-4 sm:gap-6">
+                    {/* Product Image */}
+                    <img
+                      src={productData.image[0]}
+                      className="w-16 sm:w-20 cursor-pointer rounded-md"
+                      alt="Product"
+                      onClick={() => navigate(`/product/${item.itemId}`)}
+                    />
+
+                    <div>
+                      {/* Product Name */}
+                      <p
+                        className="text-sm sm:text-lg font-medium cursor-pointer hover:text-blue-600"
+                        onClick={() => navigate(`/product/${item.itemId}`)}
+                      >
+                        {productData.name}
+                      </p>
+
+                      {/* Price & Size */}
+                      <div className="flex items-center gap-3 mt-2">
+                        <p className="font-semibold text-gray-900">
+                          ₹ {item.finalPrice}
+                        </p>
+                        <p className="px-3 py-1 border bg-gray-100 text-sm rounded-md">
+                          {item.size}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <input 
-                  type="number"
-                  className='border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1 h-[30px] my-auto' 
-                  defaultValue={item.quantity} 
-                  min={1}
-                  onChange={(e)=> e.target.value === '' || e.target.value === '0' ? null :  updateQuantity(item._id,item.size,Number(e.target.value))}
-                />
-                <img 
-                  src={assets.bin_icon} 
-                  alt="delete"
-                  className='w-4 mr-4 cursor-pointer my-auto'
-                  onClick={()=>updateQuantity(item._id, item.size,0)}
-                />
-              </div>
-            )
-            
-          })
-        }
-      </div> */}
 
-          <div className="flex justify-end  my-20 w-[99%]">
+                  {/* Quantity Controls */}
+                  <div className="flex items-center gap-3">
+                    <button
+                      className="border px-2 py-1 rounded-md bg-gray-100 hover:bg-gray-200"
+                      onClick={() =>
+                        item.quantity > 1 &&
+                        updateCartQuantity(
+                          item.itemId,
+                          item.size,
+                          item.quantity - 1
+                        )
+                      }
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      className="border w-12 text-center py-1 rounded-md"
+                      value={item.quantity}
+                      min={1}
+                      onChange={(e) => {
+                        const value = Number(e.target.value);
+                        if (value > 0) {
+                          updateCartQuantity(
+                            item.itemId,
+                            item.size,
+
+                            value
+                          );
+                        }
+                      }}
+                    />
+                    <button
+                      className="border px-2 py-1 rounded-md bg-gray-100 hover:bg-gray-200"
+                      onClick={() =>
+                        updateCartQuantity(
+                          item.itemId,
+                          item.size,
+
+                          item.quantity + 1
+                        )
+                      }
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  {/* Delete Button */}
+                  <div
+                    className="flex items-center text-xl text-red-500 cursor-pointer hover:text-red-700"
+                    onClick={() =>
+                      removeFromCart(
+                        userId,
+                        item.itemId,
+                        item.size,
+                        item.finalPrice,
+                        item.shopId
+                      )
+                    }
+                  >
+                    <FaRegTrashCan />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Cart Total & Proceed to Order */}
+          <div className="flex justify-end my-10 w-full">
             <div className="w-full sm:w-[450px]">
               <CartTotal />
               <div className="w-full text-end">
-                <Link to="/placeorder">
-                  <button className="bg-[#baf8ca] text-[#71f349] text-sm my-8 px-8 py-3">
-                    PROCEED TO ORDER
-                  </button>
-                </Link>
+                {cartItems.length > 0 && (
+                  <Link to="/place-order">
+                    <button className="bg-[#F77F30] text-white font-bold text-sm my-8 px-8 py-3 rounded-md hover:bg-[#e66c25] transition-all">
+                      PROCEED TO ORDER
+                    </button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
-          <div>
-            <Footer/>
-          </div>
+
+          <Footer />
         </div>
       </div>
     </>

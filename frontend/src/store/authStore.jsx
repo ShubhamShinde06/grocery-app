@@ -2,7 +2,7 @@ import { create } from "zustand";
 import axios from "axios";
 import { server } from "../App"; 
 
-axios.defaults.withCredentials = true;
+//axios.defaults.withCredentials = true;
 
 export const userAuthStore = create((set) => ({
   user: null,
@@ -13,19 +13,19 @@ export const userAuthStore = create((set) => ({
   message: null,
 
   signup: async (email, password, name) => {
-    set({ isLoading: true, error: null, message:null });
+    set({ isLoading: true, error: null });
     try {
-      const { data } = await axios.post(`${server}/api/auth/user/signup`, {
+      const response = await axios.post(`${server}/api/auth/user/signup`, {
         email,
         password,
         name,
       });
       set({
-        user: data.user,
+        user: response.data.user,
         isAuthenticated: true,
         isLoading: false,
-        message: data.message,
-        error: data.error,
+        message: response.data.message,
+        error: response.data.message,
       });
     } catch (error) {
       set({
@@ -47,7 +47,7 @@ export const userAuthStore = create((set) => ({
         isAuthenticated: true,
         isLoading: false,
         message: data.message,
-        error: data.error,
+        error: data.message,
       });
     } catch (error) {
       set({

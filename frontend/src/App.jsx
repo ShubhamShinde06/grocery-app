@@ -10,13 +10,15 @@ import { useEffect } from "react";
 import ShopOwnerProducts from "./pages/ShopOwnerProducts";
 import Filtered from "./pages/Filtered";
 import Seemore from "./pages/Seemore";
+import Orders from "./pages/Orders";
+import PlaceOrder from "./pages/PlaceOrder";
 
 export const server = "http://localhost:8000";
 
 const RedirectAuthenticatedUser = ({ children }) => {
   const { isAuthenticated, user } = userAuthStore();
 
-  if (isAuthenticated) {
+  if (isAuthenticated && user) {
     return <Navigate to="/" replace />;
   }
 
@@ -60,6 +62,9 @@ function App() {
         />
 
         <Route path="/search" element={<Search />} />
+
+        <Route path="/place-order" element={<PlaceOrder />} />
+        <Route path="/order" element={<Orders />} />
 
         <Route path="/product" element={<Iteam />}>
           <Route path=":id" element={<Iteam />} />

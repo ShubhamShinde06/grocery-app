@@ -11,29 +11,33 @@ const Home = () => {
 
   useEffect(() => {
     if (products.length === 0) return;
-
+  
     // Extract unique categories with _id
     const categories = [
       ...new Map(
         products.flatMap((item) =>
-          item.category.map((c) => [c._id, c.name])
+          item.category.map((c) => [c._id, { name: c.name, shopkeeperId: item.shopkeeperId }])
         )
       ).entries(),
-    ].map(([id, name]) => ({ id, name }));
-
+    ].map(([id, { name, shopkeeperId }]) => ({ id, name, shopkeeperId }));
+  
     // Group products by category (limit 10 per category)
     const categoryMap = {};
-    categories.forEach(({ id, name }) => {
+    categories.forEach(({ id, name, shopkeeperId }) => {
       categoryMap[id] = {
         name,
+        shopkeeperId,
         products: products
           .filter((item) => item.category.some((c) => c._id === id))
           .slice(0, 10),
       };
     });
-
+  
     setCategorizedProducts(categoryMap);
   }, [products]);
+
+
+  
 
   return (
     <div className="w-full h-full flex flex-col lg:gap-0 gap-20 py-10">
@@ -61,7 +65,7 @@ const Home = () => {
         {/* Dynamically Render Products for Each Category */}
         {Object.entries(categorizedProducts).map(([id, { name, products }]) => (
           <div key={id} className="lg:px-6 scroll-hover">
-            <Cards Data={products} title={name} text={'see more'} link={id} />
+            <Cards Data={products} title={name} text={'see more'} link={id}/>
           </div>
         ))}
 

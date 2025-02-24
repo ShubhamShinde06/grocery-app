@@ -202,6 +202,7 @@ const ProductAdd = ({ setOpen }) => {
                 name="category"
                 className="w-full py-2 bg-transparent border-b-2 outline-none"
                 value={category}
+                required
                 onChange={(e) => setCategory(e.target.value)}
               >
                 <option className="bg-white" value="">
@@ -220,6 +221,7 @@ const ProductAdd = ({ setOpen }) => {
                 name="category"
                 className="w-full py-2 bg-transparent border-b-2 outline-none"
                 value={subcategory}
+                required
                 onChange={(e) => setSubCategory(e.target.value)}
               >
                 <option className="bg-white" value="">
@@ -243,6 +245,7 @@ const ProductAdd = ({ setOpen }) => {
               placeholder="Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              required
             />
           </div>
 
@@ -254,6 +257,7 @@ const ProductAdd = ({ setOpen }) => {
               placeholder="Description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              required
             ></textarea>
           </div>
 
@@ -321,6 +325,7 @@ const ProductAdd = ({ setOpen }) => {
               <label htmlFor="">Unit</label>
               <select
                 onChange={(e) => setUnit(e.target.value)}
+                required
                 className="w-full px-3 py-2"
               >
                 <option value="Kg">Kg</option>
@@ -339,6 +344,7 @@ const ProductAdd = ({ setOpen }) => {
               placeholder="Price"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
+              required
             />
           </div>
 
@@ -351,6 +357,7 @@ const ProductAdd = ({ setOpen }) => {
               placeholder="Discount"
               value={discount}
               onChange={(e) => steDiscount(e.target.value)}
+              required
             />
           </div>
 
@@ -361,6 +368,7 @@ const ProductAdd = ({ setOpen }) => {
                 id="bestseller"
                 onChange={() => setStock((prev) => !prev)}
                 checked={stock}
+                required
               />
               <label className=" cursor-pointer" htmlFor="bestseller">
                 In Stock

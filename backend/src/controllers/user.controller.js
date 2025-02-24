@@ -12,7 +12,7 @@ export const register = async (req, res) => {
     if (exists) {
       return res.json({
         success: false,
-        error: "User already exists",
+        message: "User already exists",
       });
     }
 
@@ -20,14 +20,14 @@ export const register = async (req, res) => {
     if (!validator.isEmail(email)) {
       return res.json({
         success: false,
-        error: "Please enter a valid email",
+        message: "Please enter a valid email",
       });
     }
 
     if (password.length < 8) {
       return res.json({
         success: false,
-        error: "Please enter a strong password",
+        message: "Please enter a strong password",
       });
     }
 
@@ -73,7 +73,7 @@ export const login = async (req, res) => {
     if (!user) {
       return res.json({
         success: false,
-        error: "User doesn't exists",
+        message: "User doesn't exists",
       });
     }
 
@@ -83,7 +83,7 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.json({
         success: false,
-        error: "Password is wrong",
+        message: "Password is wrong",
       });
     }
 
@@ -139,4 +139,35 @@ export const logout = async (req, res) => {
       success: true,
       message: "Logged out successfully",
     });
-  };
+};
+
+//admin login
+export const adminLogin = async (req, res) => {
+
+  try {
+      
+      const {email, password} = req.body
+
+      if(email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD){
+          const token = jwt.sign(email + password, process.env.JWT_SECRET)
+          res.json({
+              success: true,
+              token
+          })
+      }
+      else {
+          res.json({
+              success: false,
+              message: "Invalid credentials"
+          })
+      }
+
+  } catch (error) {
+      console.log(error)
+      return res.status(500).json({
+          success:false,
+          message:"Error in adminLogin"
+      })
+  }
+
+}

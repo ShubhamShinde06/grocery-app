@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
-import Footer from "../components/Footer";
 import { userAuthStore } from "../store/authStore";
 import { toast } from "react-toastify";
 
@@ -15,7 +14,7 @@ const Register = ({ setCurrentState }) => {
     e.preventDefault();
     try {
       await signup(email, password, name);
-      toast.success(message)
+      //toast.success(message)
     } catch (error) {
       console.log(error);
       toast.error(error || "database down");
@@ -80,9 +79,6 @@ const Register = ({ setCurrentState }) => {
             {isLoading ? "Loading..." : "Sign up"}
           </button>
         </form>
-        {/* <div>
-          <Footer />
-        </div> */}
       </div>
     </>
   );

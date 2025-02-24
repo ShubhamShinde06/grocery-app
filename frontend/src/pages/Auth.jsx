@@ -25,7 +25,7 @@ const Auth = () => {
     e.preventDefault();
     try {
       await login(formData.email, formData.password)
-      toast.success(message)     
+      //toast.success(message)     
     } catch (err) {
       toast.error(err.response?.data?.message || "Login failed");
     }

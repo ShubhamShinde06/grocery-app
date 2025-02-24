@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import Header from "./Header";
+import { ShopContext } from "../Context/ShopContext";
 
 const CartTotal = () => {
+
+ const {getCartAmount} = useContext(ShopContext)
+
   return (
     <>
       <div className="w-full">
@@ -19,19 +23,19 @@ const CartTotal = () => {
         <div className=" flex flex-col gap-2 mt-2 text-sm">
           <div className="flex justify-between">
             <p>Subtotal</p>
-            <p>.00</p>
+            <p>₹ {getCartAmount()}.00</p>
           </div>
 
           <div className="flex justify-between">
             <p>Shipping Fee</p>
-            <p>.00</p>
+            <p>Free</p>
           </div>
 
           <div className="flex justify-between">
             <p>Total</p>
             <p>
               {"₹"}
-              .00
+              {getCartAmount() == 0 ? 0 : getCartAmount()}.00
             </p>
           </div>
         </div>

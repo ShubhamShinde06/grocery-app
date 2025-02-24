@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
@@ -10,14 +10,15 @@ import { CiMenuFries } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 import { userAuthStore } from "../store/authStore";
 import { toast } from "react-toastify";
+import { ShopContext } from "../Context/ShopContext";
 
 const Header = (props) => {
-  
   const navigate = useNavigate();
   const location = useLocation();
   const [isSearchPage, setIsSearchPage] = useState(false);
   const { logout } = userAuthStore();
   const [open, setOpne] = useState(false);
+  const {cartCount} = useContext(ShopContext)
 
   useEffect(() => {
     const isSearch = location.pathname === "/search";
@@ -27,7 +28,6 @@ const Header = (props) => {
   const redirectToSearchPage = () => {
     navigate("/search");
   };
-
 
   const handleLogout = async () => {
     await logout();
@@ -52,13 +52,14 @@ const Header = (props) => {
           <>
             <div className=" group-hover:block hidden absolute dropdown-menu right-0 py-4">
               <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
+                <p className=" cursor-pointer hover:text-black">My Profile</p>
+                <p onClick={()=>navigate('/order')} className=" cursor-pointer hover:text-black">Orders</p>
                 <p
                   className=" cursor-pointer hover:text-black"
+                  onClick={handleLogout}
                 >
-                  My Profile
+                  Logout{" "}
                 </p>
-                <p className=" cursor-pointer hover:text-black">Orders</p>
-                <p className=" cursor-pointer hover:text-black"   onClick={handleLogout}>Logout </p>
               </div>
             </div>
           </>
@@ -132,14 +133,14 @@ const Header = (props) => {
             <>
               <div className=" group-hover:block hidden absolute dropdown-menu right-0 py-4">
                 <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
+                  <p className=" cursor-pointer hover:text-black">My Profile</p>
+                  <p onClick={()=>navigate('/order')} className=" cursor-pointer hover:text-black">Orders</p>
                   <p
                     className=" cursor-pointer hover:text-black"
-                  
+                    onClick={handleLogout}
                   >
-                    My Profile
+                    Logout{" "}
                   </p>
-                  <p className=" cursor-pointer hover:text-black">Orders</p>
-                  <p className=" cursor-pointer hover:text-black"   onClick={handleLogout}>Logout </p>
                 </div>
               </div>
             </>
@@ -148,12 +149,12 @@ const Header = (props) => {
           )}
         </div>
         <Link to="/cart" className=" relative hidden lg:block">
-          <div className="w-8 min-w-5 text-3xl">
-            <TiShoppingCart />
-          </div>
-          <p className="absolute top-0 right-0 w-4 text-center leading-4 bg-[#F87E2D] aspect-square rounded-full text-[8px] text-white">
-            1
-          </p>
+          <button className="py-3 px-2 cursor-pointer border rounded-md text-white bg-[#0C831F] flex gap-1 items-center font-bold">
+            <span className="text-2xl">
+              <TiShoppingCart />
+            </span>
+            <span>My Cart :- {cartCount}</span>
+          </button>
         </Link>
       </div>
     </header>
