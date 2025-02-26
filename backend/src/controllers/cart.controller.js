@@ -98,7 +98,7 @@ export const updateToCart = async (req, res) => {
       cartItem, // Return updated item for frontend state updates
     });
 
-    console.log("Received request for:", { userId, itemId, size, quantity });
+    //console.log("Received request for:", { userId, itemId, size, quantity });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
