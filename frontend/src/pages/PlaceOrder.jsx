@@ -1,15 +1,33 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CartTotal from "../components/CartTotal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import logo2 from "../assets/razorpay_logo.png";
 import logo1 from "../assets/stripe_logo.png";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { server } from "../App";
+import { ShopContext } from "../Context/ShopContext";
+import { userAuthStore } from "../store/authStore";
 
 const PlaceOrder = () => {
+  const navigate = useNavigate();
+
   const [method, setMethod] = useState("cod");
+  const { getCartAmount, products, cartItems, cartUpdated, setCartUpdated } = useContext(ShopContext);
+  const { user } = userAuthStore();
+  const [size, setSize] = useState("");
+  const [quantity, setQuantity] = useState(null);
+
+  useEffect(() => {
+    if (cartItems) {
+      cartItems.map((item) => {
+        setSize(item.size);
+        setQuantity(item.quantity);
+      });
+    }
+  }, [cartUpdated]);
 
   const [formData, setFromData] = useState({
     firstName: "",
@@ -32,63 +50,79 @@ const PlaceOrder = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    // try {
+    try {
+      let orderItems = [];
 
-    //   let orderItems = []
+      for (const cartItem of cartItems) {
+        if (cartItem.quantity > 0) {
+          const itemInfo = structuredClone(
+            products.find((product) => product._id === cartItem.itemId)
+          );
 
-    //   for(const items in cartItems){
-    //     for(const item in cartItems[items]){
-    //       if(cartItems[items][item] > 0){
-    //         const itemInfo = structuredClone(products.find(product => product._id === items))
-    //         if(itemInfo){
-    //           itemInfo.size = item
-    //           itemInfo.quantity =  cartItems[items][item]
-    //           orderItems.push(itemInfo)
-    //         }
-    //       }
-    //     }
-    //   }
+          if (itemInfo) {
+            orderItems.push(itemInfo);
+          }
+        }
+      }
 
-    //   let orderData = {
-    //     address: formData,
-    //     items: orderItems,
-    //     amount: getCartAmount() + delivery_fee
-    //   }
+      if (orderItems.length === 0) {
+        toast.error("Your cart is empty!");
+        return;
+      }
 
-    //   switch(method){
+      let orderData = {
+        address: formData,
+        items: orderItems,
+        amount: getCartAmount(),
+        shopId: [...new Set(orderItems.map((item) => item.shopId))], // Ensure unique shopIds
+        userId: user?._id, // Attach userId correctly
+        paymentMethod: method === "cod" ? "COD" : "Stripe",
+        size: size,
+        quantity: quantity,
+      };
 
-    //     //COD
-    //     case 'cod':
-    //       const response = await axios.post(server + '/api/order/place', orderData,{headers:{token}})
-    //       if(response.data.success){
-    //         setCartItems({})
-    //         navigate('/orders')
-    //       } else {
-    //         toast.error(response.data.message)
-    //       }
-    //       break;
+      switch (method) {
+        case "cod":
+          const response = await axios.post(
+            server + "/api/order/place",
+            orderData
+          );
+          if (response.data.success) {
+            setCartUpdated((prev) => !prev);
+            navigate("/order");
+            toast.success(response.data.message);
+            console.log(response.data.message)
+          } else {
+            toast.error(response.data.message);
+            console.log(response.data.message);
+          }
+          break;
 
-    //     //Stripe
-    //     case 'stripe':
-    //       const responseStripe = await axios.post(server + '/api/order/stripe', orderData,{headers:{token}})
-    //       if(responseStripe.data.success){
-    //         const {session_url} = responseStripe.data
-    //         window.location.replace(session_url)
-    //       } else {
-    //         toast.error(response.data.message)
-    //       }
+        case "stripe":
+          const responseStripe = await axios.post(
+            server + "/api/order/stripe",
+            orderData
+          );
 
-    //       break;
+          if (responseStripe.data.success) {
+            const { session_url } = responseStripe.data;
+            window.location.replace(session_url);
+          } else {
+            toast.error(responseStripe.data.message);
+          }
+          break;
 
-    //     default:
-    //       break;
-
-    //   }
-
-    // } catch (error) {
-    //     console.log(error)
-    //     toast.error(error.message)
-    // }
+        default:
+          toast.error("Invalid payment method");
+          break;
+      }
+    } catch (error) {
+      console.error("Order Error:", error);
+      toast.error(
+        error.response?.data?.message ||
+          "An error occurred while placing your order."
+      );
+    }
   };
 
   return (
@@ -262,7 +296,9 @@ const PlaceOrder = () => {
             </div>
           </form>
         </div>
-        <Footer />
+        <div className="lg:mt-0 mt-50">
+          <Footer />
+        </div>
       </div>
     </>
   );

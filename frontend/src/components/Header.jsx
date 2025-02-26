@@ -50,7 +50,7 @@ const Header = (props) => {
 
         {open ? (
           <>
-            <div className=" group-hover:block hidden absolute dropdown-menu right-0 py-4">
+            <div className=" group-hover:block lg:hidden  absolute dropdown-menu right-3 top-10 py-4">
               <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
                 <p className=" cursor-pointer hover:text-black">My Profile</p>
                 <p
@@ -125,6 +125,7 @@ const Header = (props) => {
         </div>
       </div>
 
+      {/* big screnn */}
       <div className="flex items-center gap-6 ">
         <div className=" group relative lg:block hidden">
           <div
@@ -136,7 +137,7 @@ const Header = (props) => {
 
           {open ? (
             <>
-              <div className=" group-hover:block hidden absolute dropdown-menu right-0 py-4">
+              <div className=" absolute dropdown-menu right-0 py-4">
                 <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
                   <p className=" cursor-pointer hover:text-black">My Profile</p>
                   <p

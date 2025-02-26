@@ -193,7 +193,7 @@ const ShopContextProvider = ({ children }) => {
     if (userId) {
       getUserCart();
     }
-  }, [userId, cartUpdated]); // ✅ Now correctly updates on cart change
+  }, [userId, cartUpdated]); 
 
   // Fetch Products on Component Mount
   useEffect(() => {
@@ -210,6 +210,7 @@ const ShopContextProvider = ({ children }) => {
     setCartCount,
     removeFromCart,
     getCartAmount,
+    setCartUpdated
   };
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;

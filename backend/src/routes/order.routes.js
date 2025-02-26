@@ -14,7 +14,7 @@ route.post('/place', verifyToken, placeOrder)
 route.post('/stripe', verifyToken, placeOrderStripe)
 
 //user
-route.post('/userorders', verifyToken, userOrders)
+route.get('/userorders/:userId', verifyToken, userOrders)
 
 //veridy payment
 //route.post('/verifyStripe', adminAuth, verifyStripe)
