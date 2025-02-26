@@ -18,7 +18,7 @@ const CartFooter = () => {
             <span className=" font-bold">₹ {getCartAmount() || 0}</span>
         </div>
       </div>
-    <Link to={'/cart'} className="text-1xl">View Cart {'>'}</Link>
+    <Link to={'/cart'} className="text-1xl" onClick={()=>window.scrollTo(0,0)}>View Cart {'>'}</Link>
     </div>
   );
 };

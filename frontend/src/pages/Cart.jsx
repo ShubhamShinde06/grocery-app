@@ -8,13 +8,12 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const Cart = () => {
-  const { products, cartItems, updateCartQuantity, removeFromCart } =
-    useContext(ShopContext);
+  const { products, cartItems, updateCartQuantity, removeFromCart } = useContext(ShopContext);
   const { user } = userAuthStore();
   const userId = user?._id;
   const navigate = useNavigate();
 
-  // ✅ Prevent crash if cartItems or userId is undefined
+  // Prevent crash if cartItems or userId is undefined
   if (!cartItems || !userId) {
     return <p className="text-center text-gray-500 mt-5">Loading cart...</p>;
   }
@@ -37,9 +36,9 @@ const Cart = () => {
           {/* Cart Items */}
           <div>
             {cartItems.map((item, index) => {
-              const productData = products.find(
-                (product) => product._id === item.itemId
-              );
+              const productData = products.find((product) => product._id === item.itemId);
+
+              if (!productData) return null; // Skip rendering if product data is missing
 
               return (
                 <div
@@ -49,9 +48,9 @@ const Cart = () => {
                   <div className="flex items-center gap-4 sm:gap-6">
                     {/* Product Image */}
                     <img
-                      src={productData.image[0]}
+                      src={productData.image?.[0] || ""}
                       className="w-16 sm:w-20 cursor-pointer rounded-md"
-                      alt="Product"
+                      alt={productData.name}
                       onClick={() => navigate(`/product/${item.itemId}`)}
                     />
 
@@ -66,12 +65,8 @@ const Cart = () => {
 
                       {/* Price & Size */}
                       <div className="flex items-center gap-3 mt-2">
-                        <p className="font-semibold text-gray-900">
-                          ₹ {item.finalPrice}
-                        </p>
-                        <p className="px-3 py-1 border bg-gray-100 text-sm rounded-md">
-                          {item.size}
-                        </p>
+                        <p className="font-semibold text-gray-900">₹ {item.finalPrice}</p>
+                        <p className="px-3 py-1 border bg-gray-100 text-sm rounded-md">{item.size}</p>
                       </div>
                     </div>
                   </div>
@@ -80,14 +75,11 @@ const Cart = () => {
                   <div className="flex items-center gap-3">
                     <button
                       className="border px-2 py-1 rounded-md bg-gray-100 hover:bg-gray-200"
-                      onClick={() =>
-                        item.quantity > 1 &&
-                        updateCartQuantity(
-                          item.itemId,
-                          item.size,
-                          item.quantity - 1
-                        )
-                      }
+                      onClick={() => {
+                        if (item.quantity > 1) {
+                          updateCartQuantity(userId, item.itemId, item.size, item.quantity - 1);
+                        }
+                      }}
                     >
                       -
                     </button>
@@ -99,27 +91,19 @@ const Cart = () => {
                       onChange={(e) => {
                         const value = Number(e.target.value);
                         if (value > 0) {
-                          updateCartQuantity(
-                            item.itemId,
-                            item.size,
-
-                            value
-                          );
+                          updateCartQuantity(userId, item.itemId, item.size, value);
                         }
                       }}
                     />
                     <button
                       className="border px-2 py-1 rounded-md bg-gray-100 hover:bg-gray-200"
-                      onClick={() =>
-                        updateCartQuantity(
-                          item.itemId,
-                          item.size,
-
-                          item.quantity + 1
-                        )
-                      }
+                      
+                      onClick={() =>{
+                        updateCartQuantity(userId, item.itemId, item.size, item.quantity + 1)
+                      }}
+                      
                     >
-                      +
+                      + 
                     </button>
                   </div>
 
@@ -127,13 +111,7 @@ const Cart = () => {
                   <div
                     className="flex items-center text-xl text-red-500 cursor-pointer hover:text-red-700"
                     onClick={() =>
-                      removeFromCart(
-                        userId,
-                        item.itemId,
-                        item.size,
-                        item.finalPrice,
-                        item.shopId
-                      )
+                      removeFromCart(userId, item.itemId, item.size, item.finalPrice, item.shopId)
                     }
                   >
                     <FaRegTrashCan />

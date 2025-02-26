@@ -164,7 +164,7 @@ const Header = (props) => {
               <TiShoppingCart />
             </div>
             <div className=" flex flex-col justify-center  h-full">
-              <span className=" text-xs pl-0.5">{cartCount} items</span>
+              <span className=" text-xs pl-0.5">{cartCount || 0} items</span>
               <span className=" font-bold text-xs">₹ {getCartAmount() || 0}</span>
             </div>
             {/* <span className="text-2xl">

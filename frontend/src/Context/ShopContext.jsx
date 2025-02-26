@@ -39,7 +39,6 @@ const ShopContextProvider = ({ children }) => {
       return cartData;
     });
 
-    // ✅ Perform API request separately
     if (user) {
       try {
         const response = await axios.post(`${server}/api/cart/add`, {
@@ -60,7 +59,7 @@ const ShopContextProvider = ({ children }) => {
     }
   };
 
-  const updateCartQuantity = async (itemId, size, quantity) => {
+  const updateCartQuantity = async (userId, itemId, size, quantity) => {
     setCartItems((prevCartItems) => {
       const updatedCart = [...prevCartItems];
 
@@ -92,6 +91,7 @@ const ShopContextProvider = ({ children }) => {
     // Send update to backend if user is logged in
     try {
       const response = await axios.post(`${server}/api/cart/update`, {
+        userId,
         itemId,
         size,
         quantity,
@@ -180,8 +180,8 @@ const ShopContextProvider = ({ children }) => {
     try {
       const response = await axios.post(`${server}/api/cart/get`, { userId });
       if (response.data.success) {
-        setCartItems(response.data.cartData || {});
-        setCartCount(response.data.totalCartCount || {});
+        setCartItems(response.data.cartData || []);
+        setCartCount(response.data.totalCartCount || null);
       }
     } catch (error) {
       console.error(error);
