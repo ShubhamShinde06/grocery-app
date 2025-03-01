@@ -16,7 +16,6 @@ const ProductAdd = ({ setOpen }) => {
 
   useEffect(() => {
     if (user && user._id) {
-      console.log("User ID found:", user._id); // Debugging log
       setID(user._id);
     }
   }, [user]);

@@ -15,7 +15,7 @@ const PlaceOrder = () => {
   const navigate = useNavigate();
 
   const [method, setMethod] = useState("cod");
-  const { getCartAmount, products, cartItems, cartUpdated, setCartUpdated } = useContext(ShopContext);
+  const { getCartAmount, products, cartItems, cartUpdated, setCartUpdated, delivery } = useContext(ShopContext);
   const { user } = userAuthStore();
   const [size, setSize] = useState("");
   const [quantity, setQuantity] = useState(null);
@@ -73,7 +73,7 @@ const PlaceOrder = () => {
       let orderData = {
         address: formData,
         items: orderItems,
-        amount: getCartAmount(),
+        amount: getCartAmount() + delivery,
         shopId: [...new Set(orderItems.map((item) => item.shopId))], // Ensure unique shopIds
         userId: user?._id, // Attach userId correctly
         paymentMethod: method === "cod" ? "COD" : "Stripe",

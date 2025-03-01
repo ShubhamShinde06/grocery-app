@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { subcategoryStore } from "../../Store/subcategoryStore";
 
-const TableSubCategory = () => {
+const TableSubCategory = ({data}) => {
   const navigateTo = useNavigate();
 
   const { subcategoryGet, Data, subcategoryDelete } = subcategoryStore();
@@ -40,8 +40,8 @@ const TableSubCategory = () => {
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(Data) && Data.length > 0 ? (
-              Data.map((category, index) => (
+            {Array.isArray(data) && data.length > 0 ? (
+              data.map((category, index) => (
                 <tr
                   key={category._id}
                   className={`${

@@ -266,7 +266,7 @@ export const ownShopkeeperProducts = async (req, res) => {
     // Fetch products where shopkeeper ID matches
     const products = await ProductModel.find({ shopkeeper: id }).populate(
       "category subCategory"
-    );
+    ).sort({createdAt: -1})
 
     if (!products || products.length === 0) {
       return res.status(404).json({

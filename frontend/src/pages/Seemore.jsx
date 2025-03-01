@@ -26,7 +26,6 @@ const Seemore = () => {
     CategoryGetByProduct(id);
   }, [id]);
 
-  console.log(Data);
 
   return (
     <div className="w-full h-full">

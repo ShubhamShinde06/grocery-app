@@ -35,7 +35,6 @@ export const orderStore = create((set) => ({
         isLoading: false,
         message: response.data.message,
       });
-      console.log(response.data.data)
     } catch (error) {
       set({
         error: error.response?.data?.message || "Error placeOrder",

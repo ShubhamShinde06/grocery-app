@@ -13,6 +13,9 @@ import { toast } from "react-toastify";
 import { ShopContext } from "../Context/ShopContext";
 
 const Header = (props) => {
+
+  const {user} = userAuthStore()
+
   const navigate = useNavigate();
   const location = useLocation();
   const [isSearchPage, setIsSearchPage] = useState(false);
@@ -52,19 +55,30 @@ const Header = (props) => {
           <>
             <div className=" group-hover:block lg:hidden  absolute dropdown-menu right-3 top-10 py-4">
               <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-                <p className=" cursor-pointer hover:text-black">My Profile</p>
+                {/* <p className=" cursor-pointer hover:text-black">My Profile</p> */}
                 <p
                   onClick={() => navigate("/order")}
                   className=" cursor-pointer hover:text-black"
                 >
                   Orders
                 </p>
-                <p
+                {
+                    user
+                    ?
+                    <p
+                    className=" cursor-pointer hover:text-black"
+                    onClick={handleLogout}
+                  >
+                    Logout{" "}
+                  </p>
+                  :
+                  <Link to={'/auth'}
                   className=" cursor-pointer hover:text-black"
-                  onClick={handleLogout}
+                  
                 >
-                  Logout{" "}
-                </p>
+                  Log in{" "}
+                </Link>
+                  }
               </div>
             </div>
           </>
@@ -139,19 +153,31 @@ const Header = (props) => {
             <>
               <div className=" absolute dropdown-menu right-0 py-4">
                 <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-                  <p className=" cursor-pointer hover:text-black">My Profile</p>
+                  {/* <p className=" cursor-pointer hover:text-black">My Profile</p> */}
                   <p
                     onClick={() => navigate("/order")}
                     className=" cursor-pointer hover:text-black"
                   >
                     Orders
                   </p>
-                  <p
+                  {
+                    user
+                    ?
+                    <p
                     className=" cursor-pointer hover:text-black"
                     onClick={handleLogout}
                   >
                     Logout{" "}
                   </p>
+                  :
+                  <Link to={'/auth'}
+                  className=" cursor-pointer hover:text-black"
+                  
+                >
+                  Log in{" "}
+                </Link>
+                  }
+                  
                 </div>
               </div>
             </>

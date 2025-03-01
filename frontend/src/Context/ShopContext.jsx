@@ -14,6 +14,8 @@ const ShopContextProvider = ({ children }) => {
   const [cartUpdated, setCartUpdated] = useState(false);
   const [cartCount, setCartCount] = useState(null);
 
+  const delivery = 25
+
   const addToCart = async (userId, itemId, size, finalPrice, shopId) => {
     if (!size) {
       toast.error("Select Item Size");
@@ -210,7 +212,8 @@ const ShopContextProvider = ({ children }) => {
     setCartCount,
     removeFromCart,
     getCartAmount,
-    setCartUpdated
+    setCartUpdated,
+    delivery
   };
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;

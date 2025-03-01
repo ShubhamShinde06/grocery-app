@@ -37,7 +37,7 @@ const ShopOwnerProducts = () => {
     }
   }, [products, btn]);
 
-  console.log(Atta);
+ 
 
   const handleSizeClick = (productId, size) => {
     setSelectedSizes((prev) => ({

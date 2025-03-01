@@ -17,6 +17,8 @@ const Cart = () => {
     return <p className="text-center text-gray-500 mt-5">Loading cart...</p>;
   }
 
+  console.log(cartItems)
+
   return (
     <>
       <div className="w-full h-full flex flex-col py-10">
@@ -40,7 +42,6 @@ const Cart = () => {
               );
 
               if (!productData) return null; // Skip rendering if product data is missing
-
               return (
                 <div
                   key={index}
@@ -69,9 +70,11 @@ const Cart = () => {
                         <p className="font-semibold text-gray-900">
                           ₹ {item.finalPrice}
                         </p>
+                        x
                         <p className="px-3 py-1 border bg-gray-100 text-sm rounded-md">
-                          {item.size}
+                          {item.size}{" "}{productData.unit}
                         </p>
+                        PACK
                       </div>
                     </div>
                   </div>

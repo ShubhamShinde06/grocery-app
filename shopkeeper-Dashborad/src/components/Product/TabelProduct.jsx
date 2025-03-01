@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useProductStore } from "../../Store/productStore";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../Store/authStore";
 
-const TabelProduct = () => {
-  const navigateTo = useNavigate();
-  const { productDelete, productGet, Data: productData } = useProductStore();
+const TabelProduct = ({Data}) => {
+  const { productDelete, productGet  } = useProductStore();
   const { user } = useAuthStore();
   
   const [id, setID] = useState('');
@@ -23,7 +21,7 @@ const TabelProduct = () => {
     }
   }, [id]);
 
-  console.log(productData)
+ 
   
 
   // Ensures data refreshes after deletion
@@ -56,8 +54,8 @@ const TabelProduct = () => {
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(productData) && productData.length > 0 ? (
-              productData.map((category, index) => (
+            {Array.isArray(Data) && Data.length > 0 ? (
+              Data.map((category, index) => (
                 <tr
                   key={category._id}
                   className={`${
@@ -93,7 +91,11 @@ const TabelProduct = () => {
                     {category.price}
                   </td>
                   <td className="py-4 px-6 font-semibold text-gray-900">
-                    {category.unit}
+                    {category.quantity.map((item) => (
+                      <div className=" flex gap-1">
+                      <p>{item}</p><p>{category.unit}</p>
+                      </div>
+                    ))}
                   </td>
                   <td className="py-4 px-6 font-semibold text-gray-900">
                     {category.stock ? "In Stock" : "Out Of Stock"}

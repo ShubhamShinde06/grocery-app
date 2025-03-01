@@ -55,7 +55,6 @@ const ProductUpdate = () => {
       setImage4(prod.image4 || null);
       setQuantity([prod.quantity] || "")
 
-      console.log(prod.quantity)
     }
   }, [Data]);
 

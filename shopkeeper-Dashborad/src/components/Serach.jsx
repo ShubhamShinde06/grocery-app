@@ -2,7 +2,7 @@ import React from "react";
 import { CiSearch } from "react-icons/ci";
 import { IoAddOutline } from "react-icons/io5";
 
-const Serach = ({open, setOpen}) => {
+const Serach = ({ setOpen, serach, setSearch}) => {
   return (
     <div className="w-full flex items-center justify-between px-2">
       <div className="lg:w-1/3 lg:h-12 h-10 flex items-center px-2 rounded-md lg:rounded-xl bg-gray-100">
@@ -11,6 +11,8 @@ const Serach = ({open, setOpen}) => {
           type="text"
           className="w-full h-full flex-1 px-2 outline-none"
           placeholder="Serach..."
+          value={serach}
+          onChange={(e) => setSearch(e.target.value)}
         />
       </div>
 

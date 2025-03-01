@@ -4,10 +4,10 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../Store/authStore";
 
-const TabelCategory = () => {
+const TabelCategory = ({data}) => {
   const navigatTo = useNavigate();
 
-  const { categoryDelete, categoryGet, Data } = useCategoryStore();
+  const { categoryDelete, categoryGet, } = useCategoryStore();
 
   useEffect(() => {
     categoryGet();
@@ -37,7 +37,7 @@ const TabelCategory = () => {
             </tr>
           </thead>
           <tbody>
-            {Data?.map((category, index) => (
+            {data?.map((category, index) => (
               <tr
                 key={index + 1}
                 className={`${
