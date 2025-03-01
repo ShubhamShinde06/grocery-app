@@ -14,7 +14,7 @@ const Home = () => {
   const { user } = useAuthStore();
 
   const {orders} = useContext(ShopContext);
-  console.log(orders)
+
 
   const [id, setID] = useState("");
   const [shopId, setshopId] = useState("");

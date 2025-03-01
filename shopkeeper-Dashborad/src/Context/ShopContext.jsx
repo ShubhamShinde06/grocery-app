@@ -26,7 +26,6 @@ const ShopContextProvider = (props) => {
     try {
       const response = await axios.get(`/api/order/shoporders/${shopId}`);
       if (response.data.success) {
-        console.log(response.data.data);
         setOrders(response.data.data);
       } else {
         toast.error(response.data.message);
