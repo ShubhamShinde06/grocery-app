@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { subcategoryStore } from "../../Store/subcategoryStore";
 
-const TableSubCategory = ({data}) => {
+const TableSubCategory = ({ data }) => {
   const navigateTo = useNavigate();
 
   const { subcategoryGet, Data, subcategoryDelete } = subcategoryStore();

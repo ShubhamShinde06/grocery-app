@@ -4,10 +4,10 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../Store/authStore";
 
-const TabelCategory = ({data}) => {
+const TabelCategory = ({ data }) => {
   const navigatTo = useNavigate();
 
-  const { categoryDelete, categoryGet, } = useCategoryStore();
+  const { categoryDelete, categoryGet } = useCategoryStore();
 
   useEffect(() => {
     categoryGet();
@@ -36,7 +36,7 @@ const TabelCategory = ({data}) => {
               <th className="py-4 px-6 text-left">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="">
             {data?.map((category, index) => (
               <tr
                 key={index + 1}
@@ -78,29 +78,6 @@ const TabelCategory = ({data}) => {
           </tbody>
         </table>
       </div>
-      {/* {deleteId !== null && (
-        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm">
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <p className="text-lg font-semibold mb-4">
-              Are you sure you want to delete this item?
-            </p>
-            <div className="flex justify-center space-x-4">
-              <button
-                onClick={confirmDelete}
-                className="bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600 transition"
-              >
-                Confirm
-              </button>
-              <button
-                onClick={() => setDeleteId(null)}
-                className="bg-gray-300 px-5 py-2 rounded-lg hover:bg-gray-400 transition"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };

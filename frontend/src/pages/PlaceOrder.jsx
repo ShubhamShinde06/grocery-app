@@ -69,17 +69,20 @@ const PlaceOrder = () => {
         toast.error("Your cart is empty!");
         return;
       }
+      const shopkeeperId = orderItems[0]?.shopkeeper._id;
 
       let orderData = {
         address: formData,
         items: orderItems,
         amount: getCartAmount() + delivery,
-        shopId: [...new Set(orderItems.map((item) => item.shopId))], // Ensure unique shopIds
+        shopId: shopkeeperId,
         userId: user?._id, // Attach userId correctly
         paymentMethod: method === "cod" ? "COD" : "Stripe",
         size: size,
         quantity: quantity,
       };
+
+      console.log(orderData)
 
       switch (method) {
         case "cod":
@@ -124,6 +127,8 @@ const PlaceOrder = () => {
       );
     }
   };
+
+  
 
   return (
     <>

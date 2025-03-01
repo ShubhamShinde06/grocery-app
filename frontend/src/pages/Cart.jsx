@@ -17,7 +17,7 @@ const Cart = () => {
     return <p className="text-center text-gray-500 mt-5">Loading cart...</p>;
   }
 
-  console.log(cartItems)
+
 
   return (
     <>

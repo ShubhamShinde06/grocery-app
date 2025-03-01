@@ -59,6 +59,7 @@ export const categoryAdd = async (req, res) => {
 export const categoryGet = async (req, res) => {
   try {
     const category = await categoryModel.find();
+    const totalCategory = await categoryModel.countDocuments()
 
     if (!category) {
       return res.status(400).json({
@@ -70,6 +71,7 @@ export const categoryGet = async (req, res) => {
     res.status(200).json({
       success: true,
       data: category,
+      total: totalCategory
     });
   } catch (error) {
     console.log(error);

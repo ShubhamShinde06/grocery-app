@@ -16,7 +16,7 @@ export const useCategoryStore = create((set) => ({
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" }, // Set proper headers for file upload
-        }
+        },
       );
       set({ Data: response.data.data, isLoading: false });
     } catch (error) {
@@ -48,9 +48,12 @@ export const useCategoryStore = create((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axios.delete(
-        `/api/category/delete-category/${id}`
+        `/api/category/delete-category/${id}`,
       );
-      set({ Data: Array.isArray(response.data.data) ? response.data.data : [], isLoading: false });
+      set({
+        Data: Array.isArray(response.data.data) ? response.data.data : [],
+        isLoading: false,
+      });
     } catch (error) {
       set({
         error: error.response?.data?.message || "Error categoryDelete",
@@ -64,10 +67,13 @@ export const useCategoryStore = create((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axios.put(
-        `/api/category/put-category/${id}`, 
-        formData,  // Axios will handle the correct headers automatically
+        `/api/category/put-category/${id}`,
+        formData, // Axios will handle the correct headers automatically
       );
-      set({ Data: Array.isArray(response.data.data) ? response.data.data : [], isLoading: false });
+      set({
+        Data: Array.isArray(response.data.data) ? response.data.data : [],
+        isLoading: false,
+      });
     } catch (error) {
       set({
         error: error.response?.data?.message || "Error categoryPut",
@@ -76,15 +82,17 @@ export const useCategoryStore = create((set) => ({
       throw error;
     }
   },
-  
 
   categorySingleGet: async (id) => {
     set({ isLoading: true, error: null });
     try {
       const response = await axios.get(
-        `/api/category/get-single-category/${id}`
+        `/api/category/get-single-category/${id}`,
       );
-      set({ Data: Array.isArray(response.data.data) ? response.data.data : [], isLoading: false });
+      set({
+        Data: Array.isArray(response.data.data) ? response.data.data : [],
+        isLoading: false,
+      });
     } catch (error) {
       set({
         error: error.response?.data?.message || "Error categoryDelete",
@@ -92,6 +100,5 @@ export const useCategoryStore = create((set) => ({
       });
       throw error;
     }
-  }
-
+  },
 }));

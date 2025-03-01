@@ -64,11 +64,14 @@ export const subCategoryGet = async (req, res) => {
     const data = await SubCategoryModel.find()
       .sort({ createdAt: -1 })
       .populate("category");
+
+      const totalSubCategory = await SubCategoryModel.countDocuments()
     return res.json({
       message: "Sub Category data",
       data: data,
       error: false,
       success: true,
+      total: totalSubCategory
     });
   } catch (error) {
     console.log(error);

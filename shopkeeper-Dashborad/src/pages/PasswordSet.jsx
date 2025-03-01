@@ -1,27 +1,25 @@
-import React, { useState } from 'react'
-import { useAuthStore } from '../Store/authStore'
-import { useNavigate, useParams } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import React, { useState } from "react";
+import { useAuthStore } from "../Store/authStore";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 const PasswordSet = () => {
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const { resetPassword, error, isLoading, message } = useAuthStore();
 
-  const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
-    const {resetPassword, error, isLoading, message} = useAuthStore()
+  const { token } = useParams();
+  const navigate = useNavigate();
 
-    const {token} = useParams()
-    const navigate = useNavigate()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        if(password !== confirmPassword){
-            alert("Password Do Not Match")
-        }
-        await resetPassword(token, password)
-        navigate('/home')
-        toast.success('Password reset successfully')
-
+    if (password !== confirmPassword) {
+      alert("Password Do Not Match");
     }
+    await resetPassword(token, password);
+    navigate("/home");
+    toast.success("Password reset successfully");
+  };
 
   return (
     <div className="w-full h-[100vh] flex flex-col justify-center items-center lg:flex-row lg:justify-between lg:px-20 lg:py-10">

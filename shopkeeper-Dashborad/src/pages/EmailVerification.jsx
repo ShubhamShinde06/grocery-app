@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { useAuthStore } from "../Store/authStore";
-import {toast} from 'react-toastify'
+import { toast } from "react-toastify";
 
 const EmailVerification = () => {
   const [code, setCode] = useState(["", "", "", ""]);
@@ -66,10 +66,15 @@ const EmailVerification = () => {
           {/* form  */}
           <div className="lg:w-1/2 w-full  flex items-center justify-center">
             <div class=" text-black w-full flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 ">
-            <div className="w-full flex items-center justify-start lg:px-20 text-xl pb-10 lg:pb-0">
-                <button className="flex items-center gap-2 cursor-pointer" onClick={()=>navigate('/')}><IoIosArrowBack /> Back</button>
-            </div> 
-            <div className="w-full bg-transparent rounded-lg">
+              <div className="w-full flex items-center justify-start lg:px-20 text-xl pb-10 lg:pb-0">
+                <button
+                  className="flex items-center gap-2 cursor-pointer"
+                  onClick={() => navigate("/")}
+                >
+                  <IoIosArrowBack /> Back
+                </button>
+              </div>
+              <div className="w-full bg-transparent rounded-lg">
                 <div className="p-0 space-y-4 md:space-y-6 sm:p-20">
                   <h1 className="text-2xl font-bold leading-tight tracking-tight text-black text-center">
                     Verify Your Email
@@ -99,8 +104,10 @@ const EmailVerification = () => {
                       ))}
                     </div>
                     {error && (
-              <p className=" text-red-500 font-semibold mt-2">{error}</p>
-            )}
+                      <p className=" text-red-500 font-semibold mt-2">
+                        {error}
+                      </p>
+                    )}
                     <button
                       type="submit"
                       className="bg-[#FF8035] w-full cursor-pointer rounded-2xl  text-xl text-white py-4 hover:scale-105 duration-300 flex items-center justify-center"

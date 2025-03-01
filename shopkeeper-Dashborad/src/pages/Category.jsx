@@ -10,22 +10,22 @@ import { useCategoryStore } from "../Store/categoryStore";
 const Category = () => {
   const [open, setOpen] = useState(true);
 
-   const { Data } = useCategoryStore();
+  const { Data } = useCategoryStore();
 
   const [inputValue, setInputValue] = useState("");
-    const [filteredData, setFilteredData] = useState([]);
-  
-    useEffect(() => {
-      if (!Data) return;
-      setFilteredData(
-        Data.filter(
-          (item) =>
-            item.name &&
-            typeof item.name === "string" &&
-            item.name.toLowerCase().includes(inputValue.toLowerCase())
-        )
-      );
-    }, [inputValue, Data]);
+  const [filteredData, setFilteredData] = useState([]);
+
+  useEffect(() => {
+    if (!Data) return;
+    setFilteredData(
+      Data.filter(
+        (item) =>
+          item.name &&
+          typeof item.name === "string" &&
+          item.name.toLowerCase().includes(inputValue.toLowerCase()),
+      ),
+    );
+  }, [inputValue, Data]);
 
   return (
     <div className=" w-full h-full flex flex-col ">
@@ -41,8 +41,13 @@ const Category = () => {
           {open ? (
             <>
               <div className=" w-full h-full mt-2 rounded-xl shadow overflow-x-auto overflow-scroll scroll-display lg:px-5 py-2 px-0">
-                <Serach open={open} setOpen={setOpen} serach={inputValue} setSearch={setInputValue}/>
-                <div>
+                <Serach
+                  open={open}
+                  setOpen={setOpen}
+                  serach={inputValue}
+                  setSearch={setInputValue}
+                />
+                <div className="">
                   <TabelCategory setOpen={setOpen} data={filteredData} />
                 </div>
               </div>

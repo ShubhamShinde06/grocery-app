@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { useAuthStore } from "../Store/authStore";
 import Loading from "../components/Loading";
-import {toast} from 'react-toastify'
+import { toast } from "react-toastify";
 
 const Register = ({ setAuth }) => {
   const navigate = useNavigate();
@@ -34,12 +34,12 @@ const Register = ({ setAuth }) => {
         street,
         state,
         city,
-        zipcode
+        zipcode,
       );
       navigate("/verify-email");
     } catch (error) {
       console.log(error);
-      toast.error(error || 'database down')
+      toast.error(error || "database down");
     }
   };
 
@@ -51,7 +51,10 @@ const Register = ({ setAuth }) => {
           <img src="./login-img.png" alt="" className="w-full h-full" />
         </div>
         {/* form  */}
-        <form onSubmit={handleSubmit} className=" lg:w-1/2 lg:px-20 px-2 w-full">
+        <form
+          onSubmit={handleSubmit}
+          className=" lg:w-1/2 lg:px-20 px-2 w-full"
+        >
           <h2 className="font-bold text-4xl text-[#000000]">Register</h2>
           <p className="text-xl mt-4 text-[#9A9C9E]">
             {nextStep ? "Step 1" : "Step 2"}
@@ -115,7 +118,7 @@ const Register = ({ setAuth }) => {
                   placeholder="Shopname"
                   required
                   value={shopName}
-                      onChange={(e) => setShopname(e.target.value)}
+                  onChange={(e) => setShopname(e.target.value)}
                 />
                 <input
                   className="px-2 py-5 rounded-2xl  bg-[#F5F7F9]"
@@ -157,9 +160,9 @@ const Register = ({ setAuth }) => {
                   value={zipcode}
                   onChange={(e) => setZipcode(e.target.value)}
                 />
-                  {error && (
-                    <p className=" text-red-500 font-semibold mt-2">{error}</p>
-                  )}
+                {error && (
+                  <p className=" text-red-500 font-semibold mt-2">{error}</p>
+                )}
                 <div className="flex items-center justify-between gap-8">
                   <button
                     onClick={() => setNextStep(true)}
@@ -167,9 +170,7 @@ const Register = ({ setAuth }) => {
                   >
                     Back
                   </button>
-                  <button
-                    className="bg-[#FF8035] w-1/2 cursor-pointer rounded-2xl  text-xl text-white py-4 hover:scale-105 duration-300 flex items-center justify-center"
-                  >
+                  <button className="bg-[#FF8035] w-1/2 cursor-pointer rounded-2xl  text-xl text-white py-4 hover:scale-105 duration-300 flex items-center justify-center">
                     {isLoading ? <Loading /> : "Sign up"}
                   </button>
                 </div>

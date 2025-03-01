@@ -20,7 +20,7 @@ const CategoryAdd = ({ open, setOpen }) => {
 
       await categoryAdd(formData);
       await categoryGet();
-      toast.success("Category Added")
+      toast.success("Category Added");
       setOpen(true);
     } catch (error) {
       console.log(error);

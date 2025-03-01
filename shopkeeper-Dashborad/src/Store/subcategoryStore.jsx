@@ -25,11 +25,9 @@ export const subcategoryStore = create((set) => ({
   },
 
   subcategoryGet: async () => {
-    set({isLoading: true, error: null})
+    set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(
-        `/api/subcategory/get-subcategory`,
-      );
+      const response = await axios.get(`/api/subcategory/get-subcategory`);
       set({ Data: response.data.data, isLoading: false });
     } catch (error) {
       set({
@@ -41,10 +39,11 @@ export const subcategoryStore = create((set) => ({
   },
 
   subcategoryPut: async (formData, id) => {
-    set({isLoading: true, error: null})
+    set({ isLoading: true, error: null });
     try {
       const response = await axios.put(
-        `/api/subcategory/put-subcategory/${id}`, formData
+        `/api/subcategory/put-subcategory/${id}`,
+        formData,
       );
       set({ Data: response.data.data, isLoading: false });
     } catch (error) {
@@ -57,7 +56,7 @@ export const subcategoryStore = create((set) => ({
   },
 
   subcategorySingleGet: async (id) => {
-    set({isLoading: true, error: null})
+    set({ isLoading: true, error: null });
     try {
       const response = await axios.get(
         `/api/subcategory/get-single-subcategory/${id}`,
@@ -73,7 +72,7 @@ export const subcategoryStore = create((set) => ({
   },
 
   subcategoryDelete: async (id) => {
-    set({isLoading: true, error: null})
+    set({ isLoading: true, error: null });
     try {
       const response = await axios.delete(
         `/api/subcategory/delete-subcategory/${id}`,
@@ -86,5 +85,5 @@ export const subcategoryStore = create((set) => ({
       });
       throw error;
     }
-  }
+  },
 }));

@@ -3,26 +3,23 @@ import { useProductStore } from "../../Store/productStore";
 import { toast } from "react-toastify";
 import { useAuthStore } from "../../Store/authStore";
 
-const TabelProduct = ({Data}) => {
-  const { productDelete, productGet  } = useProductStore();
+const TabelProduct = ({ Data }) => {
+  const { productDelete, productGet } = useProductStore();
   const { user } = useAuthStore();
-  
-  const [id, setID] = useState('');
+
+  const [id, setID] = useState("");
 
   useEffect(() => {
     if (user && user._id) {
       setID(user._id);
     }
   }, [user]);
-  
+
   useEffect(() => {
     if (id) {
       productGet(id);
     }
   }, [id]);
-
- 
-  
 
   // Ensures data refreshes after deletion
   const removeCategory = async (productId) => {
@@ -93,7 +90,8 @@ const TabelProduct = ({Data}) => {
                   <td className="py-4 px-6 font-semibold text-gray-900">
                     {category.quantity.map((item) => (
                       <div className=" flex gap-1">
-                      <p>{item}</p><p>{category.unit}</p>
+                        <p>{item}</p>
+                        <p>{category.unit}</p>
                       </div>
                     ))}
                   </td>

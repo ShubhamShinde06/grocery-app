@@ -3,6 +3,7 @@ import { FaTachometerAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { BiSolidCategory, BiSolidCategoryAlt } from "react-icons/bi";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { TbTruckDelivery } from "react-icons/tb";
 
 const Sidebar = () => {
   return (
@@ -52,6 +53,18 @@ const Sidebar = () => {
         <h1 className=" lg:block hidden">Products</h1>
         <h1 className=" block lg:hidden ml-3">
           <IoIosAddCircleOutline />
+        </h1>
+      </NavLink>
+
+      <NavLink
+        to={"/orders"}
+        className={
+          "py-2 px-2 w-full rounded-l-2xl text-center shadow text-xl hover:scale-105 duration-300 tracking-wide"
+        }
+      >
+        <h1 className=" lg:block hidden">Orders</h1>
+        <h1 className=" block lg:hidden ml-3">
+          <TbTruckDelivery />
         </h1>
       </NavLink>
     </div>

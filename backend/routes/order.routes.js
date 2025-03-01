@@ -6,12 +6,16 @@ import {placeOrder, placeOrderStripe, ShopkeeperOrders, userOrders, updateOrders
 const route = Router()
 
 //admin
-route.post('/list', adminAuth, ShopkeeperOrders)
-route.post('/status', adminAuth, updateOrdersStatuS)
+route.post('/list', verifyToken, ShopkeeperOrders)
+route.post('/status', verifyToken, updateOrdersStatuS)
 
 //payment
 route.post('/place', verifyToken, placeOrder)
 route.post('/stripe', verifyToken, placeOrderStripe)
+
+//shopkeeper
+route.get('/shoporders/:shopId', verifyToken, ShopkeeperOrders)
+
 
 //user
 route.get('/userorders/:userId', verifyToken, userOrders)

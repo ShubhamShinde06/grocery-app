@@ -26,7 +26,6 @@ const CategoryUpdate = () => {
 
   const { user } = useAuthStore();
 
-
   useEffect(() => {
     categorySingleGet(id);
   }, [id]); // Fetch category when `id` changes

@@ -21,8 +21,7 @@ const ProductAdd = ({ setOpen }) => {
   }, [user]);
 
   useEffect(() => {
-    categoryGet(), 
-    subcategoryGet();
+    categoryGet(), subcategoryGet();
   }, []);
 
   const [image1, setImage1] = useState(false);
@@ -269,7 +268,7 @@ const ProductAdd = ({ setOpen }) => {
                     setQuantity((prev) =>
                       prev.includes("1")
                         ? prev.filter((item) => item !== "1")
-                        : [...prev, "1"]
+                        : [...prev, "1"],
                     )
                   }
                 >
@@ -287,7 +286,7 @@ const ProductAdd = ({ setOpen }) => {
                     setQuantity((prev) =>
                       prev.includes("5")
                         ? prev.filter((item) => item !== "5")
-                        : [...prev, "5"]
+                        : [...prev, "5"],
                     )
                   }
                 >
@@ -305,7 +304,7 @@ const ProductAdd = ({ setOpen }) => {
                     setQuantity((prev) =>
                       prev.includes("10")
                         ? prev.filter((item) => item !== "10")
-                        : [...prev, "10"]
+                        : [...prev, "10"],
                     )
                   }
                 >

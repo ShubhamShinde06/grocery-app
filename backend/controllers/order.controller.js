@@ -53,6 +53,28 @@ export const placeOrderStripe = async (req, res) => {
 //Order Show Shopkeepers
 export const ShopkeeperOrders = async (req, res) => {
   try {
+
+    const {shopId} = req.params
+
+    if(!shopId){
+      return res.json({
+        success: false,
+        error: true,
+        message: "ShopId not found!"
+      })
+    }
+
+    const shopkeeper = await orderModel.find({ shopId: { $in: [shopId] } }).sort({ createdAt: -1 });
+    const totalOrders = await orderModel.countDocuments({ shopId: { $in: [shopId] } })
+
+    return res.json({
+      message: "shopkeeper Order list",
+      data: shopkeeper,
+      total: totalOrders,
+      success: true,
+      error: false,
+    });
+
   } catch (error) {
     console.log(error);
     res
@@ -91,13 +113,26 @@ export const userOrders = async (req, res) => {
   }
 };
 
-//Update Order Status from Shopkeepers
+//status change from shopkeeper panel
 export const updateOrdersStatuS = async (req, res) => {
+
   try {
+      
+      const {orderId, status} = req.body
+
+      await orderModel.findByIdAndUpdate(orderId, {status})
+
+      res.json({
+          success: true,
+          message: "Status Updated"
+      })
+
   } catch (error) {
-    console.log(error);
-    res
-      .status(500)
-      .json({ success: false, message: "Server error, UpdateOrdersStatuS" });
+      console.log(error)
+      return res.status(500).json({
+          success:false,
+          message:"Error in updateStatus"
+      })
   }
-};
+
+}

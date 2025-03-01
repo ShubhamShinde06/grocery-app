@@ -20,6 +20,7 @@ const Card = (props) => {
     setFinalPrice(props.discount * selectedSize);
   };
 
+
   return (
     <div key={props} className="w-[220px] bg-white hover:shadow-xl rounded-xl p-4 flex flex-col justify-between gap-3 transition-all duration-300">
       {/* Product Image */}

@@ -25,8 +25,8 @@ export const useProductStore = create((set) => ({
 
   productGet: async (id) => {
     if (!id) {
-        set({ error: "Shopkeeper ID is missing", isLoading: false });
-        return;
+      set({ error: "Shopkeeper ID is missing", isLoading: false });
+      return;
     }
 
     set({ isLoading: true, error: null });
@@ -42,8 +42,7 @@ export const useProductStore = create((set) => ({
       });
       throw error;
     }
-},
-
+  },
 
   productDelete: async (id) => {
     set({ isLoading: true, error: null });
@@ -62,9 +61,13 @@ export const useProductStore = create((set) => ({
   productPut: async (formData, id) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`/api/product/put-product/${id}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" }, // Set proper headers for file upload
-      });
+      const response = await axios.post(
+        `/api/product/put-product/${id}`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" }, // Set proper headers for file upload
+        },
+      );
       set({ Data: response.data.data, isLoading: false });
     } catch (error) {
       set({
@@ -78,10 +81,11 @@ export const useProductStore = create((set) => ({
   productSingleGet: async (id) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(
-        `/api/product/get-owner-product/${id}`
-      );
-      set({ Data: Array.isArray(response.data.data) ? response.data.data : [], isLoading: false });
+      const response = await axios.get(`/api/product/get-owner-product/${id}`);
+      set({
+        Data: Array.isArray(response.data.data) ? response.data.data : [],
+        isLoading: false,
+      });
     } catch (error) {
       set({
         error: error.response?.data?.message || "Error categoryDelete",
@@ -89,5 +93,5 @@ export const useProductStore = create((set) => ({
       });
       throw error;
     }
-  }
+  },
 }));

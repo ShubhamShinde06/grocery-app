@@ -267,6 +267,7 @@ export const ownShopkeeperProducts = async (req, res) => {
     const products = await ProductModel.find({ shopkeeper: id }).populate(
       "category subCategory"
     ).sort({createdAt: -1})
+    const totalProducts = await ProductModel.countDocuments({ shopkeeper: id })
 
     if (!products || products.length === 0) {
       return res.status(404).json({
@@ -278,6 +279,7 @@ export const ownShopkeeperProducts = async (req, res) => {
     return res.status(200).json({
       success: true,
       data: products,
+      total: totalProducts
     });
   } catch (error) {
     console.error("Error fetching shopkeeper products:", error);

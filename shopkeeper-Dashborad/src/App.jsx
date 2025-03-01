@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import CategoryUpdate from "./pages/CategoryUpdate";
 import SubcategoryUpdate from "./pages/SubcategoryUpdate";
 import ProductUpdate from "./pages/ProductUpdate";
+import Orders from "./pages/Orders";
 
 // redirect authenticated users to the home page
 const RedirectAuthenticatedUser = ({ children }) => {
@@ -79,6 +80,15 @@ function App() {
         />
 
         <Route
+          path="/orders"
+          element={
+            <ProtectedRoute>
+              <Orders />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/forgot-password"
           element={
             <RedirectAuthenticatedUser>
@@ -123,7 +133,7 @@ function App() {
           }
         />
 
-      <Route
+        <Route
           path="/product-update/:id"
           element={
             <ProtectedRoute>

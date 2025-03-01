@@ -53,8 +53,7 @@ const ProductUpdate = () => {
       setImage2(prod.image2 || null);
       setImage3(prod.image3 || null);
       setImage4(prod.image4 || null);
-      setQuantity([prod.quantity] || "")
-
+      setQuantity([prod.quantity] || "");
     }
   }, [Data]);
 
@@ -111,7 +110,10 @@ const ProductUpdate = () => {
                   Product information... Update
                 </h1>
               </div>
-              <form onSubmit={handleSubmit} className="w-full flex flex-col gap-6">
+              <form
+                onSubmit={handleSubmit}
+                className="w-full flex flex-col gap-6"
+              >
                 {/* Image Upload Section */}
                 <div className="w-full flex flex-col gap-3">
                   <h1>Image</h1>
@@ -120,7 +122,11 @@ const ProductUpdate = () => {
                       <label htmlFor={`image${index + 1}`} key={index}>
                         <img
                           className="w-20 cursor-pointer"
-                          src={image ? URL.createObjectURL(image) : "/upload_area.png"}
+                          src={
+                            image
+                              ? URL.createObjectURL(image)
+                              : "/upload_area.png"
+                          }
                           alt="upload"
                         />
                         <input
@@ -128,7 +134,12 @@ const ProductUpdate = () => {
                           id={`image${index + 1}`}
                           hidden
                           onChange={(e) => {
-                            const setImage = [setImage1, setImage2, setImage3, setImage4][index];
+                            const setImage = [
+                              setImage1,
+                              setImage2,
+                              setImage3,
+                              setImage4,
+                            ][index];
                             setImage(e.target.files[0]);
                           }}
                         />
@@ -210,13 +221,15 @@ const ProductUpdate = () => {
                             setQuantity((prev) =>
                               prev.includes(qty)
                                 ? prev.filter((item) => item !== qty)
-                                : [...prev, qty]
+                                : [...prev, qty],
                             )
                           }
                         >
                           <p
                             className={`${
-                              quantity.includes(qty) ? "bg-orange-300" : "bg-slate-200"
+                              quantity.includes(qty)
+                                ? "bg-orange-300"
+                                : "bg-slate-200"
                             } px-3 py-1 cursor-pointer`}
                           >
                             {qty}

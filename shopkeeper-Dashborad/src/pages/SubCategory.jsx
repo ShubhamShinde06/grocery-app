@@ -9,7 +9,6 @@ import { subcategoryStore } from "../Store/subcategoryStore";
 import { useEffect } from "react";
 
 const SubCategory = () => {
-
   const [open, setOpen] = useState(true);
 
   const { Data } = subcategoryStore();
@@ -18,16 +17,16 @@ const SubCategory = () => {
   const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
-      if (!Data) return;
-      setFilteredData(
-        Data.filter(
-          (item) =>
-            item.name &&
-            typeof item.name === "string" &&
-            item.name.toLowerCase().includes(inputValue.toLowerCase())
-        )
-      );
-    }, [inputValue, Data]);
+    if (!Data) return;
+    setFilteredData(
+      Data.filter(
+        (item) =>
+          item.name &&
+          typeof item.name === "string" &&
+          item.name.toLowerCase().includes(inputValue.toLowerCase()),
+      ),
+    );
+  }, [inputValue, Data]);
 
   return (
     <div className=" w-full h-full flex flex-col ">
@@ -43,15 +42,20 @@ const SubCategory = () => {
           {open ? (
             <>
               <div className=" w-full h-full mt-2 rounded-xl shadow overflow-scroll scroll-display lg:px-5 py-2 px-0">
-                <Serach open={open} setOpen={setOpen} serach={inputValue} setSearch={setInputValue}/>
+                <Serach
+                  open={open}
+                  setOpen={setOpen}
+                  serach={inputValue}
+                  setSearch={setInputValue}
+                />
                 <div>
-                  <TableSubCategory data={filteredData}/>
+                  <TableSubCategory data={filteredData} />
                 </div>
               </div>
             </>
           ) : (
             <>
-              <SubCategoryAdd setOpen={setOpen}/>
+              <SubCategoryAdd setOpen={setOpen} />
             </>
           )}
         </div>

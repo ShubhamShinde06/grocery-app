@@ -43,7 +43,6 @@ const Header = () => {
 
   return (
     <header className="w-full h-auto lg:h-20 shadow-2xl flex flex-col py-3 lg:py-0 lg:flex-row lg:items-center lg:justify-between px-2 lg:px-10">
-        
       <div
         className={`w-full lg:w-auto h-12 flex items-center lg:justify-normal justify-between`}
       >
@@ -116,9 +115,14 @@ const Header = () => {
           </Link>
           <div className=" group-hover:block hidden absolute dropdown-menu right-0 py-4">
             <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-              <p className=" cursor-pointer hover:text-black">My Profile</p>
-              <p className=" cursor-pointer hover:text-black">Orders</p>
-              <p className=" cursor-pointer hover:text-black" onClick={handleLogout}>Logout </p>
+              {/* <p className=" cursor-pointer hover:text-black">My Profile</p>
+              <p className=" cursor-pointer hover:text-black">Orders</p> */}
+              <p
+                className=" cursor-pointer hover:text-black"
+                onClick={handleLogout}
+              >
+                Logout{" "}
+              </p>
             </div>
           </div>
         </div>
