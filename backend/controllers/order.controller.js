@@ -111,6 +111,38 @@ export const placeOrderStripe = async (req, res) => {
   }
 };
 
+//verify stripe
+export const verifyStripe = async (req,res) => {
+    
+  const {orderId, success, userId} = req.body
+
+  try {
+      
+      if(success === "true"){
+          await orderModel.findByIdAndUpdate(orderId, {payment: true})
+          await cartmodel.deleteMany({ userId });
+
+          res.json({
+              success:true
+          })
+      } 
+      else {
+          await orderModel.findByIdAndUpdate(orderId)
+          res.json({
+              success: false
+          })
+      }
+
+  } catch (error) {
+      console.log(error)
+      return res.status(500).json({
+          success:false,
+          message:"Error in verifyStripe"
+      })
+  }
+  
+}
+
 //Order Show Shopkeepers
 export const ShopkeeperOrders = async (req, res) => {
   try {

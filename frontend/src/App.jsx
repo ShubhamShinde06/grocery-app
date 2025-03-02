@@ -12,6 +12,7 @@ import Filtered from "./pages/Filtered";
 import Seemore from "./pages/Seemore";
 import Orders from "./pages/Orders";
 import PlaceOrder from "./pages/PlaceOrder";
+import Verify from "./pages/Verify";
 
 export const server = "http://localhost:8000";
 
@@ -51,6 +52,7 @@ function App() {
 
         {/* Public Routes */}
         <Route path="/home" element={<Home />} />
+        <Route path='/verify' element={<Verify/>} />
 
         <Route
           path="/auth"
