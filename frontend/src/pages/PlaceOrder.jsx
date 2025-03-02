@@ -82,6 +82,8 @@ const PlaceOrder = () => {
         quantity: quantity,
       };
 
+      console.log(orderData)
+
       
 
       switch (method) {
