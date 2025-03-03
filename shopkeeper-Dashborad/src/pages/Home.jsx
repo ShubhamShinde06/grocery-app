@@ -53,7 +53,7 @@ const Home = () => {
         setOrderTotal(response.data.total);
         const amount = (response.data.data.map((item) => item.amount))
         const totalAmount = amount.reduce((acc, curr) => acc + curr, 0);
-        const profit = totalAmount * 0.25;  // 25% profit
+        const profit = totalAmount / 100 * 25  // 25% profit
         //const finalAmount = totalAmount + profit;
         setAmount(totalAmount)
         setProfilt(profit)
@@ -130,7 +130,9 @@ const Home = () => {
             </tr>
           </thead>
           <tbody className="">
-            {orders?.map((category, index) => (
+            {orders.length > 0 
+            ?
+            orders?.map((category, index) => (
               <tr
                 key={index + 1}
                 className={`${
@@ -157,7 +159,14 @@ const Home = () => {
                 </td>
            
               </tr>
-            ))}
+            ))
+          :
+          <tr>
+                <td colSpan="9" className="text-center py-4 text-gray-600">
+                  No data available
+                </td>
+              </tr>
+          }
           </tbody>
         </table>
             </div>

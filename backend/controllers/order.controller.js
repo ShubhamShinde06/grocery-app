@@ -71,9 +71,9 @@ export const placeOrderStripe = async (req, res) => {
 
     const line_items = (items || []).map((item, index) => ({
       price_data: {
-          currency: "inr", // Ensure currency is defined
+          currency: currency, // Ensure currency is defined
           product_data: { name: item?.name || "Unknown Item" },
-          unit_amount: item?.price ? item.price * 100 : 0
+          unit_amount: item?.discount ? item.discount * 100 : 0
       },
       quantity: parseInt(quantity?.[index] || 1, 10) // Ensure quantity is always an integer
   }));
@@ -157,7 +157,7 @@ export const ShopkeeperOrders = async (req, res) => {
       })
     }
 
-    const shopkeeper = await orderModel.find({ shopId: { $in: [shopId] } }).sort({ createdAt: -1 });
+    const shopkeeper = await orderModel.find({ shopId: { $in: [shopId] } }).sort({ createdAt: 1 });
     const totalOrders = await orderModel.countDocuments({ shopId: { $in: [shopId] } })
 
     return res.json({

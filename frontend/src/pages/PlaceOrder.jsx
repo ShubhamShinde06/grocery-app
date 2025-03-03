@@ -82,7 +82,6 @@ const PlaceOrder = () => {
         quantity: quantity,
       };
 
-      console.log(orderData)
 
       
 
@@ -104,6 +103,11 @@ const PlaceOrder = () => {
           break;
 
         case "stripe":
+
+          if(orderData.amount < 50){
+            toast.error('minimum amount ₹50')
+          }
+
           const responseStripe = await axios.post(
             server + "/api/order/stripe",
             orderData
