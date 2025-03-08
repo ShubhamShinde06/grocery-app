@@ -4,17 +4,37 @@ import Header from "../components/Header";
 import { orderStore } from "../store/orderStore";
 import { userAuthStore } from "../store/authStore";
 import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { server } from "../App";
 
 const Orders = () => {
   const { user } = userAuthStore();
   const userId = user?._id;
-  const { getOrder, Data } = orderStore();
+  const [Data, setData] = useState([])
 
-  useEffect(() => {
-    if (userId) {
-      getOrder(userId);
+
+    const fecthOrders = async  () => {
+  
+        try {
+      const response = await axios.get(`${server}/api/order/userorders/${userId}`,);
+      if (response.data.success) {
+    
+        setData(response.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
     }
-  }, [userId, getOrder]);
+      
+    }
+    useEffect(() => {
+           if (userId) {
+            fecthOrders()
+    }
+  }, [userId]);
+
+
 
   return (
     <div className="w-full h-full">
@@ -42,8 +62,8 @@ const Orders = () => {
 
                       <div className="flex items-center gap-3 mt-2 text-base text-gray-700">
                         <p>₹{order?.amount}</p>
-                        <p>Quantity: {product?.quantity}</p>
-                        <p>Size: {product?.size}</p>
+                        <p>Quantity: {order?.quantity}</p>
+                        <p>Size: {order?.size}</p>
                       </div>
 
                       <p className="mt-2">
@@ -63,7 +83,7 @@ const Orders = () => {
                       <p className="w-2 h-2 rounded-full bg-green-500"></p>
                       <p className="text-sm sm:text-base">{order?.status}</p>
                     </div>
-                    <button className="border px-4 py-2 text-sm font-medium rounded-sm">
+                    <button onClick={fecthOrders} className="border px-4 py-2 text-sm font-medium rounded-sm">
                       Track Order
                     </button>
                   </div>
