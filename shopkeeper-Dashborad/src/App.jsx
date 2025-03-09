@@ -20,7 +20,7 @@ import Orders from "./pages/Orders";
 const RedirectAuthenticatedUser = ({ children }) => {
   const { isAuthenticated, user } = useAuthStore();
 
-  if (isAuthenticated && user.isVerified) {
+  if (isAuthenticated && user?.isVerified) {
     return <Navigate to="/home" replace />;
   }
 
@@ -30,13 +30,14 @@ const RedirectAuthenticatedUser = ({ children }) => {
 // protect routes that require authentication
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, user } = useAuthStore();
+  const location = useLocation();
 
   if (!isAuthenticated) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/" replace state={{ from: location }}/>;
   }
 
-  if (!user.isVerified) {
-    return <Navigate to="/verify-email" replace />;
+  if (!user?.isVerified) {
+    return <Navigate to="/verify-email" replace/>;
   }
 
   return children;
