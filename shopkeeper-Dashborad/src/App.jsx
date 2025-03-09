@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Auth from "./pages/Auth";
 import Home from "./pages/Home";
-import Search from "./pages/search";
+import Search from "./pages/Search.jsx";
 import EmailVerification from "./pages/EmailVerification";
 import ForgotPassword from "./pages/ForgotPassword";
 import PasswordSet from "./pages/PasswordSet";
