@@ -14,7 +14,7 @@ import Orders from "./pages/Orders";
 import PlaceOrder from "./pages/PlaceOrder";
 import Verify from "./pages/Verify";
 
-export const server = "http://localhost:8000";
+export const server = "https://grocery-app-es2e.onrender.com";
 
 const RedirectAuthenticatedUser = ({ children }) => {
   const { isAuthenticated, user } = userAuthStore();

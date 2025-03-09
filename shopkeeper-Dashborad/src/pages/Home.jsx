@@ -25,7 +25,7 @@ const Home = () => {
     try {
       const [productRes, orderRes] = await Promise.all([
         axios.get(`/api/product/get-owner-product/${user._id}`),
-        axios.get(`/api/order/shoporders/${user._id}`)
+        axios.get(`/api/order/shoporders/${user._id}`),
       ]);
 
       if (productRes.data.success) {
@@ -36,7 +36,10 @@ const Home = () => {
 
       if (orderRes.data.success) {
         setOrderTotal(orderRes.data.total);
-        const totalAmount = orderRes.data.data.reduce((acc, item) => acc + item.amount, 0);
+        const totalAmount = orderRes.data.data.reduce(
+          (acc, item) => acc + item.amount,
+          0,
+        );
         const calculatedProfit = (totalAmount * 25) / 100;
 
         setAmount(totalAmount);
@@ -66,12 +69,31 @@ const Home = () => {
           <div className="w-full h-full mt-2 rounded-xl shadow overflow-x-auto lg:px-5 py-2 px-0">
             <div className="flex lg:flex-row flex-col lg:items-center justify-between gap-3 lg:px-0 px-2">
               {[
-                { label: "Total Items", value: productTotal, icon: <MdProductionQuantityLimits /> },
-                { label: "Total Orders", value: orderTotal, icon: <TbTruckDelivery /> },
-                { label: "Total Orders Amounts", value: `₹ ${amount}.00`, icon: <GiPayMoney /> },
-                { label: "Total Net Profit", value: `₹ ${profit}.00`, icon: <GiReceiveMoney /> }
+                {
+                  label: "Total Items",
+                  value: productTotal,
+                  icon: <MdProductionQuantityLimits />,
+                },
+                {
+                  label: "Total Orders",
+                  value: orderTotal,
+                  icon: <TbTruckDelivery />,
+                },
+                {
+                  label: "Total Orders Amounts",
+                  value: `₹ ${amount}.00`,
+                  icon: <GiPayMoney />,
+                },
+                {
+                  label: "Total Net Profit",
+                  value: `₹ ${profit}.00`,
+                  icon: <GiReceiveMoney />,
+                },
               ].map(({ label, value, icon }, index) => (
-                <div key={index} className="lg:w-full w-[310px] h-35 rounded-md flex justify-between items-center px-5 gap-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold">
+                <div
+                  key={index}
+                  className="lg:w-full w-[310px] h-35 rounded-md flex justify-between items-center px-5 gap-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold"
+                >
                   <div className="flex flex-col justify-center">
                     <h1 className="text-3xl">{value}</h1>
                     <h2 className="text-xl">{label}</h2>
@@ -97,18 +119,38 @@ const Home = () => {
                 <tbody>
                   {orders.length > 0 ? (
                     orders.map((order, index) => (
-                      <tr key={order._id} className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"} hover:bg-gray-200 transition-all duration-300`}>
-                        <td className="py-4 px-6 font-medium text-gray-800">{index + 1}</td>
-                        <td className="py-4 px-6 font-semibold text-gray-900">{order.userId}</td>
-                        <td className="py-4 px-6 font-semibold text-gray-900">{order.paymentMethod}</td>
-                        <td className="py-4 px-6 font-semibold text-gray-900">₹ {order.amount}</td>
-                        <td className="py-4 px-6 font-semibold text-gray-900">{order.status}</td>
-                        <td className="py-4 px-6 font-semibold text-gray-900">{new Date(order.date).toLocaleDateString()}</td>
+                      <tr
+                        key={order._id}
+                        className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"} hover:bg-gray-200 transition-all duration-300`}
+                      >
+                        <td className="py-4 px-6 font-medium text-gray-800">
+                          {index + 1}
+                        </td>
+                        <td className="py-4 px-6 font-semibold text-gray-900">
+                          {order.userId}
+                        </td>
+                        <td className="py-4 px-6 font-semibold text-gray-900">
+                          {order.paymentMethod}
+                        </td>
+                        <td className="py-4 px-6 font-semibold text-gray-900">
+                          ₹ {order.amount}
+                        </td>
+                        <td className="py-4 px-6 font-semibold text-gray-900">
+                          {order.status}
+                        </td>
+                        <td className="py-4 px-6 font-semibold text-gray-900">
+                          {new Date(order.date).toLocaleDateString()}
+                        </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="6" className="text-center py-4 text-gray-600">No data available</td>
+                      <td
+                        colSpan="6"
+                        className="text-center py-4 text-gray-600"
+                      >
+                        No data available
+                      </td>
                     </tr>
                   )}
                 </tbody>
