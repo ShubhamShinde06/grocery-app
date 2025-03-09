@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Auth from "./pages/Auth";
 import Home from "./pages/Home";
-import Search from "./pages/search";
+import Search from "./pages/search.jsx";
 import Iteam from "./pages/Iteam";
 import Cart from "./pages/Cart";
 import { ToastContainer } from "react-toastify";

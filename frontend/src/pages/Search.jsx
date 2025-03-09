@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { ShopContext } from "../Context/ShopContext";
-import { userAuthStore } from "../store/authStore";
 import Card from "../components/Card";
 
 const Search = () => {
