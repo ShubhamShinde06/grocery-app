@@ -7,18 +7,18 @@ import express from 'express'
 
 dotenv.config()
 
-const __dirname = path.resolve();
-if (process.env.NODE_ENV === "production") {
-	app.use(express.static(path.join(__dirname, "/frontend/dist")));
+// const __dirname = path.resolve();
+// if (process.env.NODE_ENV === "production") {
+// 	app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-	app.get("*", (req, res) => {
-		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
-	});
-} else {
-    app.get("/", (req, res) => {
-        res.send("API is Running Successfully")
-    })
-}
+// 	app.get("*", (req, res) => {
+// 		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+// 	});
+// } else {
+//     app.get("/", (req, res) => {
+//         res.send("API is Running Successfully")
+//     })
+// }
 
 connectCloudinary()
 connectDB()
