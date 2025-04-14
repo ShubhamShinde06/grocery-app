@@ -37,7 +37,7 @@ const IteamDeteils = () => {
   return (
     <div className="w-full flex flex-col lg:gap-0 gap-5 py-10">
       <Header />
-      <div className="lg:mt-20 mt-30 lg:px-10 px-3">
+      <div className="lg:mt-20 mt-[135px] lg:px-10 px-3">
         <Breadcrums title={"Product"} name={productData.name} />
       </div>
 

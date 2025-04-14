@@ -45,7 +45,7 @@ const Home = () => {
       {/* Header */}
       <Header />
 
-      <div className="w-full px-5 lg:mt-20 mt-30 flex flex-col gap-10">
+      <div className="w-full px-5 lg:mt-20 mt-[135px] flex flex-col gap-10">
         {/* Banner */}
         <div className="w-full h-70 rounded-xl">
           <img
@@ -53,11 +53,11 @@ const Home = () => {
             alt="Banner"
             className="w-full h-full hidden lg:block"
           />
-          {/* <img
+          <img
             src="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=720/layout-engine/2023-07/Pet-Care_WEB.jpg"
             alt="Mobile Banner"
             className="w-full h-full lg:hidden"
-          /> */}
+          />
         </div>
 
         {/* Categories */}
